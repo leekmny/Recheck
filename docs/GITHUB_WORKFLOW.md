@@ -1,6 +1,6 @@
 # GitHub에서 Recheck 이어서 개발하기
 
-앱 소스의 기준 버전은 1.2.3-prototype.1입니다. 공개 저장소는 검토한 소스 스냅샷에서 새 이력으로 시작했으며, Windows EXE ZIP은 버전별 검증 후 [정확한 태그의 Releases](https://github.com/leekmny/Recheck/releases/tag/v1.2.3-prototype.1)에서 제공합니다. 실제 실행·AI 인증·분석 데이터는 각 작업 PC에서 관리합니다. 이전 개발 기록·태그·실행 파일은 별도의 비공개 저장소에 보존합니다. [공개 이력 구성](PUBLIC_HISTORY.md)을 먼저 읽으세요.
+앱 소스의 기준 버전은 0.1.1입니다. 공개 저장소는 검토한 소스 스냅샷에서 새 이력으로 시작했으며, Windows EXE ZIP은 버전별 검증 후 [정확한 태그의 Releases](https://github.com/leekmny/Recheck/releases/tag/v0.1.1)에서 제공합니다. 실제 실행·AI 인증·분석 데이터는 각 작업 PC에서 관리합니다. 이전 개발 기록·태그·실행 파일은 별도의 비공개 저장소에 보존합니다. [공개 이력 구성](PUBLIC_HISTORY.md)을 먼저 읽으세요.
 
 ## 저장소와 공동 작업자
 
@@ -69,7 +69,7 @@ GitHub에서 변경 내용을 Pull Request로 열고 검사 결과와 확인한 
 | Git 저장소 | Python 소스·리소스·테스트·고정 의존성·선별한 안내 문서·빌드 정의 |
 | 각 PC | `.venv/`, `build/`, `dist/`, 캐시, `verification/`, 실제 분석 입력·결과·원시 QA 자료 |
 | Recheck 로컬 보안 저장소 | 각 사용자의 API 키·OAuth 토큰·보호된 인증 자료 |
-| 공개 GitHub Releases | 재배포 자료·빌드·실행을 검증한 버전별 Windows ZIP. [1.2.3 배포 경로](https://github.com/leekmny/Recheck/releases/tag/v1.2.3-prototype.1)의 Assets 확인 |
+| 공개 GitHub Releases | 재배포 자료·빌드·실행을 검증한 버전별 Windows ZIP. [0.1.1 배포 경로](https://github.com/leekmny/Recheck/releases/tag/v0.1.1)의 Assets 확인 |
 
 기본 앱 데이터는 `%LOCALAPPDATA%\Recheck`에 저장합니다. `RECHECK_DATA_DIR`로 별도 위치를 지정할 수도 있습니다. 이 데이터를 소스 저장소로 옮겨 공유하지 않습니다. 문제 재현용 자료가 필요하면 인증 정보와 개인 자료를 제거한 작은 예제를 별도로 만듭니다.
 

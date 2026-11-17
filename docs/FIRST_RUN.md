@@ -2,7 +2,7 @@
 
 ## 배포 ZIP으로 실행
 
-1. [1.2.5 Windows 배포 ZIP](https://github.com/leekmny/Recheck/releases/download/v1.2.5-prototype.1/Recheck-1.2.5-prototype.1-Windows-x64.zip)을 받습니다. [릴리즈 설명](https://github.com/leekmny/Recheck/releases/tag/v1.2.5-prototype.1)도 확인하세요.
+1. [0.1.3 Windows 배포 ZIP](https://github.com/leekmny/Recheck/releases/download/v0.1.3/Recheck-0.1.3-Windows-x64.zip)을 받습니다. [릴리즈 설명](https://github.com/leekmny/Recheck/releases/tag/v0.1.3)도 확인하세요.
 2. ZIP의 압축을 모두 풉니다.
 3. `Recheck` 폴더의 **`Recheck.exe`**를 실행합니다. 같은 위치의 `_internal` 폴더도 함께 유지하세요.
 

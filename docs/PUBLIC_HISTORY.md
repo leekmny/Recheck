@@ -20,8 +20,8 @@
 
 공개 이력 시작점의 소스 버전은 1.2.1-prototype.1이었으며, 그 작업 자체는 새 EXE
 배포가 아니었습니다. 이후의 Windows 배포는 검토한 소스와 실제 실행 검증을 기준으로
-새 공개 태그·Releases에 분리합니다. 현재 소스 1.2.5-prototype.1의 배포 경로는
-[해당 버전 릴리스](https://github.com/leekmny/Recheck/releases/tag/v1.2.5-prototype.1)입니다.
+새 공개 태그·Releases에 분리합니다. 현재 소스 0.1.3의 배포 경로는
+[해당 버전 릴리스](https://github.com/leekmny/Recheck/releases/tag/v0.1.3)입니다.
 과거 비공개 EXE의 원본 소스는 보관본의 해당 태그와 embedded source identity가
 기준이며, 새 공개 버전의 자산과 혼동하지 않습니다.
 
@@ -53,3 +53,13 @@ head를 로컬에서 자신의 noreply author·committer로 정상 merge하고, 
 커밋을 별도 브랜치의 CI로 확인한 뒤 main에 반영합니다. 과거 비공개 refs나
 태그는 이 과정에 사용하지 않습니다. noreply override가 서버에서 거부됐다고
 개인 이메일을 기본값으로 두고 자동 재시도하지 않습니다.
+
+
+## 초기 개발 버전 번호 안내
+
+연구·초기 개발 단계를 명확히 표시하기 위해 버전 체계를 0.x로 조정했습니다.
+공개 이력의 대응은 1.2.2-prototype.1 → 0.1.0, 1.2.3-prototype.1 → 0.1.1,
+1.2.4-prototype.1 → 0.1.2, 1.2.5-prototype.1 → 0.1.3입니다.
+각 0.x 배포물은 대응하는 공개 소스에서 버전과 안내 문서를 수정하여 다시 빌드한 것으로,
+기존 EXE나 ZIP의 해시를 그대로 사용하지 않습니다. 이전 공개 소스 커밋은 보존합니다.
+그 이전 비공개 검증 기록의 버전·해시는 당시 원래 표기이며 새 공개 배포물의 식별자가 아닙니다.

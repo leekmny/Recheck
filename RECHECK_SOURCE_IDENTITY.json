@@ -1,14 +1,14 @@
 {
   "product": "Recheck",
-  "display_version": "1.2.5-prototype.1",
-  "python_metadata_version": "1.2.5a1",
+  "display_version": "0.1.3",
+  "python_metadata_version": "0.1.3",
   "windows_numeric_version": [
+    0,
     1,
-    2,
-    5,
-    1
+    3,
+    0
   ],
-  "created_utc": "2026-11-16T12:03:02.031955+00:00",
+  "created_utc": "2026-11-17T04:53:37.877538+00:00",
   "runtime_files": 122,
   "runtime_identity": {
     "ai_providers/__init__.py": "7a085bce462e4c68904d54df174d9d471cc88d18e51224161032cabd84fd22c3",
@@ -20,8 +20,8 @@
     "ai_providers/ollama_provider.py": "8382bbc15e6ebc635e4e40aaedce466550d57ecdce76baca2272192c7ffd3da2",
     "ai_providers/profiles.py": "b65ab4052634a151d5ec00cd6d39c3e4da9b1ab02fa9ae5595b570179c12bf95",
     "launch.py": "97faa80d62fb30a617aee69f3660d7e14cddd5bb57f72980f7b94f0793b84c93",
-    "pyproject.toml": "058cd0b9ff2d02c6a1a0de4a0a4ef9733d03190f18bce3900851e16a59dbccdd",
-    "recheck/__init__.py": "95cad70a15acba1bfed804405b0923964991fd6fb856a1a3ad055339492567aa",
+    "pyproject.toml": "994a39866052c06852eb4172817715a54ffdf052f6528a6c5f403e0a64666ee0",
+    "recheck/__init__.py": "e05af8613ee06872d6ef741f1acd4d15ba04c06b5fb6885154a6a6b8caad2c63",
     "recheck/__main__.py": "482b8693e2fe6dbd732e3d7961e03827d3efa187bad11d29da188be580ebbeea",
     "recheck/adapters.py": "e9f5b07bc26f9c2844a15ebe97708cbd9dec31a5d0cb9cece97ee10b4139b3df",
     "recheck/agent.py": "21938ad11cdbd6bcaef681a8e80a9570ac4a4822f66c841691622a5ced139bcc",
@@ -102,7 +102,7 @@
     "resources/schemas/settings-1.0.json": "4d7bd07700529a536cef681dadc8d3971520e2bf6c8e73b030d31ed2eeef4bb6",
     "resources/schemas/static-1.0.json": "3af4f4f61ded45684010ffccbac801472a5a52ecf4dd5e152cdbae2f9f078af6",
     "resources/schemas/tests-1.0.json": "72f274df378522c7f0a42bee7f76238ef10b356d4aaefc05e12cd8a7e2010662",
-    "resources/version_info.txt": "14d378adb59bd422b5b826d1f6130917600e8bc1b0ae47b6185a909549cc8d6a",
+    "resources/version_info.txt": "32ae383b7072c763ebbdc2291d07796defb109521c8a98377731bc1bb5d2507a",
     "resources/windows-vm/compose.provision.yaml": "260b81d004b7ed32e4682b6621d65997eef497e2c3dc1a2dc93946fdb6bd6f04",
     "Run-Recheck.cmd": "78f267ac4264788ed3fc09fa984d817596bd9cc9a4a04659be738f02eab88df6",
     "scripts/build.ps1": "68c6b82fea26fbba2144520df98386d30bc3bfaef92b6cfe33e0415f9e1c752e",
@@ -113,7 +113,7 @@
     "scripts/collect_distribution_notices.py": "0c7731e95c65122dfda1d3a042c8ae8765561d74f9cf80ae00f97ea2f6babb24",
     "scripts/evaluate_accuracy.py": "fb3fc1ea3511be5fbb8f1febffa967311a33479ddca3cc03fe8fc1ab32b8b07d",
     "scripts/export_managed_environment.py": "4b3a8f03bcecd2d5801f88c3ab13f19bcd79f6b1db8a8a844b825488546bace8",
-    "scripts/github_release.py": "88a9173b8d9508141806954d50cc0737214772c94d8b1fab8fb6cb43f795ed26",
+    "scripts/github_release.py": "b9db467d88263234ff7cf4e9cbf5310b365c77560faa2a87c73a06c49d694e96",
     "scripts/package_verified.py": "59bd82411893e041a8bf90f6cad44a1fbd54d466c45047b4ab381cb9279791b3",
     "scripts/probe_windows_vm.py": "0d196e7acc66ea7de7e0f450efd5afca5366f7cb2bc7a9cec2e2b521fa3e6bc5",
     "scripts/publish_stability.py": "f3a0c354b56579d315e9ffaf258d31ce333465a4c45707678a41c984c9d490d7",
@@ -134,10 +134,10 @@
     "scripts/verify_source.py": "d3b074de76a6ebedf3f30097d175481f86f995a767271b2587ed96ff6edf8086",
     "Setup-Recheck.ps1": "f848c19849856a47ca41950bd8a90a66d14e6c25dcd75e083846154c67901a0b"
   },
-  "aggregate_sha256": "11bae068421bedb32dcbba8d5e9678862af3c7c22f32f0b4b4fce49e4f97fed8",
+  "aggregate_sha256": "61fb1992e97cfc590463145459d7ced261777c4eae9e5a76562eee69f79fefed",
   "aggregate_algorithm": "sha256 of UTF-8 sorted compact JSON runtime_identity",
   "verification": {
-    "record": "verification\\review-recheck-20261116\\source-checks-public",
+    "record": "verification\\version-reset\\source-checks",
     "pytest": "exit 0",
     "node": "exit 0"
   }

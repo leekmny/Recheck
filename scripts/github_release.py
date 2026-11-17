@@ -21,7 +21,7 @@ import urllib.request
 
 REPOSITORY='leekmny/Recheck'
 BRANCH='feature/recheck-distribution-validation'
-TAG='v1.2.0-prototype.2'
+TAG='v0.1.2'
 API_VERSION='2026-03-10'
 ROOT=Path(__file__).resolve().parents[1]
 CHUNK=1024*1024

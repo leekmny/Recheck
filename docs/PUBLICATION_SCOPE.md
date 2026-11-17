@@ -41,7 +41,7 @@ Python·PySide6/Shiboken6·Qt 및 동봉 Docker 이미지 안의 구성요소를
 않습니다. 공개 범위 점검과 실제 EXE·원시 정답·전체 ZIP 검증을 모두 마친
 새 버전을 별도 태그와 릴리즈로 게시합니다. 기존 ZIP을 조용히 교체하지 않습니다.
 
-1.2.4 Windows ZIP에는 Recheck.exe와 실행용 Python·Qt, 실제 라이선스 고지·대응 소스 자료를 포함합니다.
+0.1.2 Windows ZIP에는 Recheck.exe와 실행용 Python·Qt, 실제 라이선스 고지·대응 소스 자료를 포함합니다.
 분석용 Docker TAR는 포함하지 않으며 앱의 명시적 준비 작업에서 각 PC에 도구를 구성합니다.
 호스트 Git·Python은 앱 실행 조건이 아닙니다. 설치와 사용 조건은
 [처음 실행](FIRST_RUN.md), [바이너리 배포 자료](BINARY_DISTRIBUTION.md)를 따릅니다.

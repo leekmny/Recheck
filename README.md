@@ -1,12 +1,12 @@
 # Recheck
 
-**1.2.2-prototype.1 · Windows x64 데스크톱 프로토타입**
+**0.1.0 · Windows x64 데스크톱 프로토타입**
 
 **캡스톤 디자인 주제: 프로그램 동작 비교 및 AI 근거 분석 도구 Recheck**
 
 캡스톤 디자인 프로젝트로 개발한 프로그램 비교 도구입니다. 소스·테스트·직접 만든 샘플·설계 및 검증 범위를 공개합니다. 원본 코드의 권리는 [LICENSE](LICENSE), 외부 구성요소의 조건은 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)를 확인하세요. 공개 저장소의 열람과 오픈소스 재사용 허용은 별개입니다.
 
-**[Windows 배포 ZIP 다운로드](https://github.com/leekmny/Recheck/releases/download/v1.2.2-prototype.1/Recheck-1.2.2-prototype.1-Windows-x64.zip)** · [릴리즈 설명](https://github.com/leekmny/Recheck/releases/tag/v1.2.2-prototype.1)
+**[Windows 배포 ZIP 다운로드](https://github.com/leekmny/Recheck/releases/download/v0.1.0/Recheck-0.1.0-Windows-x64.zip)** · [릴리즈 설명](https://github.com/leekmny/Recheck/releases/tag/v0.1.0)
 
 ZIP을 풀고 `Recheck` 폴더 안의 **`Recheck.exe`**를 실행합니다. 실행용 Python과 Qt가 포함되어 있어 앱을 켜기 위해 Git이나 Python을 따로 설치할 필요가 없습니다. GitHub의 `Source code` ZIP은 개발용 소스입니다. [처음 실행 안내](docs/FIRST_RUN.md), [바이너리 배포 자료](docs/BINARY_DISTRIBUTION.md)를 참고하세요. 과거 프로토타입과 원래 개발 기록은 비공개 보관 저장소에 보존합니다.
 

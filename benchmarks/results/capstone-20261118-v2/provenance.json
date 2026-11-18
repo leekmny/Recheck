@@ -1,0 +1,29 @@
+{
+  "utc": "2026-11-18T07:43:31.348602+00:00",
+  "protocol_sha256": "cda24265ac1cf46a739aaa59b4ab6fc7ee320853c48f65dc458ef3fb6be0e7f1",
+  "harness_sha256": "a6802633b46a45c85f874b73f6b69ee66ab2ae0dd979fed20313b691d77c6fa0",
+  "source_hashes": {
+    "s1": "2d59b19142af57b7b1c7a9360d5a5f5118b4b3d233cec6e4b46f1bd14c8cba20",
+    "s2": "2c7ba172b350b667dfeccfea34861bd4134136f47e7c294226e597db22dad6a6",
+    "s3": "f460bef353a6606450716978e48924dec303f944fd22640f75cc8ace0ddbdfde",
+    "s4": "bec06343dde72c35e6486999f3388f90d6485d0603b902f20d8ab1edbc3fb7c9",
+    "s5": "58cd9ed7af62b13b9e059b92fbc2a3f41d4f50b2aefd6ff500cdfa1537e570fe",
+    "s6": "8034385f5bd619b7d59a8fbb8b05249af57d3c575f9efb6daa0bde6740d3f16b"
+  },
+  "implementation_hashes": {
+    "recheck/engine.py": "c97eff560293aedb22e26de495053076047f33b70f5e0a8c322a1b19b6db3319",
+    "recheck/comparison.py": "965ec6f8644102b4c5d85954ca2f12adefcf13d1a834ed8c167fd6ef1dbbfdc0",
+    "recheck/adapters.py": "60d4e895db9a3d642065c0b9beaf4823ea4f195f930b760d305b17226d23bc92",
+    "recheck/managed_execution.py": "6a79fec3f1b96de49506c9414fb28231d0b91509cec8fd99d32b2a9ab5b11b00",
+    "recheck/models.py": "97cc14b663113c0bf15c0cf6d0cd2abdaebde10034f69c1b1ef45b27b5f7b9bb",
+    "recheck/report.py": "fea8fcacd57d5d4c3a355a32319d9876d9f20d99d334364ff7730038718a837f",
+    "recheck/analysis_environment.py": "b57734118fa1f94acd819bf4e000c98c402972551a37d9159c51a869648b20e0",
+    "recheck/static_backend.py": "c088b08a9acfe57401aa40a78dd287bd6acc1a6772e4f4e5b1a81660a6b4f12b",
+    "recheck/ollama.py": "e17e557158d3541fb171934b49467d9b90e36db14df59e1091f9faf58e881202",
+    "recheck/managed_runtime.py": "fbb40e51cb06001916040948de9f30f49467483939179adb77bb43d224a6feb5",
+    "recheck/runtime_source.py": "69b9229fea31ba6fcf9b35d4ab35727c30e950493fe0f64fd7255507b5f56220",
+    "resources/runtime/environment.json": "05fefec61aa22af957e995f3b776e6c5c31b51f7033863685d7bc05a627440c1"
+  },
+  "python": "3.14.10 (main, Nov 11 2026, 00:19:45) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0"
+}

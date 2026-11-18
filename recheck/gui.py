@@ -2857,13 +2857,13 @@ class MainWindow(QMainWindow):
         registered = behavior.get('registered') or denominator
         unmeasured = max(0, registered - denominator)
         detail = f'비교할 수 있었던 입력 {denominator}개 기준'
-        if denominator and matched is None:
-            detail = f'원시 관찰 {denominator}개 · 출력 비교 정책 미확인'
+        if matched is None:
+            detail = f'원시 관찰 {behavior.get("observed_pairs", 0)}개 · 출력 비교 정책 미확인'
         if unmeasured:
             detail += f' · 확인하지 못한 입력 {unmeasured}개'
         self.result_cards['match'].update_value(
             f'{behavior["match_rate"] * 100:.1f}%' if behavior['match_rate'] is not None else '—',
-            detail if denominator else '아직 비교할 수 있는 결과가 없습니다',
+            detail if denominator or matched is None else '아직 비교할 수 있는 결과가 없습니다',
             'success' if denominator and matched == denominator else 'neutral',
         )
         self.result_cards['matched'].update_value(
@@ -2945,10 +2945,28 @@ class MainWindow(QMainWindow):
                 ".NET 메서드 대응" if managed else "함수 구조 비교",
                 len(structure.get("matches", [])),
                 "매칭 후보",
-                "시그니처 대응 · 실행 일치율 아님" if managed else "휴리스틱 · Recheck",
+                "시그니처 대응 · 실행 일치율 아님" if managed else "휴리스틱 · 실행 일치율 아님",
             ],
             structure,
         )
+        if not managed and 'score' in structure:
+            score = structure['score']
+            state = {'unavailable': '산출 불가', 'partial': '부분 관측',
+                     'measured': '산출됨'}.get(structure.get('score_status'), '기존 기록')
+            add(structure_root, ['관측 범위 구조 점수',
+                f'{score:.3f}' if type(score) in (int, float) else '미관측', state,
+                '비교 가능한 함수의 점수 · 전체 프로그램 동등성 아님'], structure)
+        scope = structure.get('comparison_scope') or {}
+        if not isinstance(scope, dict):
+            scope = {}
+        for target, title in (('original', '원본 비교 범위'),
+                              ('reimplementation', '재구현 비교 범위')):
+            counts = scope.get(target)
+            if isinstance(counts, dict):
+                add(structure_root, [title,
+                    f"비교 가능 {counts.get('eligible', '?')} / 목록 {counts.get('inventory', '?')}",
+                    f"미관측 {counts.get('unobserved', '?')} · 외부 제외 {counts.get('external', '?')}",
+                    '관측된 네이티브 함수만 점수에 포함'], counts)
         for match in structure.get("matches", []):
             add(
                 structure_root,
@@ -2970,6 +2988,10 @@ class MainWindow(QMainWindow):
         for target, title in (
             ("unmatched_original", "원본 미매칭"),
             ("unmatched_reimplementation", "재구현 미매칭"),
+            ("unobserved_original", "원본 구조 미관측"),
+            ("unobserved_reimplementation", "재구현 구조 미관측"),
+            ("excluded_external_original", "원본 외부 함수 제외"),
+            ("excluded_external_reimplementation", "재구현 외부 함수 제외"),
         ):
             for fid in structure.get(target, []):
                 add(structure_root, [title, fid, "", "추가 검증 필요"], {"function_id": fid})

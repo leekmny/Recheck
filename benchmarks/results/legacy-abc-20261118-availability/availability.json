@@ -1,0 +1,14 @@
+{
+  "sample_root": "<USER_HOME>\\Documents\\Codex\\2026-11-18\\비교 대상 파일\\samples\\discount_boundary",
+  "sample_root_exists": false,
+  "required_tests_json": "<USER_HOME>\\Documents\\Codex\\2026-11-18\\비교 대상 파일\\samples\\discount_boundary\\tests.json",
+  "tests_exist": false,
+  "binary_layout": "original/reimplementation in sample root or bin/linux-x64",
+  "source_layout": "original.c/reimplementation.c in sample root or src",
+  "original_snapshot": "<REPO>\\verification\\benchmark-20261113-115534",
+  "original_snapshot_exists": false,
+  "harness_sha256": "4b1ae88d4d0a8f3102743b060120b5504ed9230c133b24c9de619e170161d51f",
+  "scope": "Legacy A gets Ghidra-derived pseudocode and neutral inputs without runtime outputs; new source-assisted LLM condition is a separate experiment",
+  "model_inference_requests": 0,
+  "path_resolution": "Parsed the default AST specifically for --discount-sample, not an unrelated Unicode constant"
+}

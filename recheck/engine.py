@@ -725,7 +725,7 @@ class Engine:
             rows.append(row)
             # Preserve each completed pair even if the next test fails.
             run['dynamic'] = [r for r in run['dynamic'] if r['test_id'] != test['id']] + [row]
-            run['behavior'] = compare_behavior(run['dynamic'], self.settings)
+            run['behavior'] = compare_behavior(run['dynamic'], self.settings, planned_tests=run['tests'])
             test['verification_status'] = 'executed'
             if test.get('source', '').startswith('LLM'):
                 run.setdefault('hypothesis_checks', []).append(
@@ -1061,6 +1061,26 @@ class Engine:
                     omitted_fields.append('managed signatures, method headers and exception regions; query by ID')
                     if len(managed_changes) > 3:
                         omitted_fields.append('managed_differences[3:]')
+                # A score covers its observed cohort, not every inventory entry.
+                # Keep that qualification beside the score in the model's input.
+                if 'score_status' in ev['data']:
+                    payload['score_status'] = ev['data']['score_status']
+                scope = ev['data'].get('comparison_scope')
+                if isinstance(scope, dict):
+                    payload['comparison_scope'] = {
+                        target: {key: count for key, count in counts.items()
+                                 if key in ('inventory', 'eligible', 'unobserved', 'external')
+                                 and type(count) is int and count >= 0}
+                        for target, counts in scope.items()
+                        if target in ('original', 'reimplementation') and isinstance(counts, dict)
+                    }
+                limitations = ev['data'].get('limitations')
+                if isinstance(limitations, list):
+                    texts = [value for value in limitations if isinstance(value, str)]
+                    payload['limitations'] = [value[:160] for value in texts[:3]]
+                    if len(texts) > 3 or any(len(value) > 160 for value in texts[:3]):
+                        payload['limitations_truncated'] = True
+                        omitted_fields.append('additional static limitations; query by ID')
             elif ev['kind'] == 'function' and isinstance(payload, dict):
                 if ev['evidence_id'] not in changed_ids:
                     context['omitted_evidence_ids'].append(ev['evidence_id'])

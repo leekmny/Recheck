@@ -1,0 +1,566 @@
+{
+  "schema_version": "1.0",
+  "unit": "binary pair × registered input",
+  "repetitions": 1,
+  "tuning": "none: no prompt, source, threshold or oracle adjustment after predictions",
+  "split": "Fixed illustrative cases; no fitted threshold and no held-out generalization claim",
+  "sources": {
+    "s1": "benchmarks/samples/equivalent_structure/original.c",
+    "s2": "benchmarks/samples/equivalent_structure/reimplementation.c",
+    "s3": "benchmarks/samples/similar_structure/original.c",
+    "s4": "benchmarks/samples/similar_structure/reimplementation.c",
+    "s5": "benchmarks/capstone/constant_output.c",
+    "s6": "samples/accuracy/recovery.c"
+  },
+  "builds": {
+    "b1": {
+      "source": "s1",
+      "flags": [
+        "-O0"
+      ]
+    },
+    "b2": {
+      "source": "s1",
+      "flags": [
+        "-O2"
+      ]
+    },
+    "b3": {
+      "source": "s2",
+      "flags": [
+        "-O0"
+      ]
+    },
+    "b4": {
+      "source": "s3",
+      "flags": [
+        "-O0"
+      ]
+    },
+    "b5": {
+      "source": "s4",
+      "flags": [
+        "-O0"
+      ]
+    },
+    "b6": {
+      "source": "s5",
+      "flags": [
+        "-O0"
+      ]
+    },
+    "b7": {
+      "source": "s6",
+      "flags": [
+        "-O0"
+      ]
+    },
+    "b8": {
+      "payload_utf8": "This is inert text, not an executable.\n"
+    }
+  },
+  "pairs": [
+    {
+      "id": "p1",
+      "family": 1,
+      "name": "identical binary",
+      "original": "b1",
+      "reimplementation": "b1",
+      "specification": "Same ELF bytes independently executed on each side. Bounded registered decimal inputs 0..1000 and token bad. Fee tiers: first 10 units cost 3, next 40 cost 2, remaining cost 1; bad -> stderr/2. All parsing and arithmetic stay in defined C behavior for these inputs.",
+      "cases": [
+        {
+          "id": "p1-c1",
+          "args": [
+            "0"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=0\nfee=0\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=0\nfee=0\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p1-c2",
+          "args": [
+            "10"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=10\nfee=30\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=10\nfee=30\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p1-c3",
+          "args": [
+            "50"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=50\nfee=110\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=50\nfee=110\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p1-c4",
+          "args": [
+            "bad"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "",
+            "stderr": "error: expected one integer in [0,1000]\n",
+            "exit_code": 2
+          },
+          "reimplementation": {
+            "stdout": "",
+            "stderr": "error: expected one integer in [0,1000]\n",
+            "exit_code": 2
+          },
+          "expected_decision": "match"
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "family": 2,
+      "name": "same source O0 versus O2",
+      "original": "b1",
+      "reimplementation": "b2",
+      "specification": "Bounded registered decimal inputs 0..1000 and token bad. Fee tiers: first 10 units cost 3, next 40 cost 2, remaining cost 1; bad -> stderr/2. All parsing and arithmetic stay in defined C behavior for these inputs.",
+      "cases": [
+        {
+          "id": "p2-c1",
+          "args": [
+            "0"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=0\nfee=0\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=0\nfee=0\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p2-c2",
+          "args": [
+            "10"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=10\nfee=30\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=10\nfee=30\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p2-c3",
+          "args": [
+            "50"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=50\nfee=110\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=50\nfee=110\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p2-c4",
+          "args": [
+            "bad"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "",
+            "stderr": "error: expected one integer in [0,1000]\n",
+            "exit_code": 2
+          },
+          "reimplementation": {
+            "stdout": "",
+            "stderr": "error: expected one integer in [0,1000]\n",
+            "exit_code": 2
+          },
+          "expected_decision": "match"
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "family": 3,
+      "name": "same specification, different authored algorithms",
+      "original": "b1",
+      "reimplementation": "b3",
+      "specification": "Branch arithmetic versus per-unit array/loop. Separate algorithms, not independent authors. Bounded registered decimal inputs 0..1000 and token bad. Fee tiers: first 10 units cost 3, next 40 cost 2, remaining cost 1; bad -> stderr/2. All parsing and arithmetic stay in defined C behavior for these inputs.",
+      "cases": [
+        {
+          "id": "p3-c1",
+          "args": [
+            "0"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=0\nfee=0\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=0\nfee=0\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p3-c2",
+          "args": [
+            "10"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=10\nfee=30\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=10\nfee=30\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p3-c3",
+          "args": [
+            "11"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=11\nfee=32\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=11\nfee=32\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p3-c4",
+          "args": [
+            "50"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=50\nfee=110\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=50\nfee=110\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p3-c5",
+          "args": [],
+          "stdin": "51\n",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=51\nfee=111\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=51\nfee=111\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p3-c6",
+          "args": [
+            "bad"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "",
+            "stderr": "error: expected one integer in [0,1000]\n",
+            "exit_code": 2
+          },
+          "reimplementation": {
+            "stdout": "",
+            "stderr": "error: expected one integer in [0,1000]\n",
+            "exit_code": 2
+          },
+          "expected_decision": "match"
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "family": 4,
+      "name": "similar structure, boundary defect",
+      "original": "b4",
+      "reimplementation": "b5",
+      "specification": "Intentional >=50 versus >50 mutation. Registered 50 differs; 49,51,bad agree.",
+      "cases": [
+        {
+          "id": "p4-c1",
+          "args": [
+            "49"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=49\nfee=147\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=49\nfee=147\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p4-c2",
+          "args": [
+            "50"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=50\nfee=100\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=50\nfee=150\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "mismatch"
+        },
+        {
+          "id": "p4-c3",
+          "args": [],
+          "stdin": "51\n",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=51\nfee=102\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "units=51\nfee=102\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "match"
+        },
+        {
+          "id": "p4-c4",
+          "args": [
+            "bad"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "",
+            "stderr": "error: expected one integer in [0,1000]\n",
+            "exit_code": 2
+          },
+          "reimplementation": {
+            "stdout": "",
+            "stderr": "error: expected one integer in [0,1000]\n",
+            "exit_code": 2
+          },
+          "expected_decision": "match"
+        }
+      ]
+    },
+    {
+      "id": "p5",
+      "family": 5,
+      "name": "clearly different behavior",
+      "original": "b1",
+      "reimplementation": "b6",
+      "specification": "Fee program versus constant different line and successful exit, even on bad input.",
+      "cases": [
+        {
+          "id": "p5-c1",
+          "args": [
+            "0"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=0\nfee=0\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "different\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "mismatch"
+        },
+        {
+          "id": "p5-c2",
+          "args": [
+            "10"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=10\nfee=30\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "different\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "mismatch"
+        },
+        {
+          "id": "p5-c3",
+          "args": [
+            "50"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "units=50\nfee=110\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "reimplementation": {
+            "stdout": "different\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "mismatch"
+        },
+        {
+          "id": "p5-c4",
+          "args": [
+            "bad"
+          ],
+          "stdin": "",
+          "timeout_seconds": 3,
+          "original": {
+            "stdout": "",
+            "stderr": "error: expected one integer in [0,1000]\n",
+            "exit_code": 2
+          },
+          "reimplementation": {
+            "stdout": "different\n",
+            "stderr": "",
+            "exit_code": 0
+          },
+          "expected_decision": "mismatch"
+        }
+      ]
+    },
+    {
+      "id": "p6",
+      "family": 6,
+      "name": "timeout is not measured equality",
+      "original": "b7",
+      "reimplementation": "b7",
+      "specification": "Completed-observation contract: matching failures do not establish equality. Timeout and unsupported files must remain inconclusive.",
+      "cases": [
+        {
+          "id": "p6-c1",
+          "args": [
+            "timeout"
+          ],
+          "stdin": "",
+          "timeout_seconds": 1,
+          "expected_decision": "inconclusive",
+          "expected_state": "timeout"
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "family": 6,
+      "name": "unsupported format is not measured equality",
+      "original": "b8",
+      "reimplementation": "b8",
+      "specification": "Completed-observation contract: matching failures do not establish equality. Timeout and unsupported files must remain inconclusive.",
+      "cases": [
+        {
+          "id": "p7-c1",
+          "args": [],
+          "stdin": "",
+          "timeout_seconds": 1,
+          "expected_decision": "inconclusive",
+          "expected_state": "unsupported"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "unit": "registered input x binary comparison variant",
+  "registered_inputs": 71,
+  "registered_pairs": 355,
+  "expected_differences": 19,
+  "expected_matches": 336,
+  "eligible_target_executions": 426,
+  "separate_recovery_target_executions": 3,
+  "total_target_execution_attempts": 429,
+  "model_requests": 0,
+  "harness_sha256": "0aa11ccbba47c3838a2a3e122f001dd461fba0175e536384f3bbc99fed052200",
+  "source_hashes_start": {
+    "recheck/comparison.py": "2c200429f977a91a411882cbc5c4808d6d72ab7d6a9637c23140e524e9a0bf3c",
+    "recheck/adapters.py": "60d4e895db9a3d642065c0b9beaf4823ea4f195f930b760d305b17226d23bc92",
+    "recheck/managed_execution.py": "6a79fec3f1b96de49506c9414fb28231d0b91509cec8fd99d32b2a9ab5b11b00",
+    "recheck/models.py": "97cc14b663113c0bf15c0cf6d0cd2abdaebde10034f69c1b1ef45b27b5f7b9bb",
+    "resources/runtime/environment.json": "05fefec61aa22af957e995f3b776e6c5c31b51f7033863685d7bc05a627440c1"
+  },
+  "source_hashes_end": {
+    "recheck/comparison.py": "2c200429f977a91a411882cbc5c4808d6d72ab7d6a9637c23140e524e9a0bf3c",
+    "recheck/adapters.py": "60d4e895db9a3d642065c0b9beaf4823ea4f195f930b760d305b17226d23bc92",
+    "recheck/managed_execution.py": "6a79fec3f1b96de49506c9414fb28231d0b91509cec8fd99d32b2a9ab5b11b00",
+    "recheck/models.py": "97cc14b663113c0bf15c0cf6d0cd2abdaebde10034f69c1b1ef45b27b5f7b9bb",
+    "resources/runtime/environment.json": "05fefec61aa22af957e995f3b776e6c5c31b51f7033863685d7bc05a627440c1"
+  },
+  "source_unchanged": true,
+  "build_reuse": {
+    "source": "<REPO>\\verification\\accuracy-20261118-managed-original",
+    "source_identities_sha256": "2bed9099eb9c8953813df86182eabe3ccd9589fa6fc7e0f1db1943bb723babce",
+    "verified_binary_count": 33,
+    "verified_all_sha256": true,
+    "harness_sha256": "0aa11ccbba47c3838a2a3e122f001dd461fba0175e536384f3bbc99fed052200",
+    "source_hashes": {
+      "recheck/comparison.py": "2c200429f977a91a411882cbc5c4808d6d72ab7d6a9637c23140e524e9a0bf3c",
+      "recheck/adapters.py": "60d4e895db9a3d642065c0b9beaf4823ea4f195f930b760d305b17226d23bc92",
+      "recheck/managed_execution.py": "6a79fec3f1b96de49506c9414fb28231d0b91509cec8fd99d32b2a9ab5b11b00",
+      "recheck/models.py": "97cc14b663113c0bf15c0cf6d0cd2abdaebde10034f69c1b1ef45b27b5f7b9bb",
+      "resources/runtime/environment.json": "05fefec61aa22af957e995f3b776e6c5c31b51f7033863685d7bc05a627440c1"
+    },
+    "representative_accepted": "accuracy-20261118-standalone-representative/accuracy-summary.json"
+  },
+  "raw_summary_sha256": "3a2edabac65c4091ac607168154fcf26676a5662e42c043c15d28227f2d73907",
+  "raw_csv_sha256": "d308454d765828e43273ee42ec816116f226c72624066e90d4c557024a80bfeb",
+  "frozen_oracle_sha256": "ead9e17a62a1c2b0c43ca6c9a8fbca608f80c028a12be66ca5bd5748ebcfdb0a",
+  "source_binary_identities_sha256": "2bed9099eb9c8953813df86182eabe3ccd9589fa6fc7e0f1db1943bb723babce",
+  "execution_image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+  "execution_backend": "standalone_docker_baseline",
+  "wrapper_verified": true,
+  "native_platform_verified": true,
+  "observation_receipts": 426,
+  "adapter_snapshot_mismatches": 0,
+  "confusion_counts": {
+    "true_positive": 19,
+    "true_negative": 336,
+    "false_positive": 0,
+    "false_negative": 0
+  },
+  "timing_and_memory": "Whole-method wall time and peak memory were not independently measured; raw target and Docker process durations are retained.",
+  "accuracy_measurement_complete": true,
+  "production_managed_execution_verified": false,
+  "public_projection": "Host paths and process/environment dumps omitted; target stdout/stderr Base64 retained. Full raw receipts local only.",
+  "command": [
+    ".venv/Scripts/python",
+    "scripts/evaluate_accuracy.py",
+    "--output",
+    "verification/accuracy-20261118-standalone-full",
+    "--reuse-build",
+    "--execution-image",
+    "recheck-analysis-linux:1",
+    "--concurrency",
+    "3"
+  ]
+}

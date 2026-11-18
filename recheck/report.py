@@ -115,7 +115,7 @@ def render_report(run, destination):
     rate = behavior.get('match_rate')
     rate_text = f'{rate*100:.2f}%' if isinstance(rate, (int, float)) else '미측정'
     matched_text = str(behavior['matched']) if type(behavior['matched']) is int else '?'
-    if behavior['denominator'] and behavior['matched'] is None:
+    if behavior['matched'] is None:
         rate_text = '판정 미확인'
     observation_scope = behavior.get('scope', '등록하여 실행한 입력 범위에서만 확인한 결과')
     if scope['dynamic'] == 'not_requested':
@@ -144,6 +144,17 @@ def render_report(run, destination):
     for label, value in scope_rows:
         pieces.append(f'<tr><td>{esc(label)}</td><td>{esc(value)}</td></tr>')
     pieces.append('</table>')
+    if structure := run.get('structure'):
+        score = structure.get('score')
+        score_text = f'{score:.4f}' if type(score) in (int, float) else '산출 불가'
+        pieces.append('<section><h2>구조 점수: ' + esc(score_text) + '</h2>'
+                      '<p>함수 구조의 휴리스틱 점수 또는 관리 메서드 대응 범위입니다. '
+                      '동작 일치율·동일성 확률·복제 확률이 아닙니다.</p>')
+        if structure.get('comparison_scope'):
+            pieces.append('<p>비교 가능 함수와 제외 범위 (미관측·외부 함수):</p><pre>'
+                          + dump(structure['comparison_scope']) + '</pre>')
+        pieces.append('<p>점수 상태: ' + esc(structure.get('score_status', '기존 기록'))
+                      + '</p></section>')
     if scope['dynamic'] == 'not_requested':
         pieces.append('<p>동적분석을 선택하지 않아 실행 동작은 검증하지 않았습니다.</p>')
     elif scope['dynamic'] != 'success':
@@ -278,8 +289,15 @@ def render_report(run, destination):
             f'<tr><td>{esc(target_label(target))}</td><td>{esc(info.get("name",""))}</td><td>{esc(info.get("format",""))} / {esc(info.get("os",""))} / {esc(info.get("architecture",""))}</td><td><code>{esc(info.get("sha256",""))}</code></td></tr>'
         )
     pieces.append(
-        '</table><table><tr><th>테스트 ID</th><th>관찰</th><th>일치</th><th>원본 종료</th><th>재구현 종료</th></tr>'
+        '</table><table>'
     )
+    outcome_names = {'matched': '일치', 'mismatched': '불일치', 'inconclusive': '판정 불가',
+                     'unsupported': '미지원·선행 조건 차단', 'infrastructure_error': '인프라 오류'}
+    counts = behavior.get('outcome_counts', {})
+    pieces.append('<caption>' + ' · '.join(esc(label) + ': ' + str(counts.get(key, 0))
+                                           for key, label in outcome_names.items()) + '</caption>')
+    pieces.append('<tr><th>테스트 ID</th><th>관찰</th><th>결과·사유</th><th>일치</th>'
+                  '<th>원본 종료</th><th>재구현 종료</th></tr>')
     for test in behavior.get('tests', []):
         pieces.append(
             '<tr>'
@@ -288,6 +306,8 @@ def render_report(run, destination):
                 for value in (
                     test['test_id'],
                     status_label(test.get('execution_status')),
+                    outcome_names.get(test.get('outcome'), status_label(test.get('execution_status')))
+                    + ' · ' + ', '.join(test.get('observation_categories', [])),
                     (
                         '일치'
                         if test.get('match') is True
@@ -300,6 +320,17 @@ def render_report(run, destination):
             + '</tr>'
         )
     pieces.append('</table>')
+    pieces.append('<p>계획·등록: ' + esc(behavior.get('registered'))
+                  + ' · 시도: ' + esc(behavior.get('attempted'))
+                  + ' · 비교 가능: ' + esc(behavior.get('denominator'))
+                  + ' · 유효 원시 관찰 쌍: ' + esc(behavior.get('observed_pairs'))
+                  + ' · 제외: ' + esc(behavior.get('excluded'))
+                  + ' · 미실행: ' + esc(behavior.get('not_run'))
+                  + ' · 별도 미등록 관찰: ' + esc(behavior.get('unregistered_observations', 0)) + '</p>'
+                  + '<p>정규화로 일치한 원시 차이: ' + str(behavior.get('normalization_masked', 0))
+                  + ' · 원시 Base64/bytes는 보존합니다. 사유 범주는 중복될 수 있고 결과 상태는 배타적입니다.</p>'
+                  + '<p>시간 초과는 판정 불가입니다. 실행 도구·컨테이너 상태와 반복 관찰 없이 '
+                  '프로그램의 비종료 결함으로 단정하지 않습니다.</p>')
     mismatches = {x['test_id'] for x in behavior.get('tests', []) if x.get('match') is False}
     for row in run.get('dynamic', []):
         if row['test_id'] in mismatches:

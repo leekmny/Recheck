@@ -20,7 +20,7 @@ def _count(value):
 
 def verified_behavior(run):
     """Display verdicts from retained raw evidence; keep cached history untouched."""
-    from .comparison import compare_behavior
+    from .comparison import compare_behavior, behavior_outcome, behavior_counts
     from .models import Settings
     dynamic = coverage_summary(run)['dynamic']
     inputs = run.get('tests') if isinstance(run.get('tests'), list) else []
@@ -31,6 +31,7 @@ def verified_behavior(run):
             groups.setdefault(row['test_id'], []).append(row)
     identifiers = list(dict.fromkeys(item['id'] for item in inputs
                                     if isinstance(item, dict) and isinstance(item.get('id'), str)))
+    registered_ids = set(identifiers)
     identifiers.extend(key for key in groups if key not in identifiers)
     settings = run.get('settings') if isinstance(run.get('settings'), dict) else {}
     stored = (run.get('behavior') or {}).get('normalization') or {}
@@ -46,13 +47,28 @@ def verified_behavior(run):
                         observation_categories=[reason])
         else:
             item = compare_behavior(rows, policy)['tests'][0]
-            if not dynamic['comparison_policy_known']:
+            if not dynamic['comparison_policy_known'] and item['match'] is not None:
                 item['match'] = None
                 item['observation_categories'] = ['comparison_policy_unknown']
+        item['comparable'] = item['match'] is not None
+        item['outcome'] = behavior_outcome(item)
         comparisons.append(item)
-    matched, denominator = dynamic['matched'], dynamic['measured']
+    matched = dynamic['matched']
+    denominator = dynamic['measured'] if dynamic['comparison_policy_known'] else 0
+    counted = [item for item in comparisons if item['test_id'] in registered_ids]
+    excluded = (max(0, dynamic['registered'] - denominator)
+                if dynamic['registered'] is not None else None)
     return dict(tests=comparisons, matched=matched, denominator=denominator,
+                observed_pairs=dynamic['measured'],
+                unregistered_observations=len(dynamic['unregistered_ids']),
                 registered=dynamic['registered'], unmeasured=dynamic['unmeasured'],
+                attempted=dynamic['attempted'], not_run=dynamic['not_run'],
+                mismatched=dynamic['mismatched'], excluded=excluded,
+                normalization=dict(newlines=policy.normalize_newlines,
+                                   trailing_whitespace=policy.trim_trailing_whitespace)
+                              if dynamic['comparison_policy_known'] else {},
+                formula='일치한 유효 테스트 쌍 / 양쪽 모두 정상 수집되고 비교 정책이 확인된 테스트 쌍',
+                **behavior_counts(counted),
                 match_rate=matched / denominator if type(matched) is int and denominator else None,
                 scope='보관된 유효 원시 관찰과 확인 가능한 비교 정책 기준; 저장 입력 재현 실패는 제외합니다.')
 

@@ -1,5 +1,39 @@
 # 고정 정답으로 검사하는 비교 샘플
 
+## 실행 경로 구분
+
+`scripts/evaluate_accuracy.py`의 기본값은 기존 `ManagedExecutionAdapter`입니다. 제품에 고정된 이미지가 없으면 빌드 성공 후에도 실행 준비 단계에서 차단하며 다른 이미지로 바꾸지 않습니다.
+
+이미 설치된 Linux 실행 이미지를 **별도 독립 출력 비교 기준선**으로 평가하려면 `--execution-image`를 명시합니다. 이 경우에만 기존 `DockerAdapter`를 사용하고, 로컬 Linux amd64 Docker·immutable image ID·실행 wrapper를 먼저 검증합니다. 결과의 `execution_backend=standalone_docker_baseline`, `product_managed_execution=false`는 제품 Engine 또는 managed 이미지의 검증 결과가 아님을 뜻합니다. 기본 경로와 제품의 pin 검증은 그대로 유지합니다.
+
+```powershell
+.venv\Scripts\python scripts\evaluate_accuracy.py `
+  --output verification\accuracy-고유실행ID `
+  --compiler-image 설치된-컴파일러-이미지 `
+  --execution-image 설치된-실행-이미지 --concurrency 3
+```
+
+기존 평가의 분모는 **71등록 입력 × 5비교 유형 = 355판정**입니다. 원본 관측을 비교 유형 사이에서 공유하고 동일 파일 비교의 다른 쪽은 다시 실행하므로 정확도 대상 실행은 426회입니다. timeout·출력 초과·자식 프로세스 회복 시험 3회는 별도로 기록해 총 실행 시도는 429회이며, 정확도 355판정에 합산하지 않습니다. 새 `benchmarks/capstone`의 24입력·4방법 실험과도 합산하지 않습니다.
+
+`--reuse-build`는 이미 있는 출력 폴더의 빌드를 재사용합니다. 2026-11-18 실험에서는 재사용 전에 33개 ELF의 SHA-256을 전부 확인하고 `build-reuse.json`에 기록했습니다. 일반 재실행은 새 폴더에서 다시 빌드하거나 같은 수준으로 기존 산출물 identity를 확인해야 합니다.
+
+2026-11-18의 원본 managed 경로는 실제 33개 ELF 빌드 후 pin 이미지 미설치로 차단됐습니다. 설치된 legacy 이미지를 명시한 대표 입력 시험은 5판정·6대상 실행과 회복 시험 3회를 수행했습니다. 전체 평가 결과와 원시 근거는 `benchmarks/results/accuracy-20261118-standalone-full`에 별도로 보존합니다. 이 실행에는 모델 요청이 없습니다.
+
+### 이미지가 없는 새 팀원의 준비 경로
+
+Python 잠금 의존성과 로컬 Linux amd64 Docker를 준비한 뒤 저장소의 공개 Dockerfile로 별도 기준선 이미지를 만들 수 있습니다. 아래는 **준비 명령**이며 이번 세션은 이미 설치된 이미지로 실측했습니다. 새 빌드의 base/apt 패키지·이미지 ID는 과거 이미지와 달라질 수 있으므로 새 실행 ID에서 oracle을 다시 확인하고 이미지·컴파일러 identity를 결과에 남깁니다.
+
+```powershell
+docker build --platform linux/amd64 -t recheck-capstone-compiler:local resources/docker/compiler
+docker build --platform linux/amd64 -t recheck-capstone-execution:local resources/docker/linux
+.venv\Scripts\python scripts\evaluate_accuracy.py `
+  --output verification\accuracy-새실행ID `
+  --compiler-image recheck-capstone-compiler:local `
+  --execution-image recheck-capstone-execution:local --concurrency 3
+```
+
+이 이미지는 standalone 기준선용입니다. 제품 Managed 환경은 앱의 명시적 준비 절차와 자체 manifest/receipt 검증을 따라야 합니다. 검증을 생략하거나 임의 ID를 제품 manifest에 넣는 방식으로 준비하지 않습니다. 원시 데이터의 재집계만 확인할 때는 [공개 결과의 Python 명령](../../benchmarks/results/accuracy-20261118-standalone-full/README.md)을 사용하면 Docker·모델 실행이 필요 없습니다.
+
 C 프로그램 6개는 제한된 값을 입력받으며 등록 사례에서 부호 있는 정수의 오버플로를 피한다. `oracle.json`에는 실행·AI 검토 전에 고정한 UTF-8 표준출력·표준오류·종료 코드가 있다. `MUTANT=1`은 문서화한 의미 변경 하나, `ALTERNATE=1`은 같은 결과를 내는 다른 구현을 선택한다. 평가기는 O0·O2·대체 구현·변경 구현·심볼 제거 변형을 빌드한다. 동일 파일 비교는 O0 바이너리를 다시 실행한다.
 
 소스 루트에서 실행한다.

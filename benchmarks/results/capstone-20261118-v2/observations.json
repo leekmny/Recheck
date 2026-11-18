@@ -1,0 +1,3410 @@
+{
+  "p1-c1": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-1ed5852ed37245fab5d5c0e8d3cffc01",
+      "test_id": "p1-c1",
+      "actual_input": {
+        "args": [
+          "0"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "3f4f46b2698133913bf3bd1cd734935174693e0b2ad9d1bee821a26589cfa48a",
+      "stdout": "units=0\nfee=0\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MApmZWU9MAo=",
+      "stderr_b64": "",
+      "duration": 0.4185,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2327
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:20.088026653Z",
+        "FinishedAt": "2026-11-18T07:36:20.197696102Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2197
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-a72bf9c4d08046839ef3d723a357c2b0",
+      "test_id": "p1-c1",
+      "actual_input": {
+        "args": [
+          "0"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "1dfe8553af300941262cf2cbb5653e3c12ef546ee7dd350a47d746ea00dc3e57",
+      "stdout": "units=0\nfee=0\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MApmZWU9MAo=",
+      "stderr_b64": "",
+      "duration": 0.4022,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2183
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:22.197935665Z",
+        "FinishedAt": "2026-11-18T07:36:22.296759169Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2178
+      }
+    }
+  },
+  "p1-c2": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-398dfd47579f4efd93b391f43da94d7e",
+      "test_id": "p1-c2",
+      "actual_input": {
+        "args": [
+          "10"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "41abc2ffabeebc2f5d264c68c351c168f7ca3cf7cfb8eda5f431e72a884db464",
+      "stdout": "units=10\nfee=30\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MTAKZmVlPTMwCg==",
+      "stderr_b64": "",
+      "duration": 0.3881,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2029
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:24.242878198Z",
+        "FinishedAt": "2026-11-18T07:36:24.342217052Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.233
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-d76219c2f9ab49f3947a34d4ec3e239e",
+      "test_id": "p1-c2",
+      "actual_input": {
+        "args": [
+          "10"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "88147a40b655b36b0d166ca9bfd2239fdbcd998359d1b0bb3e7e4f05a5168700",
+      "stdout": "units=10\nfee=30\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MTAKZmVlPTMwCg==",
+      "stderr_b64": "",
+      "duration": 0.3881,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2041
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:26.286190219Z",
+        "FinishedAt": "2026-11-18T07:36:26.385363883Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2176
+      }
+    }
+  },
+  "p1-c3": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-58222f7600494b9cb7694972ff00aa91",
+      "test_id": "p1-c3",
+      "actual_input": {
+        "args": [
+          "50"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "9558329e2124c113dc584bf7333d367d6560951ee616462bf44a86025afe4273",
+      "stdout": "units=50\nfee=110\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTAKZmVlPTExMAo=",
+      "stderr_b64": "",
+      "duration": 0.4491,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2327
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:28.388403566Z",
+        "FinishedAt": "2026-11-18T07:36:28.509997481Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2179
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-b541438e738c42d59cc63c46d0c4d4e9",
+      "test_id": "p1-c3",
+      "actual_input": {
+        "args": [
+          "50"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "dc68f9822da1597d264b94a708cec0cb3e21a0873793d9490e83b760e283a5da",
+      "stdout": "units=50\nfee=110\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTAKZmVlPTExMAo=",
+      "stderr_b64": "",
+      "duration": 0.4038,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2188
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:30.504797559Z",
+        "FinishedAt": "2026-11-18T07:36:30.608353916Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2183
+      }
+    }
+  },
+  "p1-c4": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-fa245cfaa2fa4573914e251a137c9650",
+      "test_id": "p1-c4",
+      "actual_input": {
+        "args": [
+          "bad"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 2,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "63a13a39a4763da2c2d1c870c57a9a7e8b39a7ab3a76a3b1dc4185d0115acad2",
+      "stdout": "",
+      "stderr": "error: expected one integer in [0,1000]\n",
+      "stdout_b64": "",
+      "stderr_b64": "ZXJyb3I6IGV4cGVjdGVkIG9uZSBpbnRlZ2VyIGluIFswLDEwMDBdCg==",
+      "duration": 0.4024,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.219
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 2,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:32.61444107Z",
+        "FinishedAt": "2026-11-18T07:36:32.711235353Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 2,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2183
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-4d8e1666ff6e43e380839e12af6c30de",
+      "test_id": "p1-c4",
+      "actual_input": {
+        "args": [
+          "bad"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 2,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "3c0bb0048771640ceb186373384c0d3399f7d88e3da8988bf276df866d7a7021",
+      "stdout": "",
+      "stderr": "error: expected one integer in [0,1000]\n",
+      "stdout_b64": "",
+      "stderr_b64": "ZXJyb3I6IGV4cGVjdGVkIG9uZSBpbnRlZ2VyIGluIFswLDEwMDBdCg==",
+      "duration": 0.3884,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2176
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 2,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:34.739161465Z",
+        "FinishedAt": "2026-11-18T07:36:34.842016541Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 2,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2196
+      }
+    }
+  },
+  "p2-c1": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-94969623c8b34c328fb133d1d0e2cf84",
+      "test_id": "p2-c1",
+      "actual_input": {
+        "args": [
+          "0"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "4ad2bcc94f50ce4855f592f0b7cb03e4f6a274e7022642c4d8a9f354650c85ce",
+      "stdout": "units=0\nfee=0\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MApmZWU9MAo=",
+      "stderr_b64": "",
+      "duration": 0.4497,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2508
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:43.880758295Z",
+        "FinishedAt": "2026-11-18T07:36:43.985369521Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2352
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-6f79462fb7824543ba7364492429308c",
+      "test_id": "p2-c1",
+      "actual_input": {
+        "args": [
+          "0"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "5655c6a219cb71aeea9b8e445a74aa74157680d241e22ebad211da6c6ef4b5dd",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "e4561aaea273a1fe67a0c68c37809dca64bada2c1edb2c2b43ecc259c8b51579",
+      "stdout": "units=0\nfee=0\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MApmZWU9MAo=",
+      "stderr_b64": "",
+      "duration": 0.402,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2181
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:46.092475559Z",
+        "FinishedAt": "2026-11-18T07:36:46.199581217Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2191
+      }
+    }
+  },
+  "p2-c2": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-fe85fa2d90a04392b4e30268b2af5a09",
+      "test_id": "p2-c2",
+      "actual_input": {
+        "args": [
+          "10"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "c66a78a71d1fcd9195f939b2ac85047259477bd4de8a03907e6c10056d9aeea4",
+      "stdout": "units=10\nfee=30\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MTAKZmVlPTMwCg==",
+      "stderr_b64": "",
+      "duration": 0.4194,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2191
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:48.180223126Z",
+        "FinishedAt": "2026-11-18T07:36:48.292133595Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2172
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-110bf8d043d8453f84c1cd4bead24e93",
+      "test_id": "p2-c2",
+      "actual_input": {
+        "args": [
+          "10"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "5655c6a219cb71aeea9b8e445a74aa74157680d241e22ebad211da6c6ef4b5dd",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "8031cc87f8c5523795344f05f7dae60b948391e95755d7bdc03c9c535ee828d1",
+      "stdout": "units=10\nfee=30\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MTAKZmVlPTMwCg==",
+      "stderr_b64": "",
+      "duration": 0.3876,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2181
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:50.20317677Z",
+        "FinishedAt": "2026-11-18T07:36:50.312496126Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2176
+      }
+    }
+  },
+  "p2-c3": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-4d63aa7d36b44e8e9d1ec232f751f31f",
+      "test_id": "p2-c3",
+      "actual_input": {
+        "args": [
+          "50"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "46a3bfc7903b639191fe47f7af948179d8316f701ea2ca0cd0cb75891ad84ff0",
+      "stdout": "units=50\nfee=110\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTAKZmVlPTExMAo=",
+      "stderr_b64": "",
+      "duration": 0.4171,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2187
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:52.28203499Z",
+        "FinishedAt": "2026-11-18T07:36:52.381420973Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2187
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-cf98c6e773564ecd879532fc1e023441",
+      "test_id": "p2-c3",
+      "actual_input": {
+        "args": [
+          "50"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "5655c6a219cb71aeea9b8e445a74aa74157680d241e22ebad211da6c6ef4b5dd",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "4042348012b03e3200cbde8fdef8df286f34051916cf6967c1cc0461e33aba6e",
+      "stdout": "units=50\nfee=110\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTAKZmVlPTExMAo=",
+      "stderr_b64": "",
+      "duration": 0.3728,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.235
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:54.363521009Z",
+        "FinishedAt": "2026-11-18T07:36:54.461586272Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2342
+      }
+    }
+  },
+  "p2-c4": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-0048fac791944ef9b0041b0831665b60",
+      "test_id": "p2-c4",
+      "actual_input": {
+        "args": [
+          "bad"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 2,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "b62f6c56e4d9fb1b096e2e9cf65d079ca851dcd99a47fef837982d54337b7195",
+      "stdout": "",
+      "stderr": "error: expected one integer in [0,1000]\n",
+      "stdout_b64": "",
+      "stderr_b64": "ZXJyb3I6IGV4cGVjdGVkIG9uZSBpbnRlZ2VyIGluIFswLDEwMDBdCg==",
+      "duration": 0.4162,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.202
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 2,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:56.480437782Z",
+        "FinishedAt": "2026-11-18T07:36:56.596413534Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 2,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2026
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-3ca43916e08a4614b81d1db7a7adae41",
+      "test_id": "p2-c4",
+      "actual_input": {
+        "args": [
+          "bad"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 2,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "5655c6a219cb71aeea9b8e445a74aa74157680d241e22ebad211da6c6ef4b5dd",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "ac6f2cbc8e3e8bc92299c88af023b1bd9a943b48e4136e623b2fa57d4b3c4619",
+      "stdout": "",
+      "stderr": "error: expected one integer in [0,1000]\n",
+      "stdout_b64": "",
+      "stderr_b64": "ZXJyb3I6IGV4cGVjdGVkIG9uZSBpbnRlZ2VyIGluIFswLDEwMDBdCg==",
+      "duration": 0.4201,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2174
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 2,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:36:58.52160738Z",
+        "FinishedAt": "2026-11-18T07:36:58.615921263Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 2,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2344
+      }
+    }
+  },
+  "p3-c1": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-80b46f9173de4a2da5fd0b7587c1b6fd",
+      "test_id": "p3-c1",
+      "actual_input": {
+        "args": [
+          "0"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "44521f289bb66755091c7f71ab249cf8441d6d04458a6393f0d09007afc2f2e6",
+      "stdout": "units=0\nfee=0\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MApmZWU9MAo=",
+      "stderr_b64": "",
+      "duration": 0.4053,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2185
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:07.165800603Z",
+        "FinishedAt": "2026-11-18T07:37:07.262577936Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2043
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-4282517981924b76a284fb6a34579e16",
+      "test_id": "p3-c1",
+      "actual_input": {
+        "args": [
+          "0"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "c6e84de7cb53afcfc7d9466aa308eb5027a5da556208ab61f0933a6d4316513e",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "4a33211578a6cd5bbf381dcb45f8df693c53aee624b20373860acfd01dc5fd9b",
+      "stdout": "units=0\nfee=0\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MApmZWU9MAo=",
+      "stderr_b64": "",
+      "duration": 0.4188,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2201
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:09.252937568Z",
+        "FinishedAt": "2026-11-18T07:37:09.363860667Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2202
+      }
+    }
+  },
+  "p3-c2": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-d99cc036d08c40788da7cf5829aa3bc3",
+      "test_id": "p3-c2",
+      "actual_input": {
+        "args": [
+          "10"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "f7f2404ee4203c6369fa8905030a95c3dfef3e36e8e7a1386a46617d2fa4915e",
+      "stdout": "units=10\nfee=30\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MTAKZmVlPTMwCg==",
+      "stderr_b64": "",
+      "duration": 0.4024,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2179
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:11.331600979Z",
+        "FinishedAt": "2026-11-18T07:37:11.439080507Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2031
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-f87e45763d184f8e9418f907bd0cb2bd",
+      "test_id": "p3-c2",
+      "actual_input": {
+        "args": [
+          "10"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "c6e84de7cb53afcfc7d9466aa308eb5027a5da556208ab61f0933a6d4316513e",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "87c176e01482ee92604e3bdcb8b03b3a6e1fd8f54ac7b75e801d03f1a8a75dfb",
+      "stdout": "units=10\nfee=30\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MTAKZmVlPTMwCg==",
+      "stderr_b64": "",
+      "duration": 0.4189,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2185
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:13.393601348Z",
+        "FinishedAt": "2026-11-18T07:37:13.502927407Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.247
+      }
+    }
+  },
+  "p3-c3": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-8cda953a58ee43ffaa29a82e4161d341",
+      "test_id": "p3-c3",
+      "actual_input": {
+        "args": [
+          "11"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "0b98bf1a59949d9725cceba9174fd89767042b8056fe03096fed47c8d6ae88b3",
+      "stdout": "units=11\nfee=32\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MTEKZmVlPTMyCg==",
+      "stderr_b64": "",
+      "duration": 0.4491,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2346
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:15.592252127Z",
+        "FinishedAt": "2026-11-18T07:37:15.731409929Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2179
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-8ee1dbd90e714dfab2caaef3ac98ab4a",
+      "test_id": "p3-c3",
+      "actual_input": {
+        "args": [
+          "11"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "c6e84de7cb53afcfc7d9466aa308eb5027a5da556208ab61f0933a6d4316513e",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "aa97c8e1e1a86b3d2e47df14ae57d2839dfd54a78e1ddf086c026377829e30a6",
+      "stdout": "units=11\nfee=32\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MTEKZmVlPTMyCg==",
+      "stderr_b64": "",
+      "duration": 0.4187,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2199
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:17.847915921Z",
+        "FinishedAt": "2026-11-18T07:37:17.949749336Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2202
+      }
+    }
+  },
+  "p3-c4": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-4c508bb82cc4432f8ceb938429b3bb01",
+      "test_id": "p3-c4",
+      "actual_input": {
+        "args": [
+          "50"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "be17540c9afee6776bf6f8519b59a46a750f1b390ff94c37dec5c0f5da95e8c0",
+      "stdout": "units=50\nfee=110\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTAKZmVlPTExMAo=",
+      "stderr_b64": "",
+      "duration": 0.4033,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.219
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:19.947161364Z",
+        "FinishedAt": "2026-11-18T07:37:20.067998648Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2185
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-a632542e34434d92b5fe6b194a1b0aa3",
+      "test_id": "p3-c4",
+      "actual_input": {
+        "args": [
+          "50"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "c6e84de7cb53afcfc7d9466aa308eb5027a5da556208ab61f0933a6d4316513e",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "d358bf8c65e7380626f7d645abe0b6ae501626f35ef7c8909dc863fa6188a632",
+      "stdout": "units=50\nfee=110\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTAKZmVlPTExMAo=",
+      "stderr_b64": "",
+      "duration": 0.4187,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2192
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:21.998401237Z",
+        "FinishedAt": "2026-11-18T07:37:22.103643939Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2184
+      }
+    }
+  },
+  "p3-c5": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-e43c4e17fd754476b53bb5216b6e3ee4",
+      "test_id": "p3-c5",
+      "actual_input": {
+        "args": [],
+        "stdin": "51\n",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "15a264b5cef94ec9138e11a9dd019029fce165b008e0ce76cf127eb992c75a23",
+      "stdout": "units=51\nfee=111\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTEKZmVlPTExMQo=",
+      "stderr_b64": "",
+      "duration": 0.3876,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2191
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:24.100132903Z",
+        "FinishedAt": "2026-11-18T07:37:24.20561006Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.219
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-2874c96e3e954894ba25df642a71f718",
+      "test_id": "p3-c5",
+      "actual_input": {
+        "args": [],
+        "stdin": "51\n",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "c6e84de7cb53afcfc7d9466aa308eb5027a5da556208ab61f0933a6d4316513e",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "dc4bed8950c4894bf91079f4a1c75a007a81eff619160c7b13a006a4a61a678f",
+      "stdout": "units=51\nfee=111\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTEKZmVlPTExMQo=",
+      "stderr_b64": "",
+      "duration": 0.4192,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2333
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:26.166274542Z",
+        "FinishedAt": "2026-11-18T07:37:26.279362943Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2186
+      }
+    }
+  },
+  "p3-c6": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-e55a7895f6b5460db78adedb56971251",
+      "test_id": "p3-c6",
+      "actual_input": {
+        "args": [
+          "bad"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 2,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "f19ee9acce6c173f8df87c0a7a570b7ba555d40cacccd325ca111d8e7a02ef36",
+      "stdout": "",
+      "stderr": "error: expected one integer in [0,1000]\n",
+      "stdout_b64": "",
+      "stderr_b64": "ZXJyb3I6IGV4cGVjdGVkIG9uZSBpbnRlZ2VyIGluIFswLDEwMDBdCg==",
+      "duration": 0.4206,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2181
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 2,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:28.386806427Z",
+        "FinishedAt": "2026-11-18T07:37:28.506924346Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 2,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2363
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-b873f915d09c445d9ce19c4b6dcdd038",
+      "test_id": "p3-c6",
+      "actual_input": {
+        "args": [
+          "bad"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 2,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "c6e84de7cb53afcfc7d9466aa308eb5027a5da556208ab61f0933a6d4316513e",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "09791f53923091e19a80239273aa6e1d2dc7d2c413db5692c8a432d955ea1778",
+      "stdout": "",
+      "stderr": "error: expected one integer in [0,1000]\n",
+      "stdout_b64": "",
+      "stderr_b64": "ZXJyb3I6IGV4cGVjdGVkIG9uZSBpbnRlZ2VyIGluIFswLDEwMDBdCg==",
+      "duration": 0.4185,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2187
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 2,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:30.432753277Z",
+        "FinishedAt": "2026-11-18T07:37:30.534185397Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 2,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2193
+      }
+    }
+  },
+  "p4-c1": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-d3a115d6f0844ff5a9975a6260aad9e4",
+      "test_id": "p4-c1",
+      "actual_input": {
+        "args": [
+          "49"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "019066bb3d8019c96bdef3f54cb11b8e80f7d64aa19aff1461e52e831bf8ed4f",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "05eab952b435b37cefca64a4948e3c3067ef7d701ea434bab891dc3dbd7f0b11",
+      "stdout": "units=49\nfee=147\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NDkKZmVlPTE0Nwo=",
+      "stderr_b64": "",
+      "duration": 0.4344,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2049
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:39.0054745Z",
+        "FinishedAt": "2026-11-18T07:37:39.111990265Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2196
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-0e289839e69b48079b43bd86321da812",
+      "test_id": "p4-c1",
+      "actual_input": {
+        "args": [
+          "49"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "dd6cb78144539dd744028cdf2a3063545cdf9de28ca366e5ca93d3fc903845ae",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "6d054bca1ffe3f9578eedfa4128e80374bc1efe9078622ca495d9a1b0bbcbb42",
+      "stdout": "units=49\nfee=147\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NDkKZmVlPTE0Nwo=",
+      "stderr_b64": "",
+      "duration": 0.4194,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2315
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:41.180942094Z",
+        "FinishedAt": "2026-11-18T07:37:41.303474397Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2341
+      }
+    }
+  },
+  "p4-c2": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-94261eda763b45398947cce6418d28b8",
+      "test_id": "p4-c2",
+      "actual_input": {
+        "args": [
+          "50"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "019066bb3d8019c96bdef3f54cb11b8e80f7d64aa19aff1461e52e831bf8ed4f",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "ba5e0d742ba41b9a5aea44e4ed8cfc6545ab20139ec54737cee225979bbcbcb2",
+      "stdout": "units=50\nfee=100\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTAKZmVlPTEwMAo=",
+      "stderr_b64": "",
+      "duration": 0.4219,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2319
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:43.388574652Z",
+        "FinishedAt": "2026-11-18T07:37:43.502200601Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2512
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-8e27ade333c143cb9f7efcc9db654147",
+      "test_id": "p4-c2",
+      "actual_input": {
+        "args": [
+          "50"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "dd6cb78144539dd744028cdf2a3063545cdf9de28ca366e5ca93d3fc903845ae",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "4817424db91a444d5278d193dd9372a3d190bcb6b73c822c61a745d70fefffa5",
+      "stdout": "units=50\nfee=150\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTAKZmVlPTE1MAo=",
+      "stderr_b64": "",
+      "duration": 0.4343,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2342
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:45.654858108Z",
+        "FinishedAt": "2026-11-18T07:37:45.778134721Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2518
+      }
+    }
+  },
+  "p4-c3": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-e758ec7f63ea4d5d91790f701e89c4fa",
+      "test_id": "p4-c3",
+      "actual_input": {
+        "args": [],
+        "stdin": "51\n",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "019066bb3d8019c96bdef3f54cb11b8e80f7d64aa19aff1461e52e831bf8ed4f",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "2507417ee9a2fed28ddf97f3f3de88cedf37984fa9050da86af4282d320871dd",
+      "stdout": "units=51\nfee=102\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTEKZmVlPTEwMgo=",
+      "stderr_b64": "",
+      "duration": 0.4662,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2502
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:47.902928997Z",
+        "FinishedAt": "2026-11-18T07:37:48.00298004Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2502
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-0b9e7b7e2af84b28b33c48428e2dfac6",
+      "test_id": "p4-c3",
+      "actual_input": {
+        "args": [],
+        "stdin": "51\n",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "dd6cb78144539dd744028cdf2a3063545cdf9de28ca366e5ca93d3fc903845ae",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "fc2ea1566010c998a2ce763ea9fc4626300fe000f69937df626c016fac6b412b",
+      "stdout": "units=51\nfee=102\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTEKZmVlPTEwMgo=",
+      "stderr_b64": "",
+      "duration": 0.4205,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2491
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:50.194283715Z",
+        "FinishedAt": "2026-11-18T07:37:50.297694865Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2197
+      }
+    }
+  },
+  "p4-c4": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-1c9ee6068a46460e81c612df1ccb1322",
+      "test_id": "p4-c4",
+      "actual_input": {
+        "args": [
+          "bad"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 2,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "019066bb3d8019c96bdef3f54cb11b8e80f7d64aa19aff1461e52e831bf8ed4f",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "efc0f64d79a2754ae1fdf326432d8ef89f83ae3436f52513d9659cc7da3cbd38",
+      "stdout": "",
+      "stderr": "error: expected one integer in [0,1000]\n",
+      "stdout_b64": "",
+      "stderr_b64": "ZXJyb3I6IGV4cGVjdGVkIG9uZSBpbnRlZ2VyIGluIFswLDEwMDBdCg==",
+      "duration": 0.4667,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2512
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 2,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:52.543643481Z",
+        "FinishedAt": "2026-11-18T07:37:52.665094883Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 2,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2336
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-e0f119ebdcf041e6b8ce1331eb4630fd",
+      "test_id": "p4-c4",
+      "actual_input": {
+        "args": [
+          "bad"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 2,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "dd6cb78144539dd744028cdf2a3063545cdf9de28ca366e5ca93d3fc903845ae",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "ff4fcce43d4e65ba2bca9b70a14e20e928c7857a21ac5afdcff84906e5a96543",
+      "stdout": "",
+      "stderr": "error: expected one integer in [0,1000]\n",
+      "stdout_b64": "",
+      "stderr_b64": "ZXJyb3I6IGV4cGVjdGVkIG9uZSBpbnRlZ2VyIGluIFswLDEwMDBdCg==",
+      "duration": 0.4343,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2349
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 2,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:37:54.830032527Z",
+        "FinishedAt": "2026-11-18T07:37:54.931684788Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 2,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2199
+      }
+    }
+  },
+  "p5-c1": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-ce872754cdd642728aaef977aa5c1818",
+      "test_id": "p5-c1",
+      "actual_input": {
+        "args": [
+          "0"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "3f0e69213d21c711e7291dd602ba338528e9d92abb5e10d0de895cefebcdabe0",
+      "stdout": "units=0\nfee=0\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MApmZWU9MAo=",
+      "stderr_b64": "",
+      "duration": 0.4654,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2806
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:38:04.443510004Z",
+        "FinishedAt": "2026-11-18T07:38:04.5719724Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2834
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-c9f44ec8909e4dbda598ea726fc8924f",
+      "test_id": "p5-c1",
+      "actual_input": {
+        "args": [
+          "0"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "3b0daf341e365d10d6478faa613426c5ad457ea05b23dea7fcbc36138d666e17",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "3d6b1bb4eb297078e38ece03bff593eeeed60d29cfd347cd4333f2a2c5db6cf9",
+      "stdout": "different\n",
+      "stderr": "",
+      "stdout_b64": "ZGlmZmVyZW50Cg==",
+      "stderr_b64": "",
+      "duration": 0.4534,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2489
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:38:07.043944535Z",
+        "FinishedAt": "2026-11-18T07:38:07.149557406Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2493
+      }
+    }
+  },
+  "p5-c2": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-65ca7ef1d12947ad8dbdea0b6e5c1ad9",
+      "test_id": "p5-c2",
+      "actual_input": {
+        "args": [
+          "10"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "ea7589ded8096097b65df6634dddabdb38fe8aa7f633033bf62b3d0718ed3cb0",
+      "stdout": "units=10\nfee=30\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9MTAKZmVlPTMwCg==",
+      "stderr_b64": "",
+      "duration": 0.4049,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2336
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:38:09.35704413Z",
+        "FinishedAt": "2026-11-18T07:38:09.458071642Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2349
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-dd6f3538dbce43698ed70b9ecbaa8d8a",
+      "test_id": "p5-c2",
+      "actual_input": {
+        "args": [
+          "10"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "3b0daf341e365d10d6478faa613426c5ad457ea05b23dea7fcbc36138d666e17",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "cc2c2a54fdd637a8e64741e5f397ec615dd875788c37ad164761b82c04f63c50",
+      "stdout": "different\n",
+      "stderr": "",
+      "stdout_b64": "ZGlmZmVyZW50Cg==",
+      "stderr_b64": "",
+      "duration": 0.5112,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2658
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:38:11.767312658Z",
+        "FinishedAt": "2026-11-18T07:38:11.880347454Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2511
+      }
+    }
+  },
+  "p5-c3": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-be7a902ffcb642f09c0eb89e3521e9cc",
+      "test_id": "p5-c3",
+      "actual_input": {
+        "args": [
+          "50"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "fa828254d22cdcb7d4113b46a75ae5b9ba0815045a7c9bb0194c8704fa2d272b",
+      "stdout": "units=50\nfee=110\n",
+      "stderr": "",
+      "stdout_b64": "dW5pdHM9NTAKZmVlPTExMAo=",
+      "stderr_b64": "",
+      "duration": 0.4332,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2804
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:38:14.198960454Z",
+        "FinishedAt": "2026-11-18T07:38:14.299714416Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2964
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-2c7c3db14b85478e8e44b081a7b60de1",
+      "test_id": "p5-c3",
+      "actual_input": {
+        "args": [
+          "50"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "3b0daf341e365d10d6478faa613426c5ad457ea05b23dea7fcbc36138d666e17",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "327c9bfd65a4a62d1fa793a74e5fb3df112b919a8295f7635ff0642cb7ef8bd2",
+      "stdout": "different\n",
+      "stderr": "",
+      "stdout_b64": "ZGlmZmVyZW50Cg==",
+      "stderr_b64": "",
+      "duration": 0.4348,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2966
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:38:16.780819134Z",
+        "FinishedAt": "2026-11-18T07:38:16.893296094Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2839
+      }
+    }
+  },
+  "p5-c4": {
+    "original": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-318a8b904005401ab2e03b64f9ec3591",
+      "test_id": "p5-c4",
+      "actual_input": {
+        "args": [
+          "bad"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 2,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "2c825ed18aa1ba1e02511b5bef6a9551e25b2d55b4a282d15ceab77b23c3a65c",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "aa03261f73393202d3c7160d56a36e97c4b83aba2cf1442c8662979a183c1ee0",
+      "stdout": "",
+      "stderr": "error: expected one integer in [0,1000]\n",
+      "stdout_b64": "",
+      "stderr_b64": "ZXJyb3I6IGV4cGVjdGVkIG9uZSBpbnRlZ2VyIGluIFswLDEwMDBdCg==",
+      "duration": 0.4778,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2504
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 2,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:38:19.248994606Z",
+        "FinishedAt": "2026-11-18T07:38:19.356258714Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 2,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2319
+      }
+    },
+    "reimplementation": {
+      "status": "success",
+      "infrastructure_ok": true,
+      "container_name": "recheck-ce737747047541869434c56ed12216ef",
+      "test_id": "p5-c4",
+      "actual_input": {
+        "args": [
+          "bad"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 3.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 0,
+      "timed_out": false,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "3b0daf341e365d10d6478faa613426c5ad457ea05b23dea7fcbc36138d666e17",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "2c29b02be9858b2d581fcd947200c16ae4d8b2e548057a267dc94982a2ddaa78",
+      "stdout": "different\n",
+      "stderr": "",
+      "stdout_b64": "ZGlmZmVyZW50Cg==",
+      "stderr_b64": "",
+      "duration": 0.4809,
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2666
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:38:21.660578313Z",
+        "FinishedAt": "2026-11-18T07:38:21.782937357Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 0,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2323
+      }
+    }
+  },
+  "p6-c1": {
+    "original": {
+      "status": "failed",
+      "infrastructure_ok": false,
+      "container_name": "recheck-79436999b0c147ada22808364993a2ba",
+      "test_id": "p6-c1",
+      "actual_input": {
+        "args": [
+          "timeout"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 1.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 137,
+      "timed_out": true,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "a3b083b91fea9b1022a72a987401c9c5e3ca8106ed2f6863a733aef452e3a0bd",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "32bee6524afa0148c9c0214df7127c2e533e4d3e8054cbd767db29f0998edfa5",
+      "stdout": "",
+      "stderr": "",
+      "stdout_b64": "",
+      "stderr_b64": "",
+      "duration": 1.0196,
+      "stop": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.3198
+      },
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2637
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:38:32.178843673Z",
+        "FinishedAt": "2026-11-18T07:38:33.174534629Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 137,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2974
+      }
+    },
+    "reimplementation": {
+      "status": "failed",
+      "infrastructure_ok": false,
+      "container_name": "recheck-c3b8035dfd2e47b38f0a60162fa19ae0",
+      "test_id": "p6-c1",
+      "actual_input": {
+        "args": [
+          "timeout"
+        ],
+        "stdin": "",
+        "auxiliary_files": [],
+        "env": {}
+      },
+      "limits": {
+        "memory_mb": 256,
+        "cpus": 1.0,
+        "timeout_seconds": 1.0,
+        "output_bytes": 1048576
+      },
+      "image": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "cleanup_errors": [],
+      "target_exit_code": 137,
+      "timed_out": true,
+      "cancelled": false,
+      "truncated": false,
+      "binary_sha256": "a3b083b91fea9b1022a72a987401c9c5e3ca8106ed2f6863a733aef452e3a0bd",
+      "protections": {
+        "input_readonly": true,
+        "network": "none",
+        "root_readonly": true,
+        "isolation": "linux-namespaces",
+        "note": "읽기 전용 루트 + cap-drop ALL + no-new-privileges"
+      },
+      "container_id": "dedf2745f22013c2b0c5915fe5e006f6e4ced368cd86465758f2f0f471d61d41",
+      "stdout": "",
+      "stderr": "",
+      "stdout_b64": "",
+      "stderr_b64": "",
+      "duration": 1.0187,
+      "stop": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.3221
+      },
+      "inspect_process": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2811
+      },
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-11-18T07:38:35.563365806Z",
+        "FinishedAt": "2026-11-18T07:38:36.573465422Z"
+      },
+      "image_id": "sha256:7e46ed9ae67f0ddcdd401d3d8129f1b5e1ae201e7517f8e644e40b154270151b",
+      "exit_code": 137,
+      "oom_killed": false,
+      "container_logs": {
+        "returncode": 0,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "error": null,
+        "duration": 0.2966
+      }
+    }
+  },
+  "p7-c1": {
+    "original": {
+      "status": "blocked",
+      "infrastructure_ok": false,
+      "error": "unsupported format",
+      "metadata": {
+        "name": "b8",
+        "sha256": "a4b7bb19505f681cd577e8e31b4cb3ea43a32fe48eed43fe23246701dd813af1",
+        "size": 39,
+        "format": "unknown",
+        "os": "unknown",
+        "architecture": "unknown",
+        "supported": false,
+        "analysis_kind": "native",
+        "static_supported": false,
+        "static_reason": "이 파일 형식에 연결된 정적 비교 도구가 없습니다.",
+        "reason": "ELF x86-64 또는 PE x64 네이티브 콘솔 실행 파일이 필요합니다",
+        "execution_supported": false,
+        "execution_reason": "ELF x86-64 또는 PE x64 네이티브 콘솔 실행 파일이 필요합니다"
+      }
+    },
+    "reimplementation": {
+      "status": "blocked",
+      "infrastructure_ok": false,
+      "error": "unsupported format",
+      "metadata": {
+        "name": "b8",
+        "sha256": "a4b7bb19505f681cd577e8e31b4cb3ea43a32fe48eed43fe23246701dd813af1",
+        "size": 39,
+        "format": "unknown",
+        "os": "unknown",
+        "architecture": "unknown",
+        "supported": false,
+        "analysis_kind": "native",
+        "static_supported": false,
+        "static_reason": "이 파일 형식에 연결된 정적 비교 도구가 없습니다.",
+        "reason": "ELF x86-64 또는 PE x64 네이티브 콘솔 실행 파일이 필요합니다",
+        "execution_supported": false,
+        "execution_reason": "ELF x86-64 또는 PE x64 네이티브 콘솔 실행 파일이 필요합니다"
+      }
+    }
+  }
+}

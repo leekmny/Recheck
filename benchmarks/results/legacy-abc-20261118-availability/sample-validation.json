@@ -1,0 +1,7 @@
+{
+  "status": "blocked",
+  "exception_type": "FileNotFoundError",
+  "error": "[Errno 2] No such file or directory: '<USER_HOME>\\\\Documents\\\\Codex\\\\2026-11-18\\\\비교 대상 파일\\\\samples\\\\discount_boundary\\\\tests.json'",
+  "operation": "Unmodified run_benchmark.read_json(actual --discount-sample default path)",
+  "model_inference_requests": 0
+}

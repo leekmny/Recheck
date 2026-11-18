@@ -1,0 +1,38 @@
+{
+  "sha256": "ead9e17a62a1c2b0c43ca6c9a8fbca608f80c028a12be66ca5bd5748ebcfdb0a",
+  "frozen_before_execution": "2026-11-18T08:12:21.087822+00:00",
+  "sources": [
+    {
+      "name": "arithmetic.c",
+      "sha256": "0915a511b579e0d94dca73e6d965f6ded6f2aab0c04d2f5fb0dfd985c018eef4"
+    },
+    {
+      "name": "branch.c",
+      "sha256": "8db861f07cfa5a7287ff0e0e4a4690f592e2217b472abb6a17d7fb6bf3676362"
+    },
+    {
+      "name": "io.c",
+      "sha256": "c2daa996df3c82fb8ce165564eac79600dcff6a9627583ae111ef0a73326b237"
+    },
+    {
+      "name": "loop.c",
+      "sha256": "2a956af77e80ddc4fb8d22b5af5015f730007bf63e9c902793883c9fa30c5c6d"
+    },
+    {
+      "name": "recovery.c",
+      "sha256": "8034385f5bd619b7d59a8fbb8b05249af57d3c575f9efb6daa0bde6740d3f16b"
+    },
+    {
+      "name": "statistics.c",
+      "sha256": "e7adacf5a1da2747dcb69ac14887a0b9e33c8502f15ac684b12c248cff13dd82"
+    },
+    {
+      "name": "strings.c",
+      "sha256": "62f8ea6fb42b92407d30a60ac1739dd83f86273c878a9807a2986a50034b4050"
+    },
+    {
+      "name": "many_functions.cpp",
+      "sha256": "907d10d6d35959aa713dfb65ec0233b4e71728f1e04cdb5049ffe2b616ceb866"
+    }
+  ]
+}

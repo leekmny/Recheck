@@ -177,4 +177,6 @@ def test_unknown_historical_policy_does_not_claim_zero_differences(window, tmp_p
     assert '정책 미확인' in window.result_cards['match'].detail.text()
     destination = tmp_path / 'unknown.html'
     render_report(run, destination)
-    assert '판정 미확인</b> (?/1)' in destination.read_text(encoding='utf-8')
+    text = destination.read_text(encoding='utf-8')
+    assert '판정 미확인</b> (?/0)' in text
+    assert '유효 원시 관찰 쌍: 1' in text and '비교 가능: 0' in text

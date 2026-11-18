@@ -25,6 +25,7 @@ build/
 
 # Share reviewed guides; machine-specific diagnostics and historical QA stay local.
 /docs/*
+!/docs/CAPSTONE_FEEDBACK.md
 !/docs/PROJECT_AUDIT_REPORT.md
 !/docs/superpowers/
 !/docs/decisions/

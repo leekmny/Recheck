@@ -1,0 +1,9 @@
+{
+  "ready": false,
+  "java_major": 21,
+  "install_url": "https://github.com/NationalSecurityAgency/ghidra/releases",
+  "java_install_url": "https://adoptium.net/temurin/releases/",
+  "status": "not_installed",
+  "configured_environment_paths": {},
+  "reason": "유효한 Ghidra Headless 설치 경로를 찾지 못했습니다. 환경 변수 경로가 존재하는지 확인하세요."
+}

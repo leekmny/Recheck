@@ -1,0 +1,10 @@
+{
+  "formal_evaluation": false,
+  "classification": "exploratory/invalid_blinding",
+  "excluded_methods": [
+    "llm_static_source",
+    "llm_execution_replay",
+    "recheck"
+  ],
+  "reason": "Source annotation disclosed intent; original Engine import overlapped source edits. Actual simple execution may be reused after identity checks."
+}

@@ -1,0 +1,45 @@
+{
+  "raw_receipt_sha256": "8e7e1bdd7b03db8a35996ce35af4e2dd038d3da1f6b461791c667dbb82ef679a",
+  "commands": [
+    {
+      "command": [
+        "<PYTHON>",
+        "scripts/run_benchmark.py",
+        "--help"
+      ],
+      "returncode": 0,
+      "seconds": 0.7353336000087438,
+      "stdout": "usage: run_benchmark.py [-h] --output OUTPUT\r\n                        [--discount-sample DISCOUNT_SAMPLE]\r\n                        [--compiler-image COMPILER_IMAGE] [--ghidra GHIDRA]\r\n                        [--model MODEL] [--llm-timeout LLM_TIMEOUT]\r\n                        [--num-ctx NUM_CTX] [--num-predict NUM_PREDICT]\r\n                        [--prepare-only] [--resume]\r\n\r\nRecheck ���� �� ��� �� ����\r\n\r\noptions:\r\n  -h, --help            show this help message and exit\r\n  --output OUTPUT\r\n  --discount-sample DISCOUNT_SAMPLE\r\n  --compiler-image COMPILER_IMAGE\r\n  --ghidra GHIDRA\r\n  --model MODEL\r\n  --llm-timeout LLM_TIMEOUT\r\n  --num-ctx NUM_CTX\r\n  --num-predict NUM_PREDICT\r\n  --prepare-only\r\n  --resume\r\n",
+      "stderr_excerpt": "",
+      "projection": "Last error line only; complete local raw process receipt retained"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "scripts/run_benchmark_revision.py",
+        "--help"
+      ],
+      "returncode": 0,
+      "seconds": 0.7262117999925977,
+      "stdout": "usage: run_benchmark_revision.py [-h] --source SOURCE --output OUTPUT\r\n                                 [--ghidra GHIDRA]\r\n\r\n�ʱ� A/B�� ���� C�� �����ϴ� Recheck ���� �� ��\r\n\r\noptions:\r\n  -h, --help       show this help message and exit\r\n  --source SOURCE\r\n  --output OUTPUT\r\n  --ghidra GHIDRA\r\n",
+      "stderr_excerpt": "",
+      "projection": "Last error line only; complete local raw process receipt retained"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "scripts/run_benchmark.py",
+        "--output",
+        "<REPO>\\verification\\legacy-abc-20261118-availability\\prepare-attempt",
+        "--compiler-image",
+        "recheck-validation3-compiler:20261117",
+        "--prepare-only"
+      ],
+      "returncode": 1,
+      "seconds": 1.7025101000035647,
+      "stdout": "",
+      "stderr_excerpt": "RuntimeError: ���� ���� ����: mkdir: cannot create directory '/out': Permission denied",
+      "projection": "Last error line only; complete local raw process receipt retained"
+    }
+  ]
+}

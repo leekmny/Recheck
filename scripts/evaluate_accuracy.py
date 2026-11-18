@@ -17,6 +17,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from recheck.comparison import compare_behavior
+from recheck.adapters import DockerAdapter
 from recheck.models import Settings, atomic_json, inspect_binary
 from recheck.managed_execution import ManagedExecutionAdapter
 SOURCES = ROOT / 'samples' / 'accuracy'
@@ -143,12 +144,51 @@ def build(out, compiler_image):
     return binaries
 
 
-async def measure(out, binaries, oracle, concurrency):
-    adapter = ManagedExecutionAdapter(Settings())
-    preparation = await adapter.prepare_image('linux')
+async def prepare_execution(out, execution_image=None):
+    """Keep production pins by default; explicit legacy images are a separate baseline."""
+    if execution_image is None:
+        adapter = ManagedExecutionAdapter(Settings())
+        preparation = dict(await adapter.prepare_image('linux'),
+                           execution_backend='managed_production_adapter')
+    else:
+        adapter = DockerAdapter()
+        preparation = dict(status='blocked', managed=False,
+            execution_backend='standalone_docker_baseline', requested_image=execution_image,
+            scope='Standalone isolated output comparison; not production Engine or managed-image validation')
+        try:
+            engine = await adapter.probe()
+            preparation['environment'] = engine
+            if (not engine.get('ready') or engine.get('local_endpoint') is not True
+                    or engine.get('os') != 'linux' or engine.get('arch') not in ('amd64', 'x86_64')):
+                raise ValueError('A local Linux amd64 Docker engine is required')
+            inspected = await adapter.call('image', 'inspect', execution_image, timeout=15)
+            preparation['image_inspection'] = inspected
+            if inspected.get('returncode') != 0:
+                raise ValueError('The explicitly requested image is not installed')
+            details = json.loads(inspected['stdout'])[0]
+            image_id = details.get('Id')
+            if (not isinstance(image_id, str) or not re.fullmatch(r'sha256:[a-f0-9]{64}', image_id)
+                    or details.get('Os') != 'linux' or details.get('Architecture') != 'amd64'):
+                raise ValueError('The standalone image must have an immutable Linux amd64 identity')
+            wrapper = await adapter.call('run', '--rm', '--network=none', '--read-only',
+                '--cap-drop=ALL', '--security-opt=no-new-privileges', '--pids-limit=16',
+                '--memory=64m', '--cpus=1', '--user=65534:65534', '--entrypoint=/bin/sh',
+                image_id, '-c', 'test -x /usr/local/bin/recheck-run-target', timeout=20)
+            preparation['wrapper_check'] = wrapper
+            if wrapper.get('returncode') != 0:
+                raise ValueError('The standalone image lacks the executable target wrapper')
+            preparation.update(status='success', image=image_id, image_id=image_id,
+                               image_details=details)
+        except (OSError, ValueError, KeyError, IndexError, TypeError) as exc:
+            preparation['error'] = str(exc)
     atomic_json(out / 'execution-preparation.json', preparation)
+    return adapter, preparation
+
+
+async def measure(out, binaries, oracle, concurrency, execution_image=None):
+    adapter, preparation = await prepare_execution(out, execution_image)
     if preparation['status'] != 'success':
-        raise RuntimeError('Pinned managed execution image unavailable; see execution-preparation.json')
+        raise RuntimeError('Requested execution backend unavailable; see execution-preparation.json')
     (out / 'aux').mkdir(exist_ok=True)
     (out / 'aux/data.txt').write_bytes(b'7\n')
     (out / 'aux/bad.txt').write_bytes(b'not a number\n')
@@ -183,6 +223,7 @@ async def measure(out, binaries, oracle, concurrency):
                     actual_left=json.dumps({k: left.get(k) for k in ('status', 'infrastructure_ok', 'stdout', 'stderr', 'exit_code', 'error', 'storage_errors')}, ensure_ascii=False),
                     actual_right=json.dumps({k: right.get(k) for k in ('status', 'infrastructure_ok', 'stdout', 'stderr', 'exit_code', 'error', 'storage_errors')}, ensure_ascii=False),
                     image_id=preparation['image_id'],
+                    execution_backend=preparation['execution_backend'],
                     seconds=left.get('duration', 0) + right.get('duration', 0), ai_grade='not_requested', ai_requests=0,
                     observation_left=str(out / 'observations' / f'{sample}-{number:02d}' / 'base'),
                     observation_right=str(out / 'observations' / f'{sample}-{number:02d}' / variant)))
@@ -216,6 +257,10 @@ async def finish_measurement(out, adapter, binaries, preparation, observations, 
         false_negatives=sum(r['false_negative'] for r in rows),
         oracle_failures=sum(not r['oracle_correct'] for r in rows),
         actual_target_executions=len(observations), baseline_observations_reused=True,
+        recovery_target_executions=len(recoveries),
+        total_target_execution_attempts=len(observations) + len(recoveries),
+        execution_backend=preparation.get('execution_backend', 'managed_production_adapter'),
+        product_managed_execution=preparation.get('managed', True),
         observations_with_storage_errors=sum(bool(row.get('storage_errors')) for row in observations.values()),
         adapter_snapshot_mismatches=sum(not receipt['adapter_snapshot']['matches_returned']
                                         for receipt in (receipts or {}).values()),
@@ -230,6 +275,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--compiler-image', default='recheck-generated-compiler:1')
+    parser.add_argument('--execution-image', help=(
+        'Explicit installed Linux image for standalone Docker output baseline only; '
+        'omitting this retains the production ManagedExecutionAdapter and its immutable pins'))
     parser.add_argument('--concurrency', type=int, choices=range(1, 5), default=3)
     parser.add_argument('--reuse-build', action='store_true')
     args = parser.parse_args()
@@ -246,7 +294,8 @@ def main():
         sources=[dict(name=p.name, sha256=digest(p)) for p in [*SOURCES.glob('*.c'), *SOURCES.glob('*.cpp')]]))
     binaries = ({(s.stem, v): out / 'elf' / f'{s.stem}-{v}' for s in SOURCES.glob('*.c')
         for v in (VARIANTS if s.stem != 'recovery' else ['base'])} if args.reuse_build else build(out, args.compiler_image))
-    summary = asyncio.run(measure(out, binaries, json.loads(frozen.read_text(encoding='utf-8')), args.concurrency))
+    summary = asyncio.run(measure(out, binaries, json.loads(frozen.read_text(encoding='utf-8')),
+                                  args.concurrency, args.execution_image))
     return 0 if not (summary['oracle_failures'] or summary['unmeasured_pairs']) else 1
 
 

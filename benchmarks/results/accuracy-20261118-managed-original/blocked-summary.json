@@ -1,0 +1,16 @@
+{
+  "status": "blocked_before_target_execution",
+  "execution_backend": "managed_production_adapter",
+  "process_exit_code": 1,
+  "harness_sha256": "c2eb7a3d312c79330eace41f73858c14094b742dc43140f96c6cbc708e7562fd",
+  "registered_inputs": 71,
+  "registered_pairs": 355,
+  "measured_pairs": 0,
+  "unmeasured_pairs": 355,
+  "actual_target_executions": 0,
+  "elf_builds": 33,
+  "pe_builds": 0,
+  "error": "The pinned packaged execution image is unavailable. Prepare the packaged analysis environment in Setup.",
+  "raw_preparation": "execution-preparation.json",
+  "new_24_input_experiment": false
+}

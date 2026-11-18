@@ -94,15 +94,19 @@ def test_macho_load_command_cannot_extend_beyond_declared_table(tmp_path):
 
 
 @pytest.mark.parametrize('mode', ['automatic', 'static', 'dynamic'])
-def test_default_comparison_keeps_static_results_for_native_dll(tmp_path, monkeypatch, mode):
+@pytest.mark.parametrize('cfg_observed', [True, False])
+def test_default_comparison_keeps_static_results_for_native_dll(
+    tmp_path, monkeypatch, mode, cfg_observed,
+):
     target = tmp_path / 'sample.dll'
     target.write_bytes(portable_executable(flags=0x2002))
     engine = Engine(Settings(), tmp_path / 'data')
 
     class StaticTool:
         async def analyze(self, *args, **kwargs):
-            return dict(status='success', complete=True, functions=[dict(
-                id='0x1000', name='entry', address='0x1000', blocks=[], edges=[],
+            blocks = [dict(id='0x1000', start='0x1000', end='0x1000', size=1)] if cfg_observed else []
+            return dict(status='success', complete=True, total_functions=1, functions=[dict(
+                id='0x1000', name='entry', address='0x1000', blocks=blocks, edges=[],
                 calls=[], mnemonics=['ret'], decompile='return 1;',
             )])
 
@@ -122,7 +126,13 @@ def test_default_comparison_keeps_static_results_for_native_dll(tmp_path, monkey
     else:
         assert result['stages']['metadata']['status'] == 'success'
         assert result['stages']['structure']['status'] == 'success'
-        assert len(result['structure']['matches']) == 1
+        if cfg_observed:
+            assert len(result['structure']['matches']) == 1
+            assert result['structure']['score'] == 1.0
+        else:
+            assert result['structure']['matches'] == []
+            assert result['structure']['score'] is None
+            assert result['structure']['score_status'] == 'unavailable'
         assert result['files']['original']['snapshot']
         assert result['stages']['dynamic']['status'] == 'blocked'
         assert result['dynamic'] == []

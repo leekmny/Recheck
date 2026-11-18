@@ -1,0 +1,38 @@
+[
+  {
+    "mode": "timeout",
+    "timed_out": true,
+    "truncated": false,
+    "cancelled": false,
+    "infrastructure_ok": false,
+    "cleanup_errors": [],
+    "storage_errors": null,
+    "container_removed": true,
+    "observation": "<REPO>\\verification\\accuracy-20261118-standalone-full\\recovery\\timeout",
+    "expected": "unmeasured; owned container and children removed"
+  },
+  {
+    "mode": "flood",
+    "timed_out": false,
+    "truncated": true,
+    "cancelled": false,
+    "infrastructure_ok": false,
+    "cleanup_errors": [],
+    "storage_errors": null,
+    "container_removed": true,
+    "observation": "<REPO>\\verification\\accuracy-20261118-standalone-full\\recovery\\flood",
+    "expected": "unmeasured; owned container and children removed"
+  },
+  {
+    "mode": "child",
+    "timed_out": true,
+    "truncated": false,
+    "cancelled": false,
+    "infrastructure_ok": false,
+    "cleanup_errors": [],
+    "storage_errors": null,
+    "container_removed": true,
+    "observation": "<REPO>\\verification\\accuracy-20261118-standalone-full\\recovery\\child",
+    "expected": "unmeasured; owned container and children removed"
+  }
+]

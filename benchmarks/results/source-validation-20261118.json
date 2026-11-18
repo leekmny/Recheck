@@ -1,0 +1,71 @@
+{
+  "base_commit": "9ecac1c2dd3b504b0300f802e5481ed21b1a6c25",
+  "branch": "fix/capstone-validation-evidence",
+  "local_uncommitted_changes": true,
+  "python_version": "3.14.10",
+  "baseline": {
+    "total": 2163,
+    "passed": 2156,
+    "skipped": 3,
+    "errors": [
+      {
+        "module": "tests.test_distribution_notices",
+        "test": "test_cpython_ssl_dependencies_replace_a_host_basename_collision"
+      },
+      {
+        "module": "tests.test_distribution_notices",
+        "test": "test_missing_cpython_ssl_dependency_stops_packaging"
+      },
+      {
+        "module": "tests.test_distribution_notices",
+        "test": "test_missing_staged_cpython_ssl_dependency_is_rejected"
+      },
+      {
+        "module": "tests.test_distribution_notices",
+        "test": "test_cpython_ssl_dependency_hashes_are_rechecked_for_publication"
+      }
+    ],
+    "failures": []
+  },
+  "final": {
+    "total": 2227,
+    "passed": 2220,
+    "skipped": 3,
+    "errors": [
+      {
+        "module": "tests.test_distribution_notices",
+        "test": "test_cpython_ssl_dependencies_replace_a_host_basename_collision"
+      },
+      {
+        "module": "tests.test_distribution_notices",
+        "test": "test_missing_cpython_ssl_dependency_stops_packaging"
+      },
+      {
+        "module": "tests.test_distribution_notices",
+        "test": "test_missing_staged_cpython_ssl_dependency_is_rejected"
+      },
+      {
+        "module": "tests.test_distribution_notices",
+        "test": "test_cpython_ssl_dependency_hashes_are_rechecked_for_publication"
+      }
+    ],
+    "failures": []
+  },
+  "node": {
+    "passed": 7,
+    "failed": 0
+  },
+  "ruff": "passed",
+  "source_sha256": {
+    "recheck/comparison.py": "2c200429f977a91a411882cbc5c4808d6d72ab7d6a9637c23140e524e9a0bf3c",
+    "recheck/engine.py": "c97eff560293aedb22e26de495053076047f33b70f5e0a8c322a1b19b6db3319",
+    "recheck/gui.py": "20e12e4e7f0007e335ba325e9d7b06c5eeaf00774946429dc137964a2d87bed5",
+    "recheck/report.py": "850bac9382eb12b91374c4ffa49e8640412b7c8d0921a6453d7fa15cd942348d",
+    "recheck/review_views.py": "6f02a97ec0e35c58ae4a10487274aac761e34f2a39d943bff6419c940fb1b617",
+    "scripts/evaluate_accuracy.py": "0aa11ccbba47c3838a2a3e122f001dd461fba0175e536384f3bbc99fed052200",
+    "scripts/run_capstone_benchmark.py": "ff18712de818f046080508d795a274dbaf6918f063c5065bad9675e0a04a3be3"
+  },
+  "scope": "Local source tests, not a packaged Windows release or full static/AI performance validation",
+  "private_raw_logs": "verification (not included in public checkout)",
+  "github_writes": "none"
+}

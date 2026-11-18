@@ -1,0 +1,13 @@
+{
+  "formal_evaluation": true,
+  "classification": "fixed illustrative experiment with documented source-access asymmetry",
+  "model_inference_requests": 2,
+  "repetitions": 1,
+  "excluded_prior_model_inference_requests": 2,
+  "excluded_prior_run": "capstone-20261118-v1",
+  "correction": "Uniformly removed C comments before both formal model conditions; preserved string literals and recorded transformed-source SHA-256. No source, oracle, binary or registered-input changes.",
+  "tuning": "No prediction-performance tuning; blinding correction disclosed separately.",
+  "simple_observation_reuse": "46 prior target execution attempts retained after complete source/binary/input/image identity checks; zero new simple target executions in v2.",
+  "recheck": "Fresh production Engine process, seven pair-level calls, zero target executions because static and managed execution prerequisites were blocked.",
+  "comparison_limitations": "LLM source assistance differs from binary-only RECHECK; execution replay is fixed evidence sharing, not autonomous tool use; no independent held-out or repeated performance estimate."
+}

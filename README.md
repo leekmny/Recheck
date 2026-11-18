@@ -1,14 +1,20 @@
 # Recheck
 
-**0.1.6 · Windows x64 미리보기**
+**0.1.7 · Windows x64 미리보기**
+
+**캡스톤 디자인 주제: 레거시 대체 프로그램의 동작 비교와 검증 근거 정리**
+
+Recheck는 기존 프로그램을 새 구현으로 교체하기 전에, 두 실행 파일에 같은 입력을 넣어 관찰된 출력과 종료 코드의 차이를 확인하는 도구입니다. 사용자가 준비한 원본·재구현과 테스트 입력을 받아 비교하며, Ghidra·REA에서 수집한 정적 구조와 선택한 AI의 설명을 함께 정리합니다. 등록한 입력에서의 일치는 모든 입력의 동등성 증명이 아닙니다.
+
+소스·테스트·직접 만든 샘플·설계 및 검증 범위를 공개합니다. 원본 코드의 권리는 [LICENSE](LICENSE), 외부 구성요소의 조건은 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)를 확인하세요. 공개 저장소의 열람과 오픈소스 재사용 허용은 별개입니다. [캡스톤 요구사항·근거·발표 안내](https://github.com/leekmny/Recheck/blob/v0.1.7/docs/CAPSTONE_FEEDBACK.md)에 원본·재구현·외부 도구·Recheck의 역할, 지표가 충돌하는 예시, 실험의 범위와 남은 연구 질문을 정리했습니다.
+
+함수 구조 점수는 비교 후보를 찾는 휴리스틱이며 동작 일치율이나 저작권 침해 확률이 아닙니다. 자동 복제·복호화·권리 판정은 이 비교 기능의 목적이 아닙니다. 화면의 다시 만들기·개선하기와 CLI의 `reconstruct`·`modernize`는 현재 요청·원본 보관 단계이며, 소스 생성·빌드·차등 검증 파이프라인은 미구현 상태로 차단됩니다.
 
 분석 AI 안내는 추천 ChatGPT → Gemini 무료(API) → 공통 AI 계정 연결 순서입니다. 로그인·키 발급은 외부 브라우저가 기본이며, 체크박스로 내장 표시도 선택할 수 있습니다. [Google 제한과 기본값 결정의 근거](https://github.com/leekmny/Recheck/blob/main/docs/decisions/0006-external-browser-default.md)를 참고하세요.
 
-**캡스톤 디자인 주제: 프로그램 동작 비교 및 AI 근거 분석 도구 Recheck**
+**[Windows 실행 ZIP·릴리스 목록](https://github.com/leekmny/Recheck/releases)** · [이전 0.1.6 배포 기록](https://github.com/leekmny/Recheck/releases/tag/v0.1.6)
 
-캡스톤 디자인 프로젝트로 개발한 프로그램 비교 도구입니다. 소스·테스트·직접 만든 샘플·설계 및 검증 범위를 공개합니다. 원본 코드의 권리는 [LICENSE](LICENSE), 외부 구성요소의 조건은 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)를 확인하세요. 공개 저장소의 열람과 오픈소스 재사용 허용은 별개입니다.
-
-**[Windows 실행 ZIP·릴리스 목록](https://github.com/leekmny/Recheck/releases)** · [이전 0.1.5 배포 기록](https://github.com/leekmny/Recheck/releases/tag/v0.1.5)
+0.1.7에서는 관측하지 못한 함수의 구조 점수를 제외하고, 실행 결과의 비교 가능 건수·제외 사유·원시 출력 차이를 명시합니다. 이전 기록의 출력 정책을 확인할 수 없으면 원시 관찰 수와 판정 가능 수를 분리합니다.
 
 0.1.6에서는 ChatGPT 로그인과 Gemini·OpenAI·Grok·DeepSeek·Claude 키 발급 안내를 통합하고, 연결된 AI의 상태 확인·연결 해제와 비교별 AI 선택을 정리했습니다. **설정 → 분석 AI 연결**에서 연결을 준비하고, **프로그램 비교**에서 이번 분석에 쓸 AI 하나를 고릅니다. 여러 AI에 같은 분석을 자동 요청하지 않습니다. 이전 0.1.5 EXE에는 새 통합 화면이 없습니다. 새 ZIP의 최종 실행 검증·게시 결과는 해당 릴리스와 [작업 기록](https://github.com/leekmny/Recheck/blob/main/docs/decisions/2026-11-17-embedded-login-work-log.md)에서 확인하세요. [연결 사용법과 제한](docs/AI_CONNECTIONS.md), [실제 계정 검증 상태](docs/AI_AUTH_STATUS.md)도 구분해 안내합니다.
 

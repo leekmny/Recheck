@@ -38,7 +38,8 @@ REVIEWED_QT_PLUGINS = frozenset((
     'styles/qmodernwindowsstyle.dll', 'iconengines/qsvgicon.dll',
     'imageformats/qsvg.dll', 'imageformats/qgif.dll', 'imageformats/qico.dll',
     'imageformats/qjpeg.dll',
-    'tls/qschannelbackend.dll', 'tls/qcertonlybackend.dll',
+    'tls/qschannelbackend.dll', 'tls/qopensslbackend.dll', 'tls/qcertonlybackend.dll',
+    'webview/qtwebview_webengine.dll',
 ))
 REVIEWED_WEBENGINE_RESOURCES = frozenset((
     'icudtl.dat', 'qtwebengine_resources.pak', 'qtwebengine_resources_100p.pak',
@@ -67,6 +68,8 @@ def reviewed_qt_binary(filename):
         return False  # QWebEngineView uses Widgets; no QML imports are shipped.
     if filename.startswith('pyside6/') and basename.startswith('qt') and basename.endswith('.pyd'):
         return basename in REVIEWED_QT_EXTENSIONS
+    if 'qtwebengine' in filename or basename == 'qtwebengineprocess.exe':
+        return True
     return True
 
 

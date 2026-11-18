@@ -104,6 +104,7 @@ class ProviderPanel(QWidget):
     setup_ready = Signal(object)
     continue_requested = Signal()
     _oauth_url_requested = Signal(object)
+    oauth_url_received = Signal(str)
 
     def __init__(self, manager, launch_task=None, is_busy=None, parent=None, prepare_change=None,
                  browser_dialog_factory=None):
@@ -111,6 +112,7 @@ class ProviderPanel(QWidget):
         self.manager, self._launcher = manager, launch_task
         self._is_busy = is_busy or (lambda: False)
         self._prepare_change = prepare_change
+        self.oauth_url_received.connect(self._show_web_oauth_dialog)
         self._worker = None
         self._workers = set()
         self._worker_completions = {}
@@ -213,6 +215,25 @@ class ProviderPanel(QWidget):
         self.support_note = label('', 'muted')
         form.addRow(self.support_note)
         layout.addWidget(connection)
+
+        self.web_login_box = QGroupBox('🌐 AI 웹 브라우저 (Gemini · Claude · ChatGPT · Grok)')
+        web_layout = QVBoxLayout(self.web_login_box)
+        web_layout.addWidget(
+            label(
+                'API 키 발급 페이지 대신 Gemini, Claude, ChatGPT, Grok 공식 웹 서비스를 내장 브라우저로 직접 띄웁니다.',
+                'muted',
+            )
+        )
+        web_btn_row = QHBoxLayout()
+        self.web_login_btn = QPushButton('🌐 AI 웹 브라우저 열기 (QWebEngine)')
+        self.web_login_btn.setStyleSheet(
+            'background-color: #0d6efd; color: white; font-weight: bold; padding: 7px 16px; border-radius: 4px; font-size: 13px;'
+        )
+        self.web_login_btn.clicked.connect(self.open_web_login)
+        web_btn_row.addWidget(self.web_login_btn)
+        web_btn_row.addStretch()
+        web_layout.addLayout(web_btn_row)
+        layout.addWidget(self.web_login_box)
 
         self.key_box = QGroupBox('API 키 보안 저장')
         keys = QVBoxLayout(self.key_box)
@@ -829,7 +850,12 @@ class ProviderPanel(QWidget):
     def open_gemini_key_page(self, *_):
         if self._blocked():
             return False
-        return self._open_key_page('gemini')
+        if not QDesktopServices.openUrl(QUrl('https://gemini.google.com/app')):
+            self._gemini_message(
+                'Gemini 페이지를 열지 못했습니다. 기본 브라우저에서 https://gemini.google.com/app 을 여세요.'
+            )
+            return False
+        return True
 
     def open_gemini_setup(self, *_):
         """키 입력 안내만 열며 프로필·인증·원격 요청은 변경하지 않는다."""
@@ -1946,7 +1972,11 @@ class ProviderPanel(QWidget):
 
         async def operation(pid, cancel, emit):
             try:
-                return await self.manager.login(pid, options, cancel=cancel, on_event=emit)
+                def on_url_cb(url):
+                    self.oauth_url_received.emit(url)
+                return await self.manager.login(
+                    pid, options, cancel=cancel, on_event=emit, on_url=on_url_cb
+                )
             finally:
                 options.clear()
 
@@ -1954,6 +1984,33 @@ class ProviderPanel(QWidget):
         if not started:
             options.clear()
         return started
+
+    @Slot(str)
+    def _show_web_oauth_dialog(self, url):
+        from .web_login import WebEngineLoginDialog
+        dialog = WebEngineLoginDialog(initial_url=url, parent=self.window())
+        dialog.exec()
+
+    def open_web_login(self, *_):
+        from .web_login import WebEngineLoginDialog
+        prov = self.provider_combo.currentData() or 'gemini'
+
+        def on_completed(result):
+            active_id = self.manager.settings.active_ai_profile
+            self.reload_profiles(active_id)
+            profile = self.manager.get_profile(active_id)
+            self._base = value_dict(profile)
+            self._invalidate()
+            self.profile_changed.emit(profile)
+            self._message(f"{result.get('provider', '').upper()} 웹 연결이 완료되었습니다!")
+
+        dialog = WebEngineLoginDialog(
+            provider=prov,
+            parent=self.window(),
+            manager=self.manager,
+            on_success=on_completed,
+        )
+        dialog.exec()
 
     def refresh_account(self, *_):
         async def operation(pid, cancel, emit):

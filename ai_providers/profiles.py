@@ -952,7 +952,7 @@ class ProfileManager:
             timeout=profile.options.timeout_seconds,
         )
 
-    async def login(self, profile_id, options=None, cancel=None, on_event=None, *, on_url=None):
+    async def login(self, profile_id, options=None, cancel=None, on_event=None, on_url=None):
         if options is not None and not isinstance(options, dict):
             raise ProviderError('oauth_configuration', 'OAuth 등록 정보 형식을 확인하세요')
         options = dict(options or {})
@@ -981,7 +981,6 @@ class ProfileManager:
                 on_event,
                 {'kind': 'oauth_login', 'profile_id': profile_id, 'status': 'browser_requested'},
             )
-
             async def auth_progress(event):
                 # Only known service stages cross the public log/UI boundary. Bind
                 # them to this operation rather than trusting an injected service.

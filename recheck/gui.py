@@ -257,7 +257,7 @@ class MainWindow(QMainWindow):
         outer.setContentsMargins(0, 0, 0, 0)
         side = QFrame()
         side.setObjectName("sidebar")
-        side.setFixedWidth(184)
+        side.setFixedWidth(205)
         nav = QVBoxLayout(side)
         nav.setContentsMargins(16, 28, 16, 20)
         brand_row = QHBoxLayout()
@@ -344,7 +344,7 @@ class MainWindow(QMainWindow):
         if settings_error:
             self.show_error("저장된 설정을 읽지 못해 기본 설정으로 시작했습니다: " + settings_error)
         if auto_check:
-            QTimer.singleShot(250, self.check_environment)
+            QTimer.singleShot(250, self.check_environment_initial)
 
     def button(self, text, callback, layout, task=True):
         b = QPushButton(text)
@@ -430,8 +430,17 @@ class MainWindow(QMainWindow):
         self.compare_shortcut = QPushButton('Gemini 무료로 시작하기 →')
         self.guide_next = self.compare_shortcut
         self.compare_shortcut.setObjectName('primary')
+        self.compare_shortcut.setStyleSheet('padding: 8px 18px; font-weight: bold; border-radius: 6px;')
         self.compare_shortcut.clicked.connect(self.follow_next_step)
         steps.addWidget(self.compare_shortcut)
+
+        self.web_login_shortcut = QPushButton('🌐 AI 웹 브라우저 열기')
+        self.web_login_shortcut.setObjectName('primary')
+        self.web_login_shortcut.setStyleSheet(
+            'background-color: #0d6efd; color: white; font-weight: bold; padding: 8px 18px; border-radius: 6px;'
+        )
+        self.web_login_shortcut.clicked.connect(self.open_web_login)
+        steps.addWidget(self.web_login_shortcut)
         wb.addLayout(steps)
         self.guide_status = QLabel(
             '1단계 · AI 연결부터 시작하세요. 나머지 설정은 추천값으로 준비합니다.'
@@ -1311,6 +1320,37 @@ class MainWindow(QMainWindow):
         else:
             self.navigation.setCurrentRow(1)
 
+    def open_web_login(self):
+        try:
+            from .web_login import WebEngineLoginDialog
+            from ai_providers.profiles import resolve_profile
+
+            profile = resolve_profile(self.settings)
+            prov = profile.provider if profile.provider in ('gemini', 'claude', 'chatgpt', 'grok') else 'gemini'
+            manager = self.provider_panel.manager
+
+            def on_completed(result):
+                self.settings = manager.settings
+                self.provider_panel.reload_profiles(manager.settings.active_ai_profile)
+                self.refresh_selected_provider()
+                self.refresh_start_guide()
+                self.notice("AI 연결이 완료되었습니다! 이제 프로그램 비교를 바로 시작할 수 있습니다.")
+
+            dialog = WebEngineLoginDialog(
+                provider=prov,
+                parent=self,
+                manager=manager,
+                on_success=on_completed,
+            )
+            dialog.exec()
+        except Exception as exc:
+            import traceback
+            traceback.print_exc()
+            self.show_error(
+                f"웹 로그인 창을 여는 중 문제가 발생했습니다: {exc}\n\n"
+                "[설정] > [분석 AI 연결] 탭에서 API 키를 직접 입력하거나 기본 브라우저를 이용해 연결할 수 있습니다."
+            )
+
     def after_current_task(self, action):
         if self._task_join_pending or (self.worker and self.worker.isRunning()):
             self._after_task_action = action
@@ -1992,6 +2032,20 @@ class MainWindow(QMainWindow):
                 settings.capabilities = capabilities
         self.engine = self.engine_factory(settings, on_event=emit)
         return self.engine
+
+    def check_environment_initial(self):
+        from .local_ai_setup import ensure_selected_local_ai
+
+        async def work(cancel, emit):
+            local = await ensure_selected_local_ai(self.settings, cancel=cancel, on_event=emit)
+            result = await self.engine_for(self.settings, emit).environment(cancel=cancel)
+            if local.get('required'):
+                result['managed_local_ai'] = local
+            return result
+
+        self._initial_worker = AsyncWorker(work, self)
+        self._initial_worker.succeeded.connect(self.environment_done)
+        self._initial_worker.start()
 
     def check_environment(self, *_):
         from .local_ai_setup import ensure_selected_local_ai
@@ -3758,6 +3812,14 @@ def start_package_verification(app, window, config):
 def main():
     if QApplication.instance() is None:
         QApplication.setAttribute(Qt.ApplicationAttribute.AA_ShareOpenGLContexts)
+    try:
+        from PySide6.QtGui import QGuiApplication
+        if hasattr(Qt, 'HighDpiScaleFactorRoundingPolicy'):
+            QGuiApplication.setHighDpiScaleFactorRoundingPolicy(
+                Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
+            )
+    except Exception:
+        pass
     app = QApplication.instance() or QApplication(sys.argv)
     app.setApplicationName("Recheck")
     app.setApplicationVersion(__version__)

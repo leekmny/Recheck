@@ -651,14 +651,22 @@ class DockerAdapter:
 
 
 class GhidraAdapter:
+    _cached_home = None
+
     def __init__(self, home=None, java_home=None, resources=None, cache_dir=None):
         self.home = self.discover(home)
         self.java_home = java_home
         self.resources = Path(resources) if resources else resource_root()
         self.cache_dir = Path(cache_dir) if cache_dir else None
 
-    @staticmethod
-    def discover(explicit=None):
+    @classmethod
+    def discover(cls, explicit=None):
+        if explicit:
+            exp_p = Path(explicit)
+            if exp_p.is_dir():
+                return exp_p
+        if cls._cached_home is not None and cls._cached_home.is_dir():
+            return cls._cached_home
         candidates = [explicit, os.environ.get("GHIDRA_HOME"), os.environ.get("GHIDRA_INSTALL_DIR")]
         exe = shutil.which("analyzeHeadless") or shutil.which("analyzeHeadless.bat")
         if exe:
@@ -684,8 +692,10 @@ class GhidraAdapter:
                 (root / "support" / name).is_file()
                 for name in ("analyzeHeadless.bat", "analyzeHeadless")
             ):
+                cls._cached_home = root
                 return root
-        return Path(explicit) if explicit else None
+        cls._cached_home = Path(explicit) if explicit else None
+        return cls._cached_home
 
     def environment(self):
         env = os.environ.copy()

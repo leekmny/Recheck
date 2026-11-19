@@ -403,6 +403,17 @@ def _parser():
             item.add_argument('--scope', action='append', default=[])
             item.add_argument('--project-id', default='')
     sub.add_parser('history')
+    sub.add_parser('porting-capabilities', help='포팅 검증의 플랫폼·런타임·관찰 지원 범위')
+    porting_result = sub.add_parser('porting-result', help='저장된 포팅 검증 JSON 읽기')
+    porting_result.add_argument('run_id')
+    for name in ('porting-run', 'porting-rerun'):
+        porting = sub.add_parser(name, help='격리 worker에서 시나리오 포팅 검증')
+        if name == 'porting-rerun':
+            porting.add_argument('run_id')
+            porting.add_argument('--scenario', action='append')
+        porting.add_argument('manifest')
+        porting.add_argument('--worker', required=True, help='관리자가 준비한 worker 설정 JSON')
+        porting.add_argument('--approve-build', action='store_true', help='격리 worker에서 명세의 빌드 실행')
     regression_save = sub.add_parser('regression-save', help='저장된 불일치·미측정 입력을 회귀 테스트로 보관')
     regression_save.add_argument('run_id')
     regression_save.add_argument('--test-id', action='append', dest='test_ids')
@@ -459,6 +470,10 @@ def _parser():
 
 
 def _execute(args, cancel):
+    if args.command == 'porting-capabilities':
+        from .porting import capability_matrix
+
+        return capability_matrix()
     if args.command in ('regression-save', 'regression-list'):
         from .regression import RegressionLibrary
 
@@ -499,7 +514,19 @@ def _execute(args, cancel):
         return inspect_binary(args.path)
     engine = Engine(_selected_settings(args), data_dir=args.data_dir)
     command = args.command
-    if command == 'environment':
+    if command == 'porting-result':
+        result = engine.store.load_run(args.run_id)
+        if result.get('mode') != 'porting':
+            raise CLIError('wrong_run_kind', '포팅 검증 이력이 필요합니다.')
+    elif command in ('porting-run', 'porting-rerun'):
+        try:
+            result = asyncio.run(engine.porting(
+                args.manifest, args.worker, cancel=cancel, allow_build=args.approve_build,
+                previous_run=getattr(args, 'run_id', None), scenario_ids=getattr(args, 'scenario', None),
+            ))
+        except ValueError as exc:
+            raise CLIError('porting_input', str(exc)) from exc
+    elif command == 'environment':
         result = asyncio.run(engine.environment(cancel))
     elif command == 'history':
         result = engine.store.list_runs()
@@ -586,7 +613,8 @@ def main(argv=None):
         code = result_code(result)
         # Missing prerequisites are the reason for this diagnostic command: keep
         # its safe path/version rows visible even when readiness is partial.
-        emit_json_result(result if args.command in ('tools', 'compare-package')
+        emit_json_result(result if args.command in (
+            'tools', 'compare-package', 'porting-run', 'porting-rerun', 'porting-result')
                          else public_result(result), output)
         return code
     except HelpRequest as help_request:

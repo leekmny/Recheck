@@ -68,7 +68,10 @@ def _features(fn):
     )
 
 
-def similarity(a, b):
+NATIVE_DEFAULT_WEIGHTS = dict(name=0.25, nodes=0.20, edges=0.15, calls=0.10, mnemonics=0.30)
+
+
+def similarity(a, b, *, weights=None):
     if _static_observation_issues(a) or _static_observation_issues(b):
         return None
     na, ea, ca, ma = _features(a)
@@ -76,17 +79,18 @@ def similarity(a, b):
     union = sum((ma | mb).values())
     instr = sum((ma & mb).values()) / union if union else 0
     name = float(bool(_name(a)) and _name(a) == _name(b))
+    weights = NATIVE_DEFAULT_WEIGHTS if weights is None else weights
     return round(
-        0.25 * name
-        + 0.2 * _ratio(na, nb)
-        + 0.15 * _ratio(ea, eb)
-        + 0.1 * _ratio(ca, cb)
-        + 0.3 * instr,
+        weights['name'] * name
+        + weights['nodes'] * _ratio(na, nb)
+        + weights['edges'] * _ratio(ea, eb)
+        + weights['calls'] * _ratio(ca, cb)
+        + weights['mnemonics'] * instr,
         6,
     )
 
 
-def match_functions(original, rebuilt):
+def match_functions(original, rebuilt, *, weights=None, manual_pairs=None):
     fid = lambda f: f.get('id', f.get('entry', f.get('address')))
     inventories = {'original': original, 'reimplementation': rebuilt}
     eligible, unobserved, external, reasons, scope = {}, {}, {}, {}, {}
@@ -104,25 +108,40 @@ def match_functions(original, rebuilt):
         scope[target] = dict(inventory=len(functions), eligible=len(eligible[target]),
                              unobserved=len(unobserved[target]), external=len(external[target]))
     original, rebuilt = eligible['original'], eligible['reimplementation']
+    originals = {fid(f): f for f in original}
+    rebuilds = {fid(f): f for f in rebuilt}
     candidates = []
-    examined = 0
-    ordered = sorted(rebuilt, key=lambda f: len(f.get('mnemonics', [])))
+    used_a, used_b, matches = set(), set(), []
+    for a, b in (manual_pairs or {}).items():
+        if a not in originals or b not in rebuilds or b in used_b:
+            raise ValueError('Manual native pairs must identify distinct, observed functions')
+        matches.append(dict(original=a, reimplementation=b, score=similarity(
+            originals[a], rebuilds[b], weights=weights), reason='사용자가 지정한 함수 대응',
+            source='user_mapping', verification_status='heuristic', ambiguous=False, alternatives=[]))
+        used_a.add(a)
+        used_b.add(b)
+    examined = len(matches)
+    available = [f for f in rebuilt if fid(f) not in used_b]
+    capacity = (len(original) - len(matches)) * len(available) + len(matches)
+    ordered = sorted(available, key=lambda f: len(f.get('mnemonics', [])))
     sizes = [len(f.get('mnemonics', [])) for f in ordered]
     by_name = {}
-    for f in rebuilt:
+    for f in available:
         if _name(f):
             by_name.setdefault(_name(f), []).append(f)
     for a in original:
+        if fid(a) in used_a:
+            continue
         # Bound the candidate set for large real-world files; disclose candidate omission.
-        if len(rebuilt) > 256:
+        if len(available) > 256:
             at = bisect_left(sizes, len(a.get('mnemonics', [])))
             pool = ordered[max(0, at - 64) : at + 64] + by_name.get(_name(a), [])[:128]
             pool = list({id(b): b for b in pool}.values())
         else:
-            pool = rebuilt
+            pool = available
         for b in pool:
             examined += 1
-            score = similarity(a, b)
+            score = similarity(a, b, weights=weights)
             if score is not None and score >= 0.5:
                 candidates.append(
                     dict(
@@ -135,25 +154,24 @@ def match_functions(original, rebuilt):
                     )
                 )
     candidates.sort(key=lambda x: (-x['score'], str(x['original']), str(x['reimplementation'])))
-    used_a, used_b, matches = set(), set(), []
+    by_original, by_reimplementation = {}, {}
+    for candidate in candidates:
+        by_original.setdefault(candidate['original'], []).append(candidate)
+        by_reimplementation.setdefault(candidate['reimplementation'], []).append(candidate)
     for candidate in candidates:
         a, b = candidate['original'], candidate['reimplementation']
         if a in used_a or b in used_b:
             continue
-        alternatives = [
-            x
-            for x in candidates
-            if x is not candidate
-            and (x['original'] == a or x['reimplementation'] == b)
-            and abs(x['score'] - candidate['score']) < 0.03
-        ]
+        alternatives = sorted(
+            (x for x in by_original[a] + by_reimplementation[b]
+             if x is not candidate and abs(x['score'] - candidate['score']) < 0.03),
+            key=lambda x: (-x['score'], str(x['original']), str(x['reimplementation'])),
+        )
         candidate['ambiguous'] = bool(alternatives)
         candidate['alternatives'] = alternatives[:5]
         matches.append(candidate)
         used_a.add(a)
         used_b.add(b)
-    originals = {fid(f): f for f in original}
-    rebuilds = {fid(f): f for f in rebuilt}
     code_differences = []
     for match in matches:
         left, right = originals[match['original']], rebuilds[match['reimplementation']]
@@ -186,8 +204,8 @@ def match_functions(original, rebuilt):
                 )
     possible_pairs = len(original) * len(rebuilt)
     score_status = ('unavailable' if not possible_pairs else
-                    'partial' if any(unobserved.values()) or examined < possible_pairs else 'measured')
-    return dict(
+                    'partial' if any(unobserved.values()) or examined < capacity else 'measured')
+    result = dict(
         matches=matches,
         unmatched_original=[fid(x) for x in original if fid(x) not in used_a],
         unmatched_reimplementation=[fid(x) for x in rebuilt if fid(x) not in used_b],
@@ -213,9 +231,17 @@ def match_functions(original, rebuilt):
             total_possible_pairs=possible_pairs,
             inventory_possible_pairs=scope['original']['inventory'] * scope['reimplementation']['inventory'],
             policy='재구현 함수가 256개를 넘으면 명령 수 인접 128개와 동일 이름 최대128개 후보; 나머지는 미탐색',
-            omitted_pairs=possible_pairs - examined,
+            omitted_pairs=capacity - examined,
         ),
     )
+    if weights is not None:
+        result['formula'] = ('weights × (비임의이름일치, CFG 노드 수비, CFG 간선 수비, 해결된 호출 수비, '
+                             '명령 다중집합 Jaccard); 수비=1-|a-b|/max(a,b,1); 자동 후보≥0.5; '
+                             '모호격차<0.03; 종합=대응점수합/양쪽 비교가능 함수 수 중 큰 값')
+    if manual_pairs:
+        result['candidate_search'].update(manual_pairs=len(manual_pairs),
+                                          pairs_reserved_by_mapping=possible_pairs - capacity)
+    return result
 
 
 def _native_inventory_scope(artifact):
@@ -253,13 +279,25 @@ def _native_inventory_scope(artifact):
                 artifact_status=artifact.get('status', 'unrecorded'))
 
 
-def compare_static_artifacts(original, rebuilt):
+def managed_member_identity(fn):
+    member = fn.get('managed_method', {})
+    signature = member.get('signature', {})
+    resolved = signature.get('resolved_sha256')
+    if (member.get('declaring_type') is not None
+            and signature.get('parse_status') == 'decoded'
+            and isinstance(resolved, str) and re.fullmatch('[a-fA-F0-9]{64}', resolved)):
+        return member['declaring_type'], member['name'], resolved
+    return None
+
+
+def compare_static_artifacts(original, rebuilt, *, weights=None, manual_pairs=None):
     """Compare native dossiers or execution-free managed member observations."""
     kinds = {value.get('analysis_kind', 'native') for value in (original, rebuilt)}
     if len(kinds) != 1:
         raise ValueError('관리 코드와 네이티브 코드의 함수 구조는 같은 기준으로 비교할 수 없습니다.')
     if kinds == {'native'}:
-        result = match_functions(original['functions'], rebuilt['functions'])
+        result = match_functions(original['functions'], rebuilt['functions'], weights=weights,
+                                 manual_pairs=manual_pairs)
         warnings = []
         for target, label, artifact in (('original', '원본', original),
                                          ('reimplementation', '재구현', rebuilt)):
@@ -289,13 +327,8 @@ def compare_static_artifacts(original, rebuilt):
     def index(artifact):
         groups = {}
         for fn in artifact['functions']:
-            member = fn.get('managed_method', {})
-            signature = member.get('signature', {})
-            resolved = signature.get('resolved_sha256')
-            if (member.get('declaring_type') is not None
-                    and signature.get('parse_status') == 'decoded'
-                    and isinstance(resolved, str) and re.fullmatch('[a-fA-F0-9]{64}', resolved)):
-                key = (member['declaring_type'], member['name'], resolved)
+            key = managed_member_identity(fn)
+            if key is not None:
                 groups.setdefault(key, []).append(fn)
         return groups
 

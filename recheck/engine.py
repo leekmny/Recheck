@@ -3084,6 +3084,14 @@ class Engine:
             self._end_workflow()
             self._lock.release()
 
+    async def porting(self, manifest, worker=None, *, cancel=None, allow_build=False,
+                      previous_run=None, scenario_ids=None, on_event=None):
+        from .porting import run_porting
+
+        return await run_porting(self.store, manifest, worker, settings=self.settings,
+                                 cancel=cancel, on_event=on_event or self.on_event, allow_build=allow_build,
+                                 previous_run=previous_run, scenario_ids=scenario_ids)
+
     def report(self, run_id):
         return render_report(
             self.store.load_run(run_id), self.store.run_dir(run_id) / 'report.html'

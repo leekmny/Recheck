@@ -246,3 +246,52 @@ def test_publish_rejects_tag_created_at_different_commit(module, tmp_path):
     with pytest.raises(module.SafeError, match='tag'):
         c.publish_release(1, sha=SHA, asset_id=5, path=path, expected_sha256=digest, expected_size=path.stat().st_size)
     assert c.opener.writes == []
+
+
+@pytest.mark.parametrize('damage', [None, 'same-length replacement', 'foreign redirect'])
+def test_release_asset_readback_verifies_bytes_without_forwarding_authentication(module, damage):
+    payload = b'actual release payload'
+    redirect = 'https://release-assets.githubusercontent.com/asset?signature=private'
+    if damage == 'foreign redirect':
+        redirect = 'https://external.example/asset'
+    requests = []
+
+    class Response(io.BytesIO):
+        def getheader(self, name):
+            assert name == 'Location'
+            return redirect
+
+    class Connection:
+        def __init__(self, host, timeout):
+            self.host = host
+
+        def request(self, method, path, headers):
+            requests.append((self.host, method, path, 'Authorization' in headers))
+
+        def getresponse(self):
+            if self.host == 'api.github.com':
+                response = Response()
+                response.status = 302
+            else:
+                response = Response(b'x' * len(payload) if damage else payload)
+                response.status = 200
+            return response
+
+        def close(self):
+            pass
+
+    c = client(module)
+    options = dict(expected_sha256=hashlib.sha256(payload).hexdigest(), expected_size=len(payload),
+                   connection_factory=Connection)
+    if damage:
+        with pytest.raises(module.SafeError):
+            c.verify_asset_bytes(19, **options)
+    else:
+        c.verify_asset_bytes(19, **options)
+    assert requests[0] == ('api.github.com', 'GET', REPO + '/releases/assets/19', True)
+    if damage == 'foreign redirect':
+        assert len(requests) == 1
+    else:
+        assert requests[1] == (
+            'release-assets.githubusercontent.com', 'GET', '/asset?signature=private', False,
+        )

@@ -1,0 +1,263 @@
+name: Verified Recheck release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  candidate:
+    if: github.repository == 'leekmny/Recheck'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      requested: ${{ steps.candidate.outputs.requested }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.14.8'
+      - name: Detect an untagged version request on protected main
+        id: candidate
+        env:
+          PUSH_BEFORE: ${{ github.event.before }}
+          REF_PROTECTED: ${{ github.ref_protected }}
+        run: |
+          requested="$(python -m scripts.porting_release --sha "$GITHUB_SHA" candidate --before "$PUSH_BEFORE")"
+          if [[ "$requested" == true && "$REF_PROTECTED" != true ]]; then
+            echo 'A release request requires protected main.'
+            exit 1
+          fi
+          echo "requested=$requested" >> "$GITHUB_OUTPUT"
+
+  windows-package:
+    name: Build and run Windows x64 package
+    needs: candidate
+    if: needs.candidate.outputs.requested == 'true'
+    runs-on: windows-latest
+    timeout-minutes: 50
+    env:
+      PYTHONUTF8: '1'
+      PUSH_BEFORE: ${{ github.event.before }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.14.8'
+          architecture: x64
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - name: Install locked tools
+        run: python -m pip install -r requirements-lock.txt -r requirements-quality.txt
+      - name: Exercise source tests and product
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: |
+          python -m ruff check .
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m scripts.verify_source --output verification/porting-release/source-tests
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m scripts.verify_porting --gui --output verification/porting-release/source
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m scripts.porting_release --sha "$env:GITHUB_SHA" verify-source --proof verification/porting-release/source/verification.json
+      - name: Bind source identity and build app-only package
+        run: |
+          python -m scripts.porting_release --sha "$env:GITHUB_SHA" bind-source
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m scripts.package_verified --app-only --output verification/porting-release/package --source-cache verification/porting-release/source-cache
+      - name: Run frozen comparison readback and native GUI smoke test
+        run: |
+          $stage = 'verification/porting-release/package/staged-dist/Recheck'
+          $exe = "$stage/Recheck.exe"
+          python -m scripts.verify_porting --gui --frozen "$exe" --output verification/porting-release/frozen
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m scripts.porting_release --sha "$env:GITHUB_SHA" smoke --exe "$exe" --output verification/porting-release/smoke --proof verification/porting-release/frozen/verification.json
+      - name: Verify and archive package
+        run: |
+          python -m scripts.porting_release --sha "$env:GITHUB_SHA" bundle --before "$env:PUSH_BEFORE" --stage verification/porting-release/package/staged-dist/Recheck --inventory verification/porting-release/package/staged-inventory.json --source verification/porting-release/source/verification.json --frozen verification/porting-release/frozen/verification.json --output verification/porting-release/assets
+      - name: Preserve verified Windows assets
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: recheck-windows-x64
+          path: verification/porting-release/assets/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+      - name: Preserve package verification logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: recheck-windows-x64-logs
+          path: |
+            verification/porting-release/source-tests/*.log
+            verification/porting-release/package/build.log
+            verification/porting-release/smoke/gui-smoke.png
+            verification/porting-release/smoke/frozen-native-smoke.log
+          if-no-files-found: ignore
+          retention-days: 14
+
+  isolated-worker:
+    name: Verify an actual isolated Windows worker
+    needs: [candidate, worker-readiness, windows-package]
+    if: needs.candidate.outputs.requested == 'true' && github.ref_protected
+    runs-on: windows-latest
+    environment: porting-release-worker
+    timeout-minutes: 35
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.14.8'
+          architecture: x64
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - run: python -m pip install -r requirements-lock.txt
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: recheck-windows-x64
+          path: verification/porting-release/isolated-assets
+      - name: Unpack the same verified Windows build
+        id: isolated-package
+        run: |
+          $assets = 'verification/porting-release/isolated-assets'
+          $bundle = "$assets/Recheck-Windows-x64.zip"
+          $stage = 'verification/porting-release/isolated-stage'
+          $proof = Get-Content -Raw -LiteralPath "$assets/recheck-verification.json" | ConvertFrom-Json -AsHashtable
+          $archiveSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $bundle).Hash.ToLowerInvariant()
+          if ($proof.source_sha -cne $env:GITHUB_SHA -or $archiveSha256 -cne $proof.assets['Recheck-Windows-x64.zip'].sha256) {
+            throw 'Windows archive identity does not match the verified build.'
+          }
+          Expand-Archive -LiteralPath $bundle -DestinationPath $stage
+          if ((Get-FileHash -Algorithm SHA256 -LiteralPath "$stage/Recheck/Recheck.exe").Hash -ine $proof.assets['Recheck.exe'].sha256) {
+            throw 'Extracted executable identity does not match the verified build.'
+          }
+          "archive_sha256=$archiveSha256" >> $env:GITHUB_OUTPUT
+      - name: Verify admitted examples through the isolated worker
+        env:
+          WORKER_CONFIG: ${{ secrets.RECHECK_PORTING_WORKER_JSON }}
+          WORKER_SSH_KEY: ${{ secrets.RECHECK_PORTING_WORKER_SSH_KEY }}
+          WORKER_KNOWN_HOSTS: ${{ secrets.RECHECK_PORTING_WORKER_KNOWN_HOSTS }}
+        run: |
+          if (!$env:WORKER_CONFIG -or !$env:WORKER_SSH_KEY -or !$env:WORKER_KNOWN_HOSTS) {
+            throw 'Protected Windows worker configuration, key, and verified host key are required.'
+          }
+          $sshDir = Join-Path $env:USERPROFILE '.ssh'
+          New-Item -ItemType Directory -Path $sshDir -Force | Out-Null
+          $keyFile = Join-Path $sshDir 'id_ed25519'
+          $knownHostsFile = Join-Path $sshDir 'known_hosts'
+          $workerFile = Join-Path $env:RUNNER_TEMP 'recheck-isolated-worker.json'
+          $utf8 = [Text.UTF8Encoding]::new($false)
+          [IO.File]::WriteAllText($workerFile, $env:WORKER_CONFIG, $utf8)
+          [IO.File]::WriteAllText($knownHostsFile, ($env:WORKER_KNOWN_HOSTS.TrimEnd() + "`n"), $utf8)
+          [IO.File]::WriteAllText($keyFile, ($env:WORKER_SSH_KEY.Replace("`r`n", "`n").TrimEnd() + "`n"), $utf8)
+          icacls $keyFile /inheritance:r /grant:r "$([Security.Principal.WindowsIdentity]::GetCurrent().Name):(R)" | Out-Null
+          if ($LASTEXITCODE -ne 0) { throw 'Could not restrict the temporary SSH key access.' }
+          # Child processes receive the temporary credentials through their files.
+          Remove-Item Env:WORKER_CONFIG, Env:WORKER_SSH_KEY, Env:WORKER_KNOWN_HOSTS
+          $workerLog = Join-Path $env:RUNNER_TEMP 'recheck-isolated-worker.log'
+          try {
+            $exe = 'verification/porting-release/isolated-stage/Recheck/Recheck.exe'
+            python -m scripts.verify_porting --require-native --native-platform windows/x64 --frozen "$exe" --worker "$workerFile" --output verification/porting-release/isolated *> $workerLog
+            if ($LASTEXITCODE -ne 0) {
+              throw 'Isolated verification failed. Inspect the isolated worker service logs.'
+            }
+          } finally {
+            Remove-Item -ErrorAction SilentlyContinue -LiteralPath $keyFile, $knownHostsFile, $workerFile, $workerLog
+          }
+      - name: Preserve only the gate summary
+        env:
+          ISOLATED_ARCHIVE_SHA256: ${{ steps.isolated-package.outputs.archive_sha256 }}
+        run: |
+          $result = Get-Content -Raw -LiteralPath 'verification/porting-release/isolated/verification.json' | ConvertFrom-Json -AsHashtable
+          $checks = @{}
+          foreach ($key in @('normal','defect','cli','json','html','rerun','native','frozen')) {
+            if ($result.checks[$key].status -cne 'success') { throw "Isolated verification did not complete: $key" }
+            $checks[$key] = @{ status = 'success' }
+          }
+          $checks.native.platform = $result.checks.native.platform
+          if ($env:ISOLATED_ARCHIVE_SHA256 -cnotmatch '^[a-f0-9]{64}$') { throw 'Missing tested Windows archive SHA-256.' }
+          @{
+            schema_version = $result.schema_version
+            source_sha = $result.source_sha
+            status = $result.status
+            executable_sha256 = $result.executable_sha256
+            archive_sha256 = $env:ISOLATED_ARCHIVE_SHA256
+            checks = $checks
+          } | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 -LiteralPath 'verification/porting-release/isolated-proof.json'
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: recheck-isolated-verification
+          path: verification/porting-release/isolated-proof.json
+          if-no-files-found: error
+          retention-days: 14
+
+  worker-readiness:
+    name: Require a provisioned release worker
+    needs: candidate
+    if: needs.candidate.outputs.requested == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      WORKER_READY: ${{ vars.RECHECK_PORTING_WORKER_READY }}
+    steps:
+      - name: Require configured isolated worker infrastructure
+        run: |
+          if [[ "$WORKER_READY" != true ]]; then
+            echo 'The isolated release worker is unavailable. Review docs/PORTING_RELEASE.md.'
+            exit 1
+          fi
+
+  publish:
+    name: Verify and publish draft release
+    needs: [candidate, windows-package, isolated-worker, worker-readiness]
+    if: needs.candidate.outputs.requested == 'true' && github.ref_protected
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    concurrency:
+      group: recheck-github-release
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.14.8'
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: recheck-windows-x64
+          path: verification/porting-release/assets
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: recheck-isolated-verification
+          path: verification/porting-release
+      - name: Check current main and exact CI, then verify uploaded bytes before publication
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: >-
+          python -m scripts.porting_release --sha "$GITHUB_SHA" publish --before "$PUSH_BEFORE"
+          --directory verification/porting-release/assets --native verification/porting-release/isolated-proof.json

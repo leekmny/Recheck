@@ -51,6 +51,15 @@ def verify_outputs(targets, archive, expected):
     return True
 
 
+def write_archive(stage, archive, expected):
+    with zipfile.ZipFile(archive, 'x', zipfile.ZIP_DEFLATED, compresslevel=6) as stream:
+        for row in expected:
+            stream.write(stage / row['path'], 'Recheck/' + row['path'],
+                         compress_type=zipfile.ZIP_STORED if row['path'].endswith('.tar')
+                         else zipfile.ZIP_DEFLATED)
+    verify_outputs([], archive, expected)
+
+
 def recover(record):
     """Roll back interrupted publication without deleting any release folder."""
     record = Path(record).resolve(strict=True)
@@ -146,12 +155,7 @@ def publish(stage, proof, targets, record):
             with lock.open('x', encoding='utf-8') as stream:
                 stream.write(str(record))
             locks.append(lock)
-        with zipfile.ZipFile(archive, 'x', zipfile.ZIP_DEFLATED, compresslevel=6) as stream:
-            for row in expected:
-                stream.write(stage / row['path'], 'Recheck/' + row['path'],
-                             compress_type=zipfile.ZIP_STORED if row['path'].endswith('.tar')
-                             else zipfile.ZIP_DEFLATED)
-        verify_outputs([], archive, expected)
+        write_archive(stage, archive, expected)
         for row in rows:
             shutil.copytree(stage, row['incoming'])
             if inventory(row['incoming']) != expected:

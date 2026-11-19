@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Parcel fee</title>
+<form id="quote">
+  <label>Weight <input name="weight"></label>
+  <button>Quote</button>
+</form>
+<output role="status" id="result"></output>
+<a href="quote.txt" download>Download rate card</a>
+<script>
+document.querySelector('#quote').onsubmit = (event) => {
+  event.preventDefault();
+  const value = event.target.elements.weight.value;
+  document.querySelector('#result').textContent = /^\d+$/.test(value) && Number(value) <= 100
+    ? String(100 + 15 * Number(value)) : 'invalid';
+};
+</script>
+</html>

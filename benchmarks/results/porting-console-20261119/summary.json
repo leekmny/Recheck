@@ -1,0 +1,1794 @@
+{
+  "schema_version": "recheck-porting-measurements-1",
+  "base_git_sha": "5640e79b12337ad12705ef932cb40b15e717fcea",
+  "working_tree_dirty": true,
+  "fixtures_sha256": {
+    "fee.c": "f08b920714188e26eddec85bc590ff32930464d7f3266624ebcd1cce77304fb6",
+    "Fee.cs": "ddfebb9338ac79c3717f222241d56ae2085751b1a5d4551c987121e387c90805",
+    "Fee.csproj": "6843a42beaefa3bd805508a22f348c6a4294f971f02d7639fb8e47239f961985",
+    "Fee.java": "d5eaf00301b1f68516c2e33d19227a477a5f10fc271f5b33a0cd582bae45b374",
+    "fee.py": "2c3a1be2ad69a10259557ef283e686ef08cb056e2a19039601073515f48e9184",
+    "fee.rs": "a15de8eca4120ebfc5b7094af15d4248c73cd3617378f08bfc0b765e6f9cce73",
+    "fee.ts": "d15b078169a5d3aa1412d98dd1632ceb42aedadfcc0c30332c62330815105703",
+    "fee_node.mjs": "c306e910fbe6d5814e6d040cefb02bfd6841297d39f09d010e4b7e6ccd576833",
+    "fixtures.py": "3cc6659cb0345a03b0604ca33ca798cae28e9d13bb0bd75d3bff102b03adb889"
+  },
+  "console": {
+    "linux-x64": {
+      "normal": {
+        "registered": 11,
+        "attempts": 11,
+        "process_executions": 44,
+        "matched": 11,
+        "mismatched": 0,
+        "denominator": 11,
+        "match_rate": 1.0,
+        "acceptance": "passed",
+        "run_id": "run_f40b3aad239245dba0e5536760bdb902",
+        "manifest_sha256": "514649468493b6420291fc6cc18730bd0f795c3b328dbb4564b533f52b40039e",
+        "entry_sha256": {
+          "reference": "fec1c9c3963ed7ce75e2538cda0388288e39696b5bf7bcdf8b4ff484d804cc74",
+          "candidate": "e6e1c2bd914734373716764b7ccff0e303ce5a93b7dee88ea575f6227243c2e7"
+        },
+        "versions": {
+          "reference": {
+            "build_tool": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0"
+          },
+          "candidate": {
+            "build_tool": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      },
+      "defect": {
+        "registered": 11,
+        "attempts": 11,
+        "process_executions": 44,
+        "matched": 8,
+        "mismatched": 3,
+        "denominator": 11,
+        "match_rate": 0.7272727272727273,
+        "acceptance": "failed",
+        "run_id": "run_e29380a9910e47f2ae34f8ed9d90b7d1",
+        "manifest_sha256": "24a58f59a0d4cf2b50b5e7d613e820182508d73d7091ff40a1484e87a946319e",
+        "entry_sha256": {
+          "reference": "aceec3c9194afce30cc287bfa582309fc10588eab86805db4f63b82de840b2b7",
+          "candidate": "821bb664493c0b740d5aa0c20642d5794696d21a007f958c710647d7ef2e4292"
+        },
+        "versions": {
+          "reference": {
+            "build_tool": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0"
+          },
+          "candidate": {
+            "build_tool": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      },
+      "alternate": {
+        "registered": 11,
+        "attempts": 11,
+        "process_executions": 44,
+        "matched": 11,
+        "mismatched": 0,
+        "denominator": 11,
+        "match_rate": 1.0,
+        "acceptance": "passed",
+        "run_id": "run_9ed84770ddf548059ab3dc6bcaa04edc",
+        "manifest_sha256": "6a04972bf3f41311e36761512465d3d9d5b89ed683a990ca7ea751b23afb894c",
+        "entry_sha256": {
+          "reference": "99c468e3d5f8dac8d088d02da4ef5ed348131ac03ec97e8a536a2507359939ec",
+          "candidate": "49c1e4449ec04c5f5b0e783965c31f22a00b508a0c554aae325bd9bf60e026f9"
+        },
+        "versions": {
+          "reference": {
+            "build_tool": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0"
+          },
+          "candidate": {
+            "build_tool": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      }
+    },
+    "linux-x64-mixed-runtimes": {
+      "python-rust-normal": {
+        "registered": 4,
+        "attempts": 4,
+        "process_executions": 12,
+        "matched": 4,
+        "mismatched": 0,
+        "denominator": 4,
+        "match_rate": 1.0,
+        "acceptance": "passed",
+        "run_id": "run_4fb71be78c0c48cb8b93419142ef4222",
+        "manifest_sha256": "7518363a768dbeed26290cb4aba987d0552ada8bdd7a4fba744154622cfc306b",
+        "entry_sha256": {
+          "reference": "2c3a1be2ad69a10259557ef283e686ef08cb056e2a19039601073515f48e9184",
+          "candidate": "a0dd90f80d9fbe7096219266c6cc098edbd6e9c9c51272021247a27a1bc4042e"
+        },
+        "versions": {
+          "reference": {
+            "runtime": "Python 3.12.16"
+          },
+          "candidate": {
+            "build_tool": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      },
+      "python-rust-defect": {
+        "registered": 4,
+        "attempts": 4,
+        "process_executions": 12,
+        "matched": 3,
+        "mismatched": 1,
+        "denominator": 4,
+        "match_rate": 0.75,
+        "acceptance": "failed",
+        "run_id": "run_238fec50d71f4fa8951696bd7393f367",
+        "manifest_sha256": "46dfc0e9da8c29c3c7f7b6973fe95a7aa3f8e9f07364fc636c6787c3d0ea7a97",
+        "entry_sha256": {
+          "reference": "2c3a1be2ad69a10259557ef283e686ef08cb056e2a19039601073515f48e9184",
+          "candidate": "26302ce713d0dd119eb9cc42270e9ae73910e88d8903d7c6226b63105c65d3ec"
+        },
+        "versions": {
+          "reference": {
+            "runtime": "Python 3.12.16"
+          },
+          "candidate": {
+            "build_tool": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      },
+      "python-node-normal": {
+        "registered": 4,
+        "attempts": 4,
+        "process_executions": 8,
+        "matched": 4,
+        "mismatched": 0,
+        "denominator": 4,
+        "match_rate": 1.0,
+        "acceptance": "passed",
+        "run_id": "run_ba3637333a404e3ebde76f67cfe8470a",
+        "manifest_sha256": "9d8d6f67b942a56612a38921eaf01a1ad4a1ab188debc8d18ca53737e4306e13",
+        "entry_sha256": {
+          "reference": "2c3a1be2ad69a10259557ef283e686ef08cb056e2a19039601073515f48e9184",
+          "candidate": "c306e910fbe6d5814e6d040cefb02bfd6841297d39f09d010e4b7e6ccd576833"
+        },
+        "versions": {
+          "reference": {
+            "runtime": "Python 3.12.16"
+          },
+          "candidate": {
+            "runtime": "v24.22.3"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      },
+      "python-node-defect": {
+        "registered": 4,
+        "attempts": 4,
+        "process_executions": 8,
+        "matched": 3,
+        "mismatched": 1,
+        "denominator": 4,
+        "match_rate": 0.75,
+        "acceptance": "failed",
+        "run_id": "run_2f5c752b59604355b1cb410a77e36c42",
+        "manifest_sha256": "fb0db699848578666aeb267e3627ff65a90398c1b7ae1c55df9d669c10f600ca",
+        "entry_sha256": {
+          "reference": "2c3a1be2ad69a10259557ef283e686ef08cb056e2a19039601073515f48e9184",
+          "candidate": "c306e910fbe6d5814e6d040cefb02bfd6841297d39f09d010e4b7e6ccd576833"
+        },
+        "versions": {
+          "reference": {
+            "runtime": "Python 3.12.16"
+          },
+          "candidate": {
+            "runtime": "v24.22.3"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      },
+      "python-typescript-normal": {
+        "registered": 4,
+        "attempts": 4,
+        "process_executions": 12,
+        "matched": 4,
+        "mismatched": 0,
+        "denominator": 4,
+        "match_rate": 1.0,
+        "acceptance": "passed",
+        "run_id": "run_910d24169c8e48929c0895826f9ecc20",
+        "manifest_sha256": "c15322eac53d9099c6ffbfba070f2700770259d864fd312d0a472e28912d5a08",
+        "entry_sha256": {
+          "reference": "2c3a1be2ad69a10259557ef283e686ef08cb056e2a19039601073515f48e9184",
+          "candidate": "75790ae6c585da060de16e5e75cffab9ab38e7ffe12254e94e3530e36fad3496"
+        },
+        "versions": {
+          "reference": {
+            "runtime": "Python 3.12.16"
+          },
+          "candidate": {
+            "build_tool": "Version 5.9.3",
+            "runtime": "v24.22.3"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      },
+      "python-typescript-defect": {
+        "registered": 4,
+        "attempts": 4,
+        "process_executions": 12,
+        "matched": 3,
+        "mismatched": 1,
+        "denominator": 4,
+        "match_rate": 0.75,
+        "acceptance": "failed",
+        "run_id": "run_ab8ac584f2f3405c9c726023556f8292",
+        "manifest_sha256": "bdbed7477dbcdf75544165a0e692147c5928b12f3ab6450989829233e3f10698",
+        "entry_sha256": {
+          "reference": "2c3a1be2ad69a10259557ef283e686ef08cb056e2a19039601073515f48e9184",
+          "candidate": "75790ae6c585da060de16e5e75cffab9ab38e7ffe12254e94e3530e36fad3496"
+        },
+        "versions": {
+          "reference": {
+            "runtime": "Python 3.12.16"
+          },
+          "candidate": {
+            "build_tool": "Version 5.9.3",
+            "runtime": "v24.22.3"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      },
+      "java-dotnet-normal": {
+        "registered": 4,
+        "attempts": 4,
+        "process_executions": 16,
+        "matched": 4,
+        "mismatched": 0,
+        "denominator": 4,
+        "match_rate": 1.0,
+        "acceptance": "passed",
+        "run_id": "run_a46ba54f73ae46d483cacca790d90ba7",
+        "manifest_sha256": "15f06e98c7e896ce030da87f3a872d66489dc5cfd0a785b930c43f9d021ac81a",
+        "entry_sha256": {
+          "reference": "d404bbf5465593b1ad4744363b113c2916a059d8f1880a745f319e32321525d7",
+          "candidate": "e080dd4c8392e866ffe96d7fef377528425d7d340c167f5e0ff6bbbf9524c3b4"
+        },
+        "versions": {
+          "reference": {
+            "build_tool": "javac 21.0.13",
+            "runtime": "openjdk version \"21.0.13\" 2026-10-20 LTS"
+          },
+          "candidate": {
+            "build_tool": "8.0.428",
+            "runtime": "8.0.428"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      },
+      "java-dotnet-defect": {
+        "registered": 4,
+        "attempts": 4,
+        "process_executions": 16,
+        "matched": 3,
+        "mismatched": 1,
+        "denominator": 4,
+        "match_rate": 0.75,
+        "acceptance": "failed",
+        "run_id": "run_fd8f9ae788e447cca900e10ced484b5b",
+        "manifest_sha256": "2ad962789fdd75881f849c8134ffb098ffee165ec5818cf52770ac5cc5dd47f0",
+        "entry_sha256": {
+          "reference": "d404bbf5465593b1ad4744363b113c2916a059d8f1880a745f319e32321525d7",
+          "candidate": "67819b9d3a6790e7f6ed911b27087271e25a2dcdc44ee9efaae97fd8e50abaa4"
+        },
+        "versions": {
+          "reference": {
+            "build_tool": "javac 21.0.13",
+            "runtime": "openjdk version \"21.0.13\" 2026-10-20 LTS"
+          },
+          "candidate": {
+            "build_tool": "8.0.428",
+            "runtime": "8.0.428"
+          }
+        },
+        "environment": {
+          "arch": "x64",
+          "emulated": false,
+          "isolation": "docker",
+          "os": "linux",
+          "python": "3.12.16",
+          "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+          "image_id": "sha256:7a2ceb7119d547632e7ead39d663969ff1b30a088694e16658ff8abad92f261c",
+          "docker_version": "29.9.3",
+          "host_arch": "amd64"
+        }
+      }
+    },
+    "windows-x64-trusted-fixtures": {
+      "normal": {
+        "registered": 11,
+        "attempts": 11,
+        "process_executions": 44,
+        "matched": 11,
+        "mismatched": 0,
+        "denominator": 11,
+        "match_rate": 1.0,
+        "acceptance": "passed",
+        "run_id": "run_3b2594349cec49e8bd8cc159a4bf1bd7",
+        "manifest_sha256": "7f4b3a21b3da425f767849126eba660563da4b49d7a4378f124d3fa6f38171cd",
+        "entry_sha256": {
+          "reference": "1ffc3e9cd8db5f40371cfc34c1addae59356c34b274ad2af83781ffbacb8ed66",
+          "candidate": "7c48b8726c905c2b766d0a1ebc4a83fdcfc75a38e1ff3345a92090f648360b3f"
+        },
+        "versions": {
+          "reference": {
+            "build_tool": "gcc.EXE (tdm64-1) 9.2.0"
+          },
+          "candidate": {
+            "build_tool": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+          }
+        },
+        "environment": {
+          "os": "windows",
+          "arch": "x64",
+          "isolation": "trusted-fixtures"
+        }
+      },
+      "defect": {
+        "registered": 11,
+        "attempts": 11,
+        "process_executions": 44,
+        "matched": 8,
+        "mismatched": 3,
+        "denominator": 11,
+        "match_rate": 0.7272727272727273,
+        "acceptance": "failed",
+        "run_id": "run_caf1605dbc79433dbfad92d4247956ce",
+        "manifest_sha256": "929c8fc29f37f81f9fb5da501d00decd447dee756717b5ba8a662b5ed13099a5",
+        "entry_sha256": {
+          "reference": "52af825d5d3971701b153fd43b9e55f93d21e15050711f6bf5b95d8607d952fc",
+          "candidate": "522245b329e7984aab72684417edea0e402018026c8089d87e3b482e02f4d3c5"
+        },
+        "versions": {
+          "reference": {
+            "build_tool": "gcc.EXE (tdm64-1) 9.2.0"
+          },
+          "candidate": {
+            "build_tool": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+          }
+        },
+        "environment": {
+          "os": "windows",
+          "arch": "x64",
+          "isolation": "trusted-fixtures"
+        }
+      },
+      "alternate": {
+        "registered": 11,
+        "attempts": 11,
+        "process_executions": 44,
+        "matched": 11,
+        "mismatched": 0,
+        "denominator": 11,
+        "match_rate": 1.0,
+        "acceptance": "passed",
+        "run_id": "run_89c77b6caf63470eaa61b127c2ea5b99",
+        "manifest_sha256": "9ec99758aea8c584598a36c76d366d844918918fd6dce85bbc9ad0b7fb016bf2",
+        "entry_sha256": {
+          "reference": "555050394895dd46a32d81e5f84f5b4f47e9ee77a1d323161d0d8a381088ba46",
+          "candidate": "b3376e1f54fe52a9ebda329e821aab79b508f4ac5d7ced976684d3ba82dfd464"
+        },
+        "versions": {
+          "reference": {
+            "build_tool": "gcc.EXE (tdm64-1) 9.2.0"
+          },
+          "candidate": {
+            "build_tool": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+          }
+        },
+        "environment": {
+          "os": "windows",
+          "arch": "x64",
+          "isolation": "trusted-fixtures"
+        }
+      }
+    }
+  },
+  "linux-arm64-emulated": {
+    "run_id": "run_e29e985e26eb4a59a04fbca2621af61e",
+    "matched": 2,
+    "denominator": 2,
+    "environment": {
+      "arch": "arm64",
+      "emulated": true,
+      "id": "52d2b8d72e7dbeac19152780c8fe84ef24586b0e391cd535671f408c6815c470",
+      "isolation": "docker",
+      "native_arch": null,
+      "os": "linux",
+      "os_version": "#1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026",
+      "python": "3.12.16",
+      "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+      "image_id": "sha256:52d2b8d72e7dbeac19152780c8fe84ef24586b0e391cd535671f408c6815c470",
+      "docker_version": "29.9.3",
+      "host_arch": "amd64",
+      "image_arch": "arm64"
+    }
+  },
+  "gui_live_linux_docker_run": "run_09d5ac9a35ad46198d20f7724e76ecb1",
+  "legacy-linux": {
+    "run_id": "run_38ab1a9d32e94d048f0badc3f3c70301",
+    "status": "success",
+    "behavior": {
+      "tests": [
+        {
+          "test_id": "edge",
+          "execution_status": "measured",
+          "match": true,
+          "raw_match": true,
+          "raw_differences": [],
+          "differences": [],
+          "observation_categories": [
+            "matched"
+          ],
+          "original_exit_code": 0,
+          "reimplementation_exit_code": 0,
+          "outcome": "matched"
+        },
+        {
+          "test_id": "above",
+          "execution_status": "measured",
+          "match": true,
+          "raw_match": true,
+          "raw_differences": [],
+          "differences": [],
+          "observation_categories": [
+            "matched"
+          ],
+          "original_exit_code": 0,
+          "reimplementation_exit_code": 0,
+          "outcome": "matched"
+        },
+        {
+          "test_id": "error",
+          "execution_status": "measured",
+          "match": true,
+          "raw_match": true,
+          "raw_differences": [],
+          "differences": [],
+          "observation_categories": [
+            "matched"
+          ],
+          "original_exit_code": 2,
+          "reimplementation_exit_code": 2,
+          "outcome": "matched"
+        }
+      ],
+      "matched": 3,
+      "mismatched": 0,
+      "denominator": 3,
+      "registered": 3,
+      "attempted": 3,
+      "not_run": 0,
+      "excluded": 0,
+      "outcome_counts": {
+        "matched": 3,
+        "mismatched": 0,
+        "inconclusive": 0,
+        "unsupported": 0,
+        "infrastructure_error": 0
+      },
+      "normalization_masked": 0,
+      "match_rate": 1.0,
+      "category_counts": {
+        "matched": 3,
+        "mismatched": 0,
+        "infrastructure_failure": 0,
+        "unsupported_or_blocked": 0,
+        "cancelled": 0,
+        "timed_out": 0,
+        "oom": 0,
+        "output_truncated": 0,
+        "invalid_observation": 0
+      },
+      "formula": "일치한 유효 테스트 쌍 / 양쪽 모두 정상 수집된 테스트 쌍 (시간초과·취소·OOM·출력잘림·인프라실패 제외)",
+      "normalization": {
+        "newlines": false,
+        "trailing_whitespace": false
+      },
+      "scope": "등록하여 실행한 입력 범위에서만 확인한 결과",
+      "producer": "Recheck"
+    },
+    "image_id": "sha256:7efbef23468bb6c68fdbd59dcdc900fedd04df772f265d18dc0ad894f3279ca1"
+  },
+  "docker-cancellation": {
+    "run_id": "run_4237fade85bf487388099906109ca7ba",
+    "status": "cancelled",
+    "behavior": {
+      "registered": 1,
+      "attempted": 1,
+      "attempts": 1,
+      "steps": 0,
+      "process_executions": 0,
+      "process_observation_unknown": 2,
+      "matched": 0,
+      "mismatched": 0,
+      "denominator": 0,
+      "match_rate": null,
+      "outcomes": {
+        "unmeasured": 1
+      },
+      "execution_statuses": {
+        "cancelled": 2
+      },
+      "requirement_counts": {
+        "inconclusive": 1
+      },
+      "acceptance": "inconclusive",
+      "formula": "일치한 시나리오 / 모든 등록 반복에서 양쪽 관찰이 비교 가능한 시나리오"
+    },
+    "duration": 5.82,
+    "remaining": []
+  },
+  "docker-execution-limits": {
+    "run_id": "run_4a9a5f196baa4183be1e5f08a3906df3",
+    "behavior": {
+      "registered": 3,
+      "attempted": 3,
+      "attempts": 3,
+      "steps": 0,
+      "process_executions": 4,
+      "process_observation_unknown": 2,
+      "matched": 0,
+      "mismatched": 0,
+      "denominator": 0,
+      "match_rate": null,
+      "outcomes": {
+        "unmeasured": 3
+      },
+      "execution_statuses": {
+        "timed_out": 2,
+        "output_truncated": 2,
+        "oom": 2
+      },
+      "requirement_counts": {
+        "failed": 1,
+        "inconclusive": 2
+      },
+      "acceptance": "failed",
+      "formula": "일치한 시나리오 / 모든 등록 반복에서 양쪽 관찰이 비교 가능한 시나리오"
+    },
+    "observations": {
+      "timeout": {
+        "reference": {
+          "status": "timed_out",
+          "reason": "deadline",
+          "raw_prefix": ""
+        },
+        "candidate": {
+          "status": "timed_out",
+          "reason": "deadline",
+          "raw_prefix": ""
+        }
+      },
+      "truncated": {
+        "reference": {
+          "status": "output_truncated",
+          "reason": "output_limit",
+          "raw_prefix": "MTIzNDEyMzQxMjM0MTIzNDEyMzQxMjM0MTIzNDEyMzQ="
+        },
+        "candidate": {
+          "status": "output_truncated",
+          "reason": "output_limit",
+          "raw_prefix": "MTIzNDEyMzQxMjM0MTIzNDEyMzQxMjM0MTIzNDEyMzQ="
+        }
+      },
+      "oom": {
+        "reference": {
+          "status": "oom",
+          "reason": "docker_oom_killed",
+          "raw_prefix": ""
+        },
+        "candidate": {
+          "status": "oom",
+          "reason": "docker_oom_killed",
+          "raw_prefix": ""
+        }
+      }
+    }
+  },
+  "console-structure": {
+    "normal": {
+      "status": "partial",
+      "similarity": 4.5173,
+      "representation": "native-instructions",
+      "algorithm": {
+        "id": "recheck-native-functions-1",
+        "profile": "porting",
+        "profile_reason": "포팅에서 이름 변경의 영향을 줄이고 관찰한 구조 특징의 비중을 높임",
+        "weights": {
+          "name": 0.05,
+          "nodes": 0.25,
+          "edges": 0.2,
+          "calls": 0.1,
+          "mnemonics": 0.4
+        },
+        "score_kind": "heuristic",
+        "formula": "가중합(이름 일치, CFG 노드 수비, CFG 간선 수비, 해결된 호출 수비, 명령 다중집합 Jaccard). 수비 = 1 − |a−b| / max(a,b,1). 대응 점수 합 / 양쪽 비교 가능 함수 수 중 큰 값.",
+        "automatic_minimum": 0.5,
+        "ambiguity_gap": 0.03,
+        "alternatives_limit": 5
+      },
+      "counts": {
+        "denominator": 12,
+        "matches": 1,
+        "comparison_scope": {
+          "original": {
+            "inventory": 2,
+            "eligible": 2,
+            "unobserved": 0,
+            "external": 0,
+            "inventory_returned": 2,
+            "inventory_total": null,
+            "inventory_complete": false,
+            "inventory_conflict": false,
+            "artifact_status": "partial"
+          },
+          "reimplementation": {
+            "inventory": 12,
+            "eligible": 12,
+            "unobserved": 0,
+            "external": 0,
+            "inventory_returned": 12,
+            "inventory_total": null,
+            "inventory_complete": false,
+            "inventory_conflict": false,
+            "artifact_status": "partial"
+          }
+        }
+      },
+      "targets": {
+        "reference": {
+          "scope": {
+            "total": 33,
+            "observed": 33,
+            "selected": 2,
+            "excluded": 31,
+            "comparable": 2
+          },
+          "extractor": {
+            "name": "REA MCP / Ghidra",
+            "version": "6.9.0",
+            "backend": "rea",
+            "versions": {
+              "rea": "6.9.0",
+              "ghidra": "12.1.4",
+              "java": "21.0.9+10",
+              "node": "24.22.1",
+              "worker_contract": "rea-static-1.0"
+            }
+          },
+          "artifact_sha256": "2e19a6ef1bd9af43d7dbfb090a6ec35aee1323008b76714567dfd14589aab676"
+        },
+        "candidate": {
+          "scope": {
+            "total": 746,
+            "observed": 746,
+            "selected": 12,
+            "excluded": 734,
+            "comparable": 12
+          },
+          "extractor": {
+            "name": "REA MCP / Ghidra",
+            "version": "6.9.0",
+            "backend": "rea",
+            "versions": {
+              "rea": "6.9.0",
+              "ghidra": "12.1.4",
+              "java": "21.0.9+10",
+              "node": "24.22.1",
+              "worker_contract": "rea-static-1.0"
+            }
+          },
+          "artifact_sha256": "3ed3f7a188408ed30c2f057d3f23edf198144a5548e20c1121c71d2a160639c8"
+        }
+      }
+    },
+    "defect": {
+      "status": "partial",
+      "similarity": 4.5173,
+      "representation": "native-instructions",
+      "algorithm": {
+        "id": "recheck-native-functions-1",
+        "profile": "porting",
+        "profile_reason": "포팅에서 이름 변경의 영향을 줄이고 관찰한 구조 특징의 비중을 높임",
+        "weights": {
+          "name": 0.05,
+          "nodes": 0.25,
+          "edges": 0.2,
+          "calls": 0.1,
+          "mnemonics": 0.4
+        },
+        "score_kind": "heuristic",
+        "formula": "가중합(이름 일치, CFG 노드 수비, CFG 간선 수비, 해결된 호출 수비, 명령 다중집합 Jaccard). 수비 = 1 − |a−b| / max(a,b,1). 대응 점수 합 / 양쪽 비교 가능 함수 수 중 큰 값.",
+        "automatic_minimum": 0.5,
+        "ambiguity_gap": 0.03,
+        "alternatives_limit": 5
+      },
+      "counts": {
+        "denominator": 12,
+        "matches": 1,
+        "comparison_scope": {
+          "original": {
+            "inventory": 2,
+            "eligible": 2,
+            "unobserved": 0,
+            "external": 0,
+            "inventory_returned": 2,
+            "inventory_total": null,
+            "inventory_complete": false,
+            "inventory_conflict": false,
+            "artifact_status": "partial"
+          },
+          "reimplementation": {
+            "inventory": 12,
+            "eligible": 12,
+            "unobserved": 0,
+            "external": 0,
+            "inventory_returned": 12,
+            "inventory_total": null,
+            "inventory_complete": false,
+            "inventory_conflict": false,
+            "artifact_status": "partial"
+          }
+        }
+      },
+      "targets": {
+        "reference": {
+          "scope": {
+            "total": 33,
+            "observed": 33,
+            "selected": 2,
+            "excluded": 31,
+            "comparable": 2
+          },
+          "extractor": {
+            "name": "REA MCP / Ghidra",
+            "version": "6.9.0",
+            "backend": "rea",
+            "versions": {
+              "rea": "6.9.0",
+              "ghidra": "12.1.4",
+              "java": "21.0.9+10",
+              "node": "24.22.1",
+              "worker_contract": "rea-static-1.0"
+            }
+          },
+          "artifact_sha256": "2e19a6ef1bd9af43d7dbfb090a6ec35aee1323008b76714567dfd14589aab676"
+        },
+        "candidate": {
+          "scope": {
+            "total": 746,
+            "observed": 746,
+            "selected": 12,
+            "excluded": 734,
+            "comparable": 12
+          },
+          "extractor": {
+            "name": "REA MCP / Ghidra",
+            "version": "6.9.0",
+            "backend": "rea",
+            "versions": {
+              "rea": "6.9.0",
+              "ghidra": "12.1.4",
+              "java": "21.0.9+10",
+              "node": "24.22.1",
+              "worker_contract": "rea-static-1.0"
+            }
+          },
+          "artifact_sha256": "5db269cbd19fe02471710143deca7fcc93f1a633ef3f20c92707209492609620"
+        }
+      }
+    },
+    "alternate": {
+      "status": "partial",
+      "similarity": 0.0,
+      "representation": "native-instructions",
+      "algorithm": {
+        "id": "recheck-native-functions-1",
+        "profile": "porting",
+        "profile_reason": "포팅에서 이름 변경의 영향을 줄이고 관찰한 구조 특징의 비중을 높임",
+        "weights": {
+          "name": 0.05,
+          "nodes": 0.25,
+          "edges": 0.2,
+          "calls": 0.1,
+          "mnemonics": 0.4
+        },
+        "score_kind": "heuristic",
+        "formula": "가중합(이름 일치, CFG 노드 수비, CFG 간선 수비, 해결된 호출 수비, 명령 다중집합 Jaccard). 수비 = 1 − |a−b| / max(a,b,1). 대응 점수 합 / 양쪽 비교 가능 함수 수 중 큰 값.",
+        "automatic_minimum": 0.5,
+        "ambiguity_gap": 0.03,
+        "alternatives_limit": 5
+      },
+      "counts": {
+        "denominator": 4,
+        "matches": 0,
+        "comparison_scope": {
+          "original": {
+            "inventory": 2,
+            "eligible": 2,
+            "unobserved": 0,
+            "external": 0,
+            "inventory_returned": 2,
+            "inventory_total": null,
+            "inventory_complete": false,
+            "inventory_conflict": false,
+            "artifact_status": "partial"
+          },
+          "reimplementation": {
+            "inventory": 4,
+            "eligible": 4,
+            "unobserved": 0,
+            "external": 0,
+            "inventory_returned": 4,
+            "inventory_total": null,
+            "inventory_complete": false,
+            "inventory_conflict": false,
+            "artifact_status": "partial"
+          }
+        }
+      },
+      "targets": {
+        "reference": {
+          "scope": {
+            "total": 33,
+            "observed": 33,
+            "selected": 2,
+            "excluded": 31,
+            "comparable": 2
+          },
+          "extractor": {
+            "name": "REA MCP / Ghidra",
+            "version": "6.9.0",
+            "backend": "rea",
+            "versions": {
+              "rea": "6.9.0",
+              "ghidra": "12.1.4",
+              "java": "21.0.9+10",
+              "node": "24.22.1",
+              "worker_contract": "rea-static-1.0"
+            }
+          },
+          "artifact_sha256": "2e19a6ef1bd9af43d7dbfb090a6ec35aee1323008b76714567dfd14589aab676"
+        },
+        "candidate": {
+          "scope": {
+            "total": 738,
+            "observed": 738,
+            "selected": 4,
+            "excluded": 734,
+            "comparable": 4
+          },
+          "extractor": {
+            "name": "REA MCP / Ghidra",
+            "version": "6.9.0",
+            "backend": "rea",
+            "versions": {
+              "rea": "6.9.0",
+              "ghidra": "12.1.4",
+              "java": "21.0.9+10",
+              "node": "24.22.1",
+              "worker_contract": "rea-static-1.0"
+            }
+          },
+          "artifact_sha256": "e45f65e246830e67ba7be1e7df666072a32fcb612b55c5ec0506d874f6280e71"
+        }
+      }
+    }
+  },
+  "local-windows-x64-package": {
+    "scope": "frozen GUI and CLI, actual Linux x64 worker, local ZIP integrity",
+    "checks": {
+      "normal": "success",
+      "defect": "success",
+      "json": "success",
+      "html": "success",
+      "cli": "success",
+      "frozen": "success",
+      "gui": "success",
+      "rerun": "success",
+      "native": "success"
+    },
+    "assets": {
+      "Recheck.exe": {
+        "sha256": "613a0c0bfdd354979fdf3981d8c5fec4bf228d38378141efcee0d7d4cc6496de",
+        "size_bytes": 11360167
+      },
+      "Recheck-Windows-x64-local.zip": {
+        "sha256": "c2e655d560c9326927e62bf9395ee5564f997d11cf3d736b3eba8d50ca607955",
+        "size_bytes": 863144387
+      }
+    },
+    "publication": "not-executed"
+  },
+  "runtime-version-contract": {
+    "x64-exact": {
+      "run_id": "run_3d5d1392491f4ec89e1a248f7b3de404",
+      "request": "8.0.34",
+      "manifest_sha256": "d5e83e7c838356af0658e5dd4fcc98e5e394c15739f3d37b3d34f8c73c411e71",
+      "image_id": "sha256:cd5664d92f36fdd363f358531d96d2d412d1087e3b9a5a31a8bdeb820958886d",
+      "emulated": false,
+      "worker_code_sha256": "09cb89a9aa25d61830cfc4b9ae6f15a5dc5da1a2d7c766ab7ce00c9bb87a5f62",
+      "reference_status": "completed",
+      "reference_version": "21.0.13",
+      "candidate_status": "completed",
+      "candidate_reason": "exit_zero",
+      "observed_runtime": "8.0.34",
+      "sdk_probe": "8.0.428",
+      "installed_frameworks": [
+        {
+          "name": "Microsoft.AspNetCore.App",
+          "version": "8.0.34"
+        },
+        {
+          "name": "Microsoft.NETCore.App",
+          "version": "8.0.34"
+        }
+      ],
+      "selection": "fx-version",
+      "matched": 1,
+      "denominator": 1,
+      "target_started": true,
+      "stdout_b64": "MzAwCg==",
+      "source_base_sha": "5640e79b12337ad12705ef932cb40b15e717fcea",
+      "working_tree_dirty": true
+    },
+    "x64-prefix": {
+      "run_id": "run_beab4e6fe9934874b573ce3c06ca0bff",
+      "request": "8.0.3",
+      "manifest_sha256": "dd5dce28574c3b87c170ef91d7f41378b50d9b80b95087f98fd14a483d2849f9",
+      "image_id": "sha256:cd5664d92f36fdd363f358531d96d2d412d1087e3b9a5a31a8bdeb820958886d",
+      "emulated": false,
+      "worker_code_sha256": "09cb89a9aa25d61830cfc4b9ae6f15a5dc5da1a2d7c766ab7ce00c9bb87a5f62",
+      "reference_status": "completed",
+      "reference_version": "21.0.13",
+      "candidate_status": "environment_error",
+      "candidate_reason": "runtime_version_mismatch",
+      "observed_runtime": null,
+      "sdk_probe": "8.0.428",
+      "installed_frameworks": [
+        {
+          "name": "Microsoft.AspNetCore.App",
+          "version": "8.0.34"
+        },
+        {
+          "name": "Microsoft.NETCore.App",
+          "version": "8.0.34"
+        }
+      ],
+      "selection": null,
+      "matched": 0,
+      "denominator": 0,
+      "target_started": false,
+      "stdout_b64": "",
+      "source_base_sha": "5640e79b12337ad12705ef932cb40b15e717fcea",
+      "working_tree_dirty": true
+    },
+    "x64-sdk": {
+      "run_id": "run_02978796402d438d99705e687d8b3991",
+      "request": "8.0.428",
+      "manifest_sha256": "6a5fcc87352ff1e365fb4d8f8cdd236e1a1ae81562e316a89bad69c484f9b7de",
+      "image_id": "sha256:cd5664d92f36fdd363f358531d96d2d412d1087e3b9a5a31a8bdeb820958886d",
+      "emulated": false,
+      "worker_code_sha256": "09cb89a9aa25d61830cfc4b9ae6f15a5dc5da1a2d7c766ab7ce00c9bb87a5f62",
+      "reference_status": "completed",
+      "reference_version": "21.0.13",
+      "candidate_status": "environment_error",
+      "candidate_reason": "runtime_version_mismatch",
+      "observed_runtime": null,
+      "sdk_probe": "8.0.428",
+      "installed_frameworks": [
+        {
+          "name": "Microsoft.AspNetCore.App",
+          "version": "8.0.34"
+        },
+        {
+          "name": "Microsoft.NETCore.App",
+          "version": "8.0.34"
+        }
+      ],
+      "selection": null,
+      "matched": 0,
+      "denominator": 0,
+      "target_started": false,
+      "stdout_b64": "",
+      "source_base_sha": "5640e79b12337ad12705ef932cb40b15e717fcea",
+      "working_tree_dirty": true
+    },
+    "arm64-exact": {
+      "run_id": "run_2b894682d2dc43338250d148d52b67e5",
+      "request": "8.0.34",
+      "manifest_sha256": "9152e4377f6f89f9ba6fd4270aea000de2d1618697b7bb3612024eb32687156d",
+      "image_id": "sha256:690647f64a00dbba3e61a5afb9df9ddb06a59f101e34c672c7d2747202e4e430",
+      "emulated": true,
+      "worker_code_sha256": "09cb89a9aa25d61830cfc4b9ae6f15a5dc5da1a2d7c766ab7ce00c9bb87a5f62",
+      "reference_status": "completed",
+      "reference_version": "21.0.13",
+      "candidate_status": "completed",
+      "candidate_reason": "exit_zero",
+      "observed_runtime": "8.0.34",
+      "sdk_probe": "8.0.428",
+      "installed_frameworks": [
+        {
+          "name": "Microsoft.AspNetCore.App",
+          "version": "8.0.34"
+        },
+        {
+          "name": "Microsoft.NETCore.App",
+          "version": "8.0.34"
+        }
+      ],
+      "selection": "fx-version",
+      "matched": 1,
+      "denominator": 1,
+      "target_started": true,
+      "stdout_b64": "MzAwCg==",
+      "source_base_sha": "5640e79b12337ad12705ef932cb40b15e717fcea",
+      "working_tree_dirty": true
+    },
+    "arm64-prefix": {
+      "run_id": "run_2ca64fd1344e4e13897c079dd96c4703",
+      "request": "8.0.3",
+      "manifest_sha256": "ed4361ec382736b54fb6618f56c821be7c46fc3b69e925258ecf6bccf102aeb8",
+      "image_id": "sha256:690647f64a00dbba3e61a5afb9df9ddb06a59f101e34c672c7d2747202e4e430",
+      "emulated": true,
+      "worker_code_sha256": "09cb89a9aa25d61830cfc4b9ae6f15a5dc5da1a2d7c766ab7ce00c9bb87a5f62",
+      "reference_status": "completed",
+      "reference_version": "21.0.13",
+      "candidate_status": "environment_error",
+      "candidate_reason": "runtime_version_mismatch",
+      "observed_runtime": null,
+      "sdk_probe": "8.0.428",
+      "installed_frameworks": [
+        {
+          "name": "Microsoft.AspNetCore.App",
+          "version": "8.0.34"
+        },
+        {
+          "name": "Microsoft.NETCore.App",
+          "version": "8.0.34"
+        }
+      ],
+      "selection": null,
+      "matched": 0,
+      "denominator": 0,
+      "target_started": false,
+      "stdout_b64": "",
+      "source_base_sha": "5640e79b12337ad12705ef932cb40b15e717fcea",
+      "working_tree_dirty": true
+    },
+    "arm64-sdk": {
+      "run_id": "run_f7e472fbfc824a309afeb7ae07220e90",
+      "request": "8.0.428",
+      "manifest_sha256": "c2e5ac4a71983206ba40356a1dc85d3d4b92b4663453a3891a576fcd3ca32be6",
+      "image_id": "sha256:690647f64a00dbba3e61a5afb9df9ddb06a59f101e34c672c7d2747202e4e430",
+      "emulated": true,
+      "worker_code_sha256": "09cb89a9aa25d61830cfc4b9ae6f15a5dc5da1a2d7c766ab7ce00c9bb87a5f62",
+      "reference_status": "completed",
+      "reference_version": "21.0.13",
+      "candidate_status": "environment_error",
+      "candidate_reason": "runtime_version_mismatch",
+      "observed_runtime": null,
+      "sdk_probe": "8.0.428",
+      "installed_frameworks": [
+        {
+          "name": "Microsoft.AspNetCore.App",
+          "version": "8.0.34"
+        },
+        {
+          "name": "Microsoft.NETCore.App",
+          "version": "8.0.34"
+        }
+      ],
+      "selection": null,
+      "matched": 0,
+      "denominator": 0,
+      "target_started": false,
+      "stdout_b64": "",
+      "source_base_sha": "5640e79b12337ad12705ef932cb40b15e717fcea",
+      "working_tree_dirty": true
+    }
+  },
+  "worker-built-structure": {
+    "jvm-class": {
+      "run_id": "run_20a6f9fa255244b9848971edfa784ae0",
+      "manifest_sha256": "845737fc87f08c6cd27a62c6bc1864676dd4f5fc50ca1a97aa48f12724d3d577",
+      "scenario": "fee",
+      "behavior": {
+        "matched": 1,
+        "denominator": 1,
+        "repetitions": 2
+      },
+      "structure": {
+        "status": "succeeded",
+        "representation": "jvm-bytecode",
+        "similarity": 98.3333,
+        "denominator": 3
+      },
+      "targets": {
+        "reference": {
+          "source_sha256": {
+            "reference/Quote.java": "96c8b509814ca9c9ec06c349a81a22b5f4dfc3d479f522902b9a2194e2a59b76"
+          },
+          "artifact": "reference/Quote.class",
+          "artifact_sha256": "581efa14e8981acce8546a2fd761c8722ef7f91b7151528a72e74ab792b11b00",
+          "artifact_size": 441,
+          "binding": {
+            "observed_sha256": [
+              "581efa14e8981acce8546a2fd761c8722ef7f91b7151528a72e74ab792b11b00"
+            ],
+            "observed_attempts": 2,
+            "attempts": 2,
+            "local_sha256": "581efa14e8981acce8546a2fd761c8722ef7f91b7151528a72e74ab792b11b00",
+            "status": "verified",
+            "source": "worker_capture"
+          },
+          "compiler": "javac 21.0.13",
+          "build_args": [
+            "reference/Quote.java"
+          ],
+          "worker": {
+            "os": "linux",
+            "arch": "x64",
+            "host_arch": "amd64",
+            "image_arch": "amd64",
+            "emulated": false,
+            "worker_code_sha256": "cf034ba38234c12794a2eee4df4d8286fece593c08c62ca9560991fcccbb4ea3",
+            "image_id": "sha256:ed5703e5de15ac71cf1904af2b7476d505dfdf74a8403e6eec3872d7b132f619"
+          },
+          "extractor": {
+            "name": "OpenJDK javap",
+            "version": "17.0.12"
+          },
+          "scope": {
+            "total": 3,
+            "observed": 3,
+            "selected": 3,
+            "excluded": 0,
+            "comparable": 3
+          }
+        },
+        "candidate": {
+          "source_sha256": {
+            "candidate/Quote.java": "4411bee567ee3c098f26c240258eca85140f384d3ab54a7343280b5a81f67c39"
+          },
+          "artifact": "candidate/Quote.class",
+          "artifact_sha256": "8aad36ccc6bd82d5607c355f6928e97865661e67654930edaaabf2b58e251155",
+          "artifact_size": 442,
+          "binding": {
+            "observed_sha256": [
+              "8aad36ccc6bd82d5607c355f6928e97865661e67654930edaaabf2b58e251155"
+            ],
+            "observed_attempts": 2,
+            "attempts": 2,
+            "local_sha256": "8aad36ccc6bd82d5607c355f6928e97865661e67654930edaaabf2b58e251155",
+            "status": "verified",
+            "source": "worker_capture"
+          },
+          "compiler": "javac 21.0.13",
+          "build_args": [
+            "candidate/Quote.java"
+          ],
+          "worker": {
+            "os": "linux",
+            "arch": "x64",
+            "host_arch": "amd64",
+            "image_arch": "amd64",
+            "emulated": false,
+            "worker_code_sha256": "cf034ba38234c12794a2eee4df4d8286fece593c08c62ca9560991fcccbb4ea3",
+            "image_id": "sha256:ed5703e5de15ac71cf1904af2b7476d505dfdf74a8403e6eec3872d7b132f619"
+          },
+          "extractor": {
+            "name": "OpenJDK javap",
+            "version": "17.0.12"
+          },
+          "scope": {
+            "total": 3,
+            "observed": 3,
+            "selected": 3,
+            "excluded": 0,
+            "comparable": 3
+          }
+        }
+      }
+    },
+    "linux-x64-elf": {
+      "run_id": "run_7b0745dc015e41d6b024ef24f8d62e49",
+      "manifest_sha256": "16048bc273b0fc2bf96bc1138523853f7c90aa78455d29a8d8b7a4844bb9473e",
+      "scenario": "above",
+      "behavior": {
+        "matched": 1,
+        "denominator": 1,
+        "repetitions": 1
+      },
+      "structure": {
+        "status": "partial",
+        "representation": "native-instructions",
+        "similarity": 4.3813,
+        "denominator": 15
+      },
+      "targets": {
+        "reference": {
+          "source_sha256": {
+            "fee.c": "f08b920714188e26eddec85bc590ff32930464d7f3266624ebcd1cce77304fb6"
+          },
+          "artifact": "reference fee",
+          "artifact_sha256": "bd08a926e7014e5b995800c13771a993fb06b73295537a6d2dd8f7e8be72f886",
+          "artifact_size": 19136,
+          "binding": {
+            "observed_sha256": [
+              "bd08a926e7014e5b995800c13771a993fb06b73295537a6d2dd8f7e8be72f886"
+            ],
+            "observed_attempts": 1,
+            "attempts": 1,
+            "local_sha256": "bd08a926e7014e5b995800c13771a993fb06b73295537a6d2dd8f7e8be72f886",
+            "status": "verified",
+            "source": "worker_capture"
+          },
+          "compiler": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0",
+          "build_args": [
+            "-g",
+            "-O0",
+            "fee.c",
+            "-o",
+            "reference fee"
+          ],
+          "worker": {
+            "os": "linux",
+            "arch": "x64",
+            "host_arch": "amd64",
+            "image_arch": "amd64",
+            "emulated": false,
+            "worker_code_sha256": "cf034ba38234c12794a2eee4df4d8286fece593c08c62ca9560991fcccbb4ea3",
+            "image_id": "sha256:ed5703e5de15ac71cf1904af2b7476d505dfdf74a8403e6eec3872d7b132f619"
+          },
+          "extractor": {
+            "name": "Ghidra Headless",
+            "version": "12.1.4"
+          },
+          "scope": {
+            "total": 33,
+            "observed": 24,
+            "selected": 2,
+            "excluded": 22,
+            "comparable": 1
+          }
+        },
+        "candidate": {
+          "source_sha256": {
+            "fee.rs": "a15de8eca4120ebfc5b7094af15d4248c73cd3617378f08bfc0b765e6f9cce73"
+          },
+          "artifact": "candidate fee",
+          "artifact_sha256": "b53f6f4315dfc86b6c07ad57f2828effd5828eb3015f689fb7ce0e5cb6830c8b",
+          "artifact_size": 3923056,
+          "binding": {
+            "observed_sha256": [
+              "b53f6f4315dfc86b6c07ad57f2828effd5828eb3015f689fb7ce0e5cb6830c8b"
+            ],
+            "observed_attempts": 1,
+            "attempts": 1,
+            "local_sha256": "b53f6f4315dfc86b6c07ad57f2828effd5828eb3015f689fb7ce0e5cb6830c8b",
+            "status": "verified",
+            "source": "worker_capture"
+          },
+          "compiler": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+          "build_args": [
+            "-C",
+            "debuginfo=1",
+            "--crate-name",
+            "fee",
+            "fee.rs",
+            "-o",
+            "candidate fee"
+          ],
+          "worker": {
+            "os": "linux",
+            "arch": "x64",
+            "host_arch": "amd64",
+            "image_arch": "amd64",
+            "emulated": false,
+            "worker_code_sha256": "cf034ba38234c12794a2eee4df4d8286fece593c08c62ca9560991fcccbb4ea3",
+            "image_id": "sha256:ed5703e5de15ac71cf1904af2b7476d505dfdf74a8403e6eec3872d7b132f619"
+          },
+          "extractor": {
+            "name": "Ghidra Headless",
+            "version": "12.1.4"
+          },
+          "scope": {
+            "total": 746,
+            "observed": 677,
+            "selected": 16,
+            "excluded": 661,
+            "comparable": 15
+          }
+        }
+      }
+    },
+    "ssh-loopback": [
+      {
+        "network": "loopback within a network-disabled Linux container",
+        "jar_size_mib": 5,
+        "manifest_sha256": "7213d2b42227dbda60bda2e82997e5a192b7ce4aebc7aa16859fd77efc1b18c5",
+        "behavior": 1,
+        "structure": "succeeded",
+        "captures": {
+          "reference": {
+            "status": "verified",
+            "size_bytes": 5243714,
+            "sha256": "3c2b932773758d9900726e50773547e74a95c275483c58a74794ba277fcc889a"
+          },
+          "candidate": {
+            "status": "verified",
+            "size_bytes": 5243715,
+            "sha256": "935c99037865f1f633db46124da7ad493ba5cbd249beccc4f750810663530a1a"
+          }
+        },
+        "worker": {
+          "arch": "x64",
+          "emulated": null,
+          "id": "ssh-lab",
+          "native_arch": null,
+          "os": "linux",
+          "os_version": "#1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026",
+          "python": "3.12.16",
+          "worker_code_sha256": "cf034ba38234c12794a2eee4df4d8286fece593c08c62ca9560991fcccbb4ea3"
+        },
+        "case_denominator": 1
+      },
+      {
+        "network": "loopback within a network-disabled Linux container",
+        "jar_size_mib": 9,
+        "manifest_sha256": "6ccaf48623a38a28375bd978c172afb3f4bb27f9244a9c5631125af3bf764863",
+        "behavior": 1,
+        "structure": "blocked",
+        "captures": {
+          "reference": {
+            "status": "size_limit",
+            "limit_bytes": 8388608
+          },
+          "candidate": {
+            "status": "size_limit",
+            "limit_bytes": 8388608
+          }
+        },
+        "worker": {
+          "arch": "x64",
+          "emulated": null,
+          "id": "ssh-lab",
+          "native_arch": null,
+          "os": "linux",
+          "os_version": "#1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026",
+          "python": "3.12.16",
+          "worker_code_sha256": "cf034ba38234c12794a2eee4df4d8286fece593c08c62ca9560991fcccbb4ea3"
+        },
+        "case_denominator": 1
+      }
+    ]
+  },
+  "transport-recovery": {
+    "environment": "OpenSSH loopback in Linux Docker with external networking disabled",
+    "status": "partial",
+    "run_id": "run_56306d02b04643698188c79640fe2d25",
+    "fault": {
+      "status": "environment_error",
+      "reason": "worker_transport_failed",
+      "started": null,
+      "process_executions": null,
+      "exit_code": null,
+      "stdout_b64": "",
+      "stderr_b64": "",
+      "observations": {},
+      "error": "Worker transport failed: process exit status -9",
+      "job_id": "1450c981273f4fbbb8ce575ca79c0a5d",
+      "worker_transport": {
+        "returncode": -9,
+        "cancelled": false,
+        "timed_out": false,
+        "truncated": false,
+        "cleanup_errors": [],
+        "operation": "run",
+        "job_id": "1450c981273f4fbbb8ce575ca79c0a5d",
+        "request_sha256": "8a3002596b603946be019c027131b6a72d6a366c783ecd46ca6429eacc86bd04",
+        "submitted_target_sha256": "79ce065c1381001f2152b19b337e2e75304c91a1f84e8f3c7814f65bee5be204"
+      }
+    },
+    "observed_target_and_child_before": 2,
+    "owned_processes_alive_after": 0,
+    "workdir_exists_after": false,
+    "target_launches_under_fault": 1,
+    "cleanup_checked_seconds": 1.587,
+    "recovery_job_ids": [
+      "adc9cdd9c5bd4e4e91998dcca207cca1",
+      "c96f9fd1fcaf4df8998062da6f0b7acf"
+    ],
+    "worker_code_sha256": "9214f18c41ba9205ef8d7b0f86fa241d4fbfca9270c81a46c7ee7b6de59a2ebe",
+    "recovered": "passed",
+    "denominator": 1,
+    "scenario_count": 2
+  },
+  "independent-stream-contract": {
+    "run_id": "run_49018601a8a4483eb05f1bd4a40c9483",
+    "manifest_sha256": "29317e68757ff36998a90b0e6f84770c389971572e035b7fdf447144b75d10a4",
+    "comparison": {
+      "match": true,
+      "raw_match": false,
+      "raw_differences": [
+        "stdout"
+      ],
+      "differences": [],
+      "errors": {},
+      "normalization_masked": true,
+      "policy": {
+        "stdout": {
+          "mode": "json",
+          "select": [
+            "/status"
+          ]
+        },
+        "stderr": "exact",
+        "exit_code": "exact",
+        "reason": "exact"
+      },
+      "expected": {
+        "reference": {
+          "status": "passed",
+          "checks": {
+            "stdout": "passed",
+            "exit_code": "passed"
+          }
+        },
+        "candidate": {
+          "status": "failed",
+          "checks": {
+            "stdout": "failed",
+            "exit_code": "passed"
+          }
+        }
+      },
+      "acceptance": "failed"
+    },
+    "behavior": {
+      "registered": 1,
+      "attempted": 1,
+      "attempts": 1,
+      "steps": 0,
+      "process_executions": 2,
+      "process_observation_unknown": 0,
+      "matched": 1,
+      "mismatched": 0,
+      "denominator": 1,
+      "match_rate": 1.0,
+      "outcomes": {
+        "matched": 1
+      },
+      "execution_statuses": {
+        "completed": 2
+      },
+      "requirement_counts": {
+        "failed": 1
+      },
+      "acceptance": "failed",
+      "formula": "일치한 시나리오 / 모든 등록 반복에서 양쪽 관찰이 비교 가능한 시나리오"
+    },
+    "inputs": {
+      "reference": {
+        "sha256": "90937e2dfc572564de7f951026d401670b216253245dc85ccce3e0446e2db865",
+        "file_hashes": {
+          "reference.py": "acb080bbc27dfe6be1a91c6611b97a7296a4bb4908ea64e39bfa1feb9d2654ca"
+        }
+      },
+      "candidate": {
+        "sha256": "555a91ef64aadd78d0775069027e3344bc9f9bd3f39eddeeb6c7e5547e6d7484",
+        "file_hashes": {
+          "candidate.py": "22e5b250020640eb5bb517196501a93fd7a7a75a27e867656f13452389d6bf72"
+        }
+      }
+    }
+  },
+  "arm64-emulated-authored-variants": {
+    "normal": {
+      "run_id": "run_791ef1caba014065bd42f5a78596ee64",
+      "manifest_sha256": "a0c9a44eb6c3149e5fb8f327bedf193ae5d9eec95f624a63fda2861ea4c83b76",
+      "denominator": 3,
+      "matched": 3,
+      "cases": {
+        "edge": {
+          "reference": {
+            "entry_sha256": "a3f9e1645b3dca974e16048011d3847d82e9e552635e7ee7ce17b03d783b9541",
+            "exit_code": 0,
+            "stdout_b64": "MzAwCg==",
+            "stderr_b64": ""
+          },
+          "candidate": {
+            "entry_sha256": "8e07cd9e54753e41efae21f4a0c4692adb4f1335eebf8fc8b2245ea8919ff28b",
+            "exit_code": 0,
+            "stdout_b64": "MzAwCg==",
+            "stderr_b64": ""
+          }
+        },
+        "above": {
+          "reference": {
+            "entry_sha256": "a111884cf1dab6077d1454b57cb0b594a9c5b6816a229b5ee47af2f3e0c4227b",
+            "exit_code": 0,
+            "stdout_b64": "Mzc1Cg==",
+            "stderr_b64": ""
+          },
+          "candidate": {
+            "entry_sha256": "80f146c0847ebf7271fea250e60f8fef4f87fcb89659505d48d3e43dd6b8b287",
+            "exit_code": 0,
+            "stdout_b64": "Mzc1Cg==",
+            "stderr_b64": ""
+          }
+        },
+        "unicode": {
+          "reference": {
+            "entry_sha256": "b833b2ee75da7bcb54a29e390b638cda95f79168c44f04bbf12b5b754be8892d",
+            "exit_code": 2,
+            "stdout_b64": "",
+            "stderr_b64": "aW52YWxpZAo="
+          },
+          "candidate": {
+            "entry_sha256": "103f84bf9dad21267c527c56a0eebf2810eeccebe5df4bf4a1a787dd4e71bb89",
+            "exit_code": 2,
+            "stdout_b64": "",
+            "stderr_b64": "aW52YWxpZAo="
+          }
+        }
+      },
+      "worker": {
+        "os": "linux",
+        "arch": "arm64",
+        "emulated": true,
+        "image_id": "sha256:7cbb7b3b9c407a42019c2f4ead8b076834bd6d7f3e3c089d67913c645622a3b5",
+        "image_arch": "arm64",
+        "host_arch": "amd64",
+        "worker_code_sha256": "cf034ba38234c12794a2eee4df4d8286fece593c08c62ca9560991fcccbb4ea3"
+      },
+      "compilers": {
+        "reference": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0",
+        "candidate": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+      }
+    },
+    "defect": {
+      "run_id": "run_a8ceafb8c5ff46fda39adbd61bafa78d",
+      "manifest_sha256": "c56154a8cb3d6194bb20ad299a4212be44aa4800da8cfc68a44e2095fd471812",
+      "denominator": 3,
+      "matched": 2,
+      "cases": {
+        "edge": {
+          "reference": {
+            "entry_sha256": "b18231fc845fb5ca0221e843c1a087aff7cfe2b2ba06421f60c231874cc0cf41",
+            "exit_code": 0,
+            "stdout_b64": "MzAwCg==",
+            "stderr_b64": ""
+          },
+          "candidate": {
+            "entry_sha256": "80228ccd2cb141d682bf9494fd4eb8d95da1f599c83b658a436d2f2c85a47994",
+            "exit_code": 0,
+            "stdout_b64": "MzAwCg==",
+            "stderr_b64": ""
+          }
+        },
+        "above": {
+          "reference": {
+            "entry_sha256": "f2ad7a517eaa6e8cad4685839339fbdacb305dbd9f1464388155e59e620b72ec",
+            "exit_code": 0,
+            "stdout_b64": "Mzc1Cg==",
+            "stderr_b64": ""
+          },
+          "candidate": {
+            "entry_sha256": "11dade63ab8141ca9a70971096d7b80f4368252dd3cf1d79d495ca46adbdd47f",
+            "exit_code": 0,
+            "stdout_b64": "NDAwCg==",
+            "stderr_b64": ""
+          }
+        },
+        "unicode": {
+          "reference": {
+            "entry_sha256": "44390422d462604f3e0f48856860487385586c6e6790623336137ee38d170079",
+            "exit_code": 2,
+            "stdout_b64": "",
+            "stderr_b64": "aW52YWxpZAo="
+          },
+          "candidate": {
+            "entry_sha256": "12453be8bba286c3030a858b070281472c9db525b304da256d49aced3bc9ebf8",
+            "exit_code": 2,
+            "stdout_b64": "",
+            "stderr_b64": "aW52YWxpZAo="
+          }
+        }
+      },
+      "worker": {
+        "os": "linux",
+        "arch": "arm64",
+        "emulated": true,
+        "image_id": "sha256:7cbb7b3b9c407a42019c2f4ead8b076834bd6d7f3e3c089d67913c645622a3b5",
+        "image_arch": "arm64",
+        "host_arch": "amd64",
+        "worker_code_sha256": "cf034ba38234c12794a2eee4df4d8286fece593c08c62ca9560991fcccbb4ea3"
+      },
+      "compilers": {
+        "reference": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0",
+        "candidate": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+      }
+    },
+    "alternate": {
+      "run_id": "run_1d33ba92688344b197eccf9e482176f3",
+      "manifest_sha256": "f8d6151bbf45a39c38e3e27a12f3522852a5d81ec9be0f95de109b46e6eadd6f",
+      "denominator": 3,
+      "matched": 3,
+      "cases": {
+        "edge": {
+          "reference": {
+            "entry_sha256": "017f560b764221c2f796170b967adfda8af0a53453b7b38e9735c46c8667925e",
+            "exit_code": 0,
+            "stdout_b64": "MzAwCg==",
+            "stderr_b64": ""
+          },
+          "candidate": {
+            "entry_sha256": "6e923ad165f35a8ded83c472e95a3498a02dbcd3985cb836e7aa3dbaa5c18b2e",
+            "exit_code": 0,
+            "stdout_b64": "MzAwCg==",
+            "stderr_b64": ""
+          }
+        },
+        "above": {
+          "reference": {
+            "entry_sha256": "f5d7c4ba92975aff69ef8b1b7d9a647b5e2c3a1ab82629958adc31b51eb15aa1",
+            "exit_code": 0,
+            "stdout_b64": "Mzc1Cg==",
+            "stderr_b64": ""
+          },
+          "candidate": {
+            "entry_sha256": "9f99373ce546a177577ad3735148141bef5779f362167da76a80d1a333e206ee",
+            "exit_code": 0,
+            "stdout_b64": "Mzc1Cg==",
+            "stderr_b64": ""
+          }
+        },
+        "unicode": {
+          "reference": {
+            "entry_sha256": "7fad81be1ea38c9354b6d53cff4e25526428c9319ca04d69fb353b2bd5b3cc76",
+            "exit_code": 2,
+            "stdout_b64": "",
+            "stderr_b64": "aW52YWxpZAo="
+          },
+          "candidate": {
+            "entry_sha256": "5c00616662db41b57ae958555a8e6f444bf0f6ac3f5cf09344e7a3d9c7951b3d",
+            "exit_code": 2,
+            "stdout_b64": "",
+            "stderr_b64": "aW52YWxpZAo="
+          }
+        }
+      },
+      "worker": {
+        "os": "linux",
+        "arch": "arm64",
+        "emulated": true,
+        "image_id": "sha256:7cbb7b3b9c407a42019c2f4ead8b076834bd6d7f3e3c089d67913c645622a3b5",
+        "image_arch": "arm64",
+        "host_arch": "amd64",
+        "worker_code_sha256": "cf034ba38234c12794a2eee4df4d8286fece593c08c62ca9560991fcccbb4ea3"
+      },
+      "compilers": {
+        "reference": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0",
+        "candidate": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+      }
+    }
+  }
+}

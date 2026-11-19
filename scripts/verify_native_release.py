@@ -14,6 +14,14 @@ from recheck.models import Settings, atomic_json
 from scripts.release_distribution import inventory, sha
 
 
+def validate_gui_smoke(smoke_dir):
+    smoke = json.loads((smoke_dir / 'gui-smoke.json').read_text(encoding='utf-8'))
+    screenshot = smoke_dir / 'gui-smoke.png'
+    if (smoke.get('visible') is not True or not screenshot.is_file()
+            or screenshot.stat().st_size == 0):
+        raise ValueError('Native GUI did not become visible or produce a screenshot')
+
+
 def expected_execution_image(stage, data):
     from recheck.managed_runtime import ManagedRuntime
 
@@ -81,9 +89,7 @@ def verify(stage, output, original, changed, tests, expected, oracle, *,
 
     if execute('smoke', ['--smoke-test'], 40) != 0:
         raise ValueError('Native GUI smoke process failed')
-    smoke = json.loads((output / 'smoke/gui-smoke.json').read_text(encoding='utf-8'))
-    if not smoke.get('visible') or not (output / 'smoke/gui-smoke.png').is_file():
-        raise ValueError('Native GUI did not become visible')
+    validate_gui_smoke(output / 'smoke')
     if execute('tools', ['--cli', '--json-output', output / 'tools.json', 'tools'], 90) not in (0, 2):
         raise ValueError('Frozen tool discovery failed')
     tools = json.loads((output / 'tools.json').read_text(encoding='utf-8'))

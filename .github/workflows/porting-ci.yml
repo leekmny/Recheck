@@ -1,0 +1,170 @@
+name: Porting product checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  porting-product:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      PYTHONUTF8: '1'
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.14.8'
+          architecture: x64
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - run: python -m pip install -r requirements-lock.txt
+      - name: Verify trusted examples through comparison, CLI, reports, and GUI
+        run: |
+          python -m scripts.verify_porting --gui --output verification/porting-ci
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m scripts.porting_release --sha "$env:GITHUB_SHA" verify-source --proof verification/porting-ci/verification.json
+      - name: Preserve product verification
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: porting-product-verification
+          path: verification/porting-ci/verification.json
+          if-no-files-found: error
+          retention-days: 14
+
+  porting-linux:
+    name: porting-linux-${{ matrix.arch }}
+    runs-on: ${{ matrix.runner }}
+    # ARM64 records native coverage outside the Windows release gate.
+    continue-on-error: ${{ matrix.arch == 'arm64' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            docker_arch: amd64
+            machine: x86_64
+            runner: ubuntu-latest
+          - arch: arm64
+            docker_arch: arm64
+            machine: aarch64
+            runner: ubuntu-24.04-arm
+    timeout-minutes: 45
+    env:
+      PYTHONUTF8: '1'
+      PORTING_ARCH: ${{ matrix.arch }}
+      DOCKER_ARCH: ${{ matrix.docker_arch }}
+      RUNNER_MACHINE: ${{ matrix.machine }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.14.8'
+          architecture: ${{ matrix.arch }}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - name: Install locked headless dependencies
+        run: python -m pip install --constraint requirements-lock.txt pydantic httpx psutil 'PyJWT[crypto]' jsonschema
+      - name: Build the native Linux worker and bind its image ID
+        id: worker
+        run: |
+          test "${RUNNER_ARCH,,}" = "$PORTING_ARCH"
+          test "$(uname -m)" = "$RUNNER_MACHINE"
+          test "$(docker version --format '{{.Server.Os}}/{{.Server.Arch}}')" = "linux/$DOCKER_ARCH"
+          image_tag="recheck-porting-ci:${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${PORTING_ARCH}"
+          docker build --platform "linux/$DOCKER_ARCH" --file resources/porting/Dockerfile --tag "$image_tag" .
+          image_id="$(docker image inspect --format '{{.Id}}' "$image_tag")"
+          [[ "$image_id" =~ ^sha256:[a-f0-9]{64}$ ]]
+          test "$(docker image inspect --format '{{.Os}}/{{.Architecture}}' "$image_id")" = "linux/$DOCKER_ARCH"
+          mkdir -p verification
+          printf '{"workers":{"default":{"kind":"docker","image":"%s","os":"linux","arch":"%s"}}}\n' \
+            "$image_id" "$PORTING_ARCH" > "verification/porting-linux-${PORTING_ARCH}-worker.json"
+          echo "image_id=$image_id" >> "$GITHUB_OUTPUT"
+      - name: Verify native and mixed-runtime programs in the Linux worker
+        run: >-
+          python -m scripts.verify_porting --require-native --native-platform "linux/$PORTING_ARCH" --runtime-matrix
+          --worker "verification/porting-linux-${PORTING_ARCH}-worker.json" --output "verification/porting-ci-linux-${PORTING_ARCH}"
+      - name: Check proof identity and retain a public summary
+        env:
+          WORKER_IMAGE_ID: ${{ steps.worker.outputs.image_id }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          arch = os.environ['PORTING_ARCH']
+          docker_arch = os.environ['DOCKER_ARCH']
+          platform = f'linux/{arch}'
+          output = Path(f'verification/porting-ci-linux-{arch}')
+          proof = json.loads((output / 'verification.json').read_text(encoding='utf-8'))
+          if ((proof['schema_version'], proof['status'], proof['source_sha']) != (
+              'recheck-porting-verification-1', 'success', os.environ['GITHUB_SHA'],
+          ) or proof.get('working_tree_dirty') is not False):
+              raise SystemExit('Linux verification proof does not match the checked commit.')
+          checks = proof['checks']
+          required = ('normal', 'defect', 'cli', 'json', 'html', 'rerun', 'native', 'runtimes')
+          if any(checks[name]['status'] != 'success' for name in required):
+              raise SystemExit('A required Linux verification check did not succeed.')
+          native = checks['native']
+          variants = native['variants']
+          image = os.environ['WORKER_IMAGE_ID']
+          if native['platform'] != platform or set(variants) != {'normal', 'defect', 'alternate'}:
+              raise SystemExit('Linux native verification did not cover all required variants.')
+          for variant in variants.values():
+              environment = variant['environment']
+              if (variant['status'], environment['isolation'], environment['image_id'],
+                  environment['os'], environment['arch'], environment['emulated'],
+                  environment['host_arch'], environment['image_arch']) != (
+                  'success', 'docker', image, 'linux', arch, False, docker_arch, docker_arch,
+              ):
+                  raise SystemExit(f'Native verification did not use the admitted {platform} image.')
+          pairs = checks['runtimes']['pairs']
+          expected = {
+              f'{pair}-{variant}'
+              for pair in ('python-rust', 'python-node', 'python-typescript', 'java-dotnet')
+              for variant in ('normal', 'defect')
+          }
+          if set(pairs) != expected or any(row['status'] != 'success' for row in pairs.values()):
+              raise SystemExit('Linux verification did not complete the required runtime matrix.')
+          reports = [tool.get('reported') for tool in variants['normal']['tools']]
+          if len(reports) != 2 or not all(isinstance(report, str) and report.strip() for report in reports):
+              raise SystemExit('Linux verification did not identify both native compilers.')
+
+          def metrics(rows):
+              fields = ('denominator', 'matched', 'mismatched', 'match_rate', 'acceptance')
+              return {name: {field: row['behavior'][field] for field in fields} for name, row in rows.items()}
+
+          (output / 'public-summary.json').write_text(json.dumps({
+              'schema_version': proof['schema_version'],
+              'status': 'success',
+              'source_sha': proof['source_sha'],
+              'platform': platform,
+              'isolation': 'docker',
+              'image_id': image,
+              'compilers': [report.strip().splitlines()[0] for report in reports],
+              'checks': {name: 'success' for name in required},
+              'native_variants': metrics(variants),
+              'runtime_matrix': metrics(pairs),
+          }, indent=2) + '\n', encoding='utf-8')
+          PY
+      - name: Preserve redacted native verification
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: porting-linux-${{ matrix.arch }}-verification
+          path: verification/porting-ci-linux-${{ matrix.arch }}/public-summary.json
+          if-no-files-found: error
+          retention-days: 14

@@ -26,6 +26,8 @@ DOCS = (
     'GEMINI_FREE_SETUP.md',
     'PACKAGE_COMPARISON.md',
     'ROADMAP.md',
+    'PORTING_RELEASE.md',
+    'PORTING_VALIDATION_UPDATE.md',
 )
 COMPONENTS = ('static', 'execution', 'ollama')
 

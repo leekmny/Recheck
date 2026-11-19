@@ -16,7 +16,7 @@ from .paths import plain_local_path
 class _WindowsJob:
     """Own trusted-tool descendants, including after their parent has exited."""
 
-    def __init__(self):
+    def __init__(self, memory_limit=None):
         import ctypes
         from ctypes import wintypes
 
@@ -79,6 +79,9 @@ class _WindowsJob:
             raise ctypes.WinError(ctypes.get_last_error())
         limits = ExtendedLimits()
         limits.basic.flags = 0x2000  # JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
+        if memory_limit is not None:
+            limits.basic.flags |= 0x0200  # JOB_OBJECT_LIMIT_JOB_MEMORY
+            limits.job_memory = memory_limit
         if not self.api.SetInformationJobObject(
             self.handle, 9, ctypes.byref(limits), ctypes.sizeof(limits)
         ):
@@ -132,6 +135,10 @@ async def run_process(
     cwd=None,
     env=None,
     on_output=None,
+    on_start=None,
+    memory_limit=None,
+    kill_descendants=False,
+    keep_stdin_open=False,
 ):
     argv = [str(a) for a in argv]
     if not argv or any("\0" in a for a in argv):
@@ -215,7 +222,8 @@ async def run_process(
         except (BrokenPipeError, ConnectionResetError):
             pass
         finally:
-            proc.stdin.close()
+            if not keep_stdin_open:
+                proc.stdin.close()
 
     async def terminate():
         if job:
@@ -269,10 +277,12 @@ async def run_process(
 
     try:
         if os.name == "nt":
-            job = _WindowsJob()
+            job = _WindowsJob() if memory_limit is None else _WindowsJob(memory_limit)
         proc = await asyncio.create_subprocess_exec(*argv, **options)
         if job:
             job.assign_and_resume(proc.pid)
+        if on_start is not None:
+            on_start(proc.pid)
         readers = [
             asyncio.create_task(drain(proc.stdout, "stdout")),
             asyncio.create_task(drain(proc.stderr, "stderr")),
@@ -317,8 +327,15 @@ async def run_process(
         if readers:
             await finish_readers()
     finally:
+        if proc and keep_stdin_open:
+            proc.stdin.close()
         if job:
             job.close()
+        elif kill_descendants and proc and os.name != "nt":
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
     result["duration"] = round(time.monotonic() - started, 4)
     for key, value in buffers.items():
         result[key] = bytes(value).decode("utf-8", "replace")

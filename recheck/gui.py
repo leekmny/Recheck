@@ -612,6 +612,7 @@ class MainWindow(QMainWindow):
         self.product_mode.addItem("ZIP·패키지 구성 파일 비교", "package")
         product.addWidget(self.product_mode)
         product.addStretch()
+        self.button('포팅 시나리오 비교', self.open_porting, product, False)
         analysis_options = QWidget()
         options_box = QVBoxLayout(analysis_options)
         options_box.setContentsMargins(0, 0, 0, 0)
@@ -3187,6 +3188,18 @@ class MainWindow(QMainWindow):
             except Exception as exc:
                 self.show_error(str(exc))
 
+    def open_porting(self, run=None):
+        from .porting_ui import PortingWindow
+
+        window = getattr(self, 'porting_window', None)
+        if window is None:
+            self.porting_window = window = PortingWindow(self.engine, self, self.refresh_history)
+        if isinstance(run, dict) and window.worker_job is None:
+            window.show_result(run, from_history=True)
+        window.show()
+        window.raise_()
+        window.activateWindow()
+
     def refresh_history(self):
         if not hasattr(self, "history"):
             return
@@ -3201,6 +3214,8 @@ class MainWindow(QMainWindow):
             )
             for run, workflow in runs:
                 original = run.get("files", {}).get("original", run.get("original", ""))
+                if run.get('mode') == 'porting':
+                    original = run.get('manifest_path', '')
                 if isinstance(original, dict):
                     original = original.get("path", original.get("name", ""))
                 identifier = run.get("workflow_id" if workflow else "run_id", "")
@@ -3232,9 +3247,11 @@ class MainWindow(QMainWindow):
                     self.engine.store.load_workflow(item.data(0, Qt.ItemDataRole.UserRole))
                 )
             else:
-                self.show_result(
-                    self.engine.store.load_run(item.data(0, Qt.ItemDataRole.UserRole))
-                )
+                run = self.engine.store.load_run(item.data(0, Qt.ItemDataRole.UserRole))
+                if run.get('mode') == 'porting':
+                    self.open_porting(run)
+                else:
+                    self.show_result(run)
         except Exception as exc:
             self.show_error(str(exc))
 
@@ -3318,6 +3335,12 @@ class MainWindow(QMainWindow):
     def closeEvent(self, event):
         self._after_task_action = None
         self._auto_prepare_tools = False
+        porting = getattr(self, 'porting_window', None)
+        if porting is not None and porting.worker_job is not None:
+            porting.cancel_current()
+            self.notice('포팅 작업 정리가 끝난 뒤 창을 닫아 주세요.')
+            event.ignore()
+            return
         if hasattr(self, 'provider_panel'):
             self.provider_panel.cancel_operation()
         if self._task_join_pending or (self.worker and self.worker.isRunning()):

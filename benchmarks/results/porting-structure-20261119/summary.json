@@ -1,0 +1,1030 @@
+{
+  "schema_version": "recheck-porting-structure-verification-1",
+  "date": "2026-11-19",
+  "purpose": "Static stage product integration with actual built inputs",
+  "platform": {
+    "host_system": "Windows",
+    "host_version": "10.0.26200",
+    "host_architecture": "AMD64",
+    "python": "3.14.8",
+    "repository_base": "5640e79b12337ad12705ef932cb40b15e717fcea"
+  },
+  "native_inputs": {
+    "kind": "Linux x64 C/Rust shared libraries",
+    "sources": {
+      "samples/porting/library/original.c": "962167c200d33d04963e669613bb75c2371a447d9badf6e5b8fd0fc03026e5ad",
+      "samples/porting/library/port.rs": "e13b795c06b5663a774deb6a15aa965e494422c45a1420cfbcde45fbb622e930"
+    },
+    "build_image": "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+    "gcc_version": "12.2.0",
+    "rustc_version": "1.92.0 (ded5c06cf 2025-12-08)",
+    "ghidra_zip_sha256": "ddac49f903da9d5bac833e5cc79395098b9c33cfd3279be5f31bd00387d2d4db"
+  },
+  "managed_inputs": {
+    "kind": "Windows Framework csc PE/CLI libraries",
+    "sources": {
+      "Fee.cs": "d7eb564328d7cb85838e95e10dce32bf0b1cdb6fbb6e9ed33d6d2161fe9e4214",
+      "FeePort.cs": "0b9b9279d97bc89b82dce74fd34101b7666907ddf8dc32f5aa83317a8f546079"
+    },
+    "compiler": "Microsoft.NET Framework64 v4.0.30319 csc.exe",
+    "image": "sha256:053d8fceb1c9d65dd89a2a1cc229cc6855ed59a45d1836b715ae7d4ea0f24fb3"
+  },
+  "native_normal": {
+    "status": "partial",
+    "metric": "구조 특징 기반 유사도",
+    "score_percent": 68.3333,
+    "representation": "native-instructions",
+    "denominator": 1,
+    "algorithm": {
+      "id": "recheck-native-functions-1",
+      "profile": "porting",
+      "profile_reason": "포팅에서 이름 변경의 영향을 줄이고 관찰한 구조 특징의 비중을 높임",
+      "weights": {
+        "name": 0.05,
+        "nodes": 0.25,
+        "edges": 0.2,
+        "calls": 0.1,
+        "mnemonics": 0.4
+      },
+      "score_kind": "heuristic",
+      "formula": "가중합(이름 일치, CFG 노드 수비, CFG 간선 수비, 해결된 호출 수비, 명령 다중집합 Jaccard). 수비 = 1 − |a−b| / max(a,b,1). 대응 점수 합 / 양쪽 비교 가능 함수 수 중 큰 값.",
+      "automatic_minimum": 0.5,
+      "ambiguity_gap": 0.03,
+      "alternatives_limit": 5
+    },
+    "matches": [
+      {
+        "original": "00101100",
+        "reimplementation": "00112370",
+        "score": 0.683333,
+        "ambiguous": false
+      }
+    ],
+    "candidate_search": {
+      "examined_pairs": 1,
+      "total_possible_pairs": 1,
+      "inventory_possible_pairs": 1,
+      "policy": "재구현 함수가 256개를 넘으면 명령 수 인접 128개와 동일 이름 최대128개 후보; 나머지는 미탐색",
+      "omitted_pairs": 0
+    },
+    "targets": {
+      "reference": {
+        "input": "original.so",
+        "input_sha256": "e111004a8f84dfc03b9cac29380af8ed837b872a9902a5c6bb7fff5b40b41dd8",
+        "format": "ELF",
+        "architecture": "x86-64",
+        "scope": {
+          "total": 17,
+          "observed": 13,
+          "selected": 1,
+          "excluded": 12,
+          "comparable": 1
+        },
+        "inventory": {
+          "inventory_returned": 13,
+          "inventory_total": 17,
+          "inventory_complete": false,
+          "inventory_conflict": false,
+          "artifact_status": "success"
+        },
+        "extractor": {
+          "name": "Ghidra Headless",
+          "version": "12.1.4",
+          "backend": "direct",
+          "versions": {},
+          "provenance": null
+        },
+        "selected_observations": [
+          {
+            "id": "00101100",
+            "name": "parcel_quote",
+            "cfg_nodes": 6,
+            "cfg_edges": 6,
+            "resolved_calls": 0,
+            "mnemonics": [
+              "cmp",
+              "ja",
+              "cmp",
+              "jbe",
+              "test",
+              "jz",
+              "mov",
+              "shl",
+              "sub",
+              "add",
+              "mov",
+              "xor",
+              "ret",
+              "mov",
+              "ret",
+              "mov",
+              "ret"
+            ]
+          }
+        ]
+      },
+      "candidate": {
+        "input": "port.so",
+        "input_sha256": "999f9fd21fe1631218f4fc8a4e18afa7cdab5d67be05a9704779d78cf9417abc",
+        "format": "ELF",
+        "architecture": "x86-64",
+        "scope": {
+          "total": 588,
+          "observed": 538,
+          "selected": 1,
+          "excluded": 537,
+          "comparable": 1
+        },
+        "inventory": {
+          "inventory_returned": 538,
+          "inventory_total": 588,
+          "inventory_complete": false,
+          "inventory_conflict": false,
+          "artifact_status": "success"
+        },
+        "extractor": {
+          "name": "Ghidra Headless",
+          "version": "12.1.4",
+          "backend": "direct",
+          "versions": {},
+          "provenance": null
+        },
+        "selected_observations": [
+          {
+            "id": "00112370",
+            "name": "parcel_quote",
+            "cfg_nodes": 4,
+            "cfg_edges": 5,
+            "resolved_calls": 0,
+            "mnemonics": [
+              "mov",
+              "cmp",
+              "ja",
+              "cmp",
+              "setnc",
+              "test",
+              "setnz",
+              "mov",
+              "test",
+              "jz",
+              "mov",
+              "lea",
+              "movzx",
+              "mov",
+              "xor",
+              "ret"
+            ]
+          }
+        ]
+      }
+    },
+    "raw_product_result_sha256": "2d65d893aac3c0afb1e24ab3cb06f9640935f6abac2513d2cc4daf92e0e04bd3"
+  },
+  "native_defect": {
+    "status": "partial",
+    "metric": "구조 특징 기반 유사도",
+    "score_percent": 67.5333,
+    "representation": "native-instructions",
+    "denominator": 1,
+    "algorithm": {
+      "id": "recheck-native-functions-1",
+      "profile": "porting",
+      "profile_reason": "포팅에서 이름 변경의 영향을 줄이고 관찰한 구조 특징의 비중을 높임",
+      "weights": {
+        "name": 0.05,
+        "nodes": 0.25,
+        "edges": 0.2,
+        "calls": 0.1,
+        "mnemonics": 0.4
+      },
+      "score_kind": "heuristic",
+      "formula": "가중합(이름 일치, CFG 노드 수비, CFG 간선 수비, 해결된 호출 수비, 명령 다중집합 Jaccard). 수비 = 1 − |a−b| / max(a,b,1). 대응 점수 합 / 양쪽 비교 가능 함수 수 중 큰 값.",
+      "automatic_minimum": 0.5,
+      "ambiguity_gap": 0.03,
+      "alternatives_limit": 5
+    },
+    "matches": [
+      {
+        "original": "00101100",
+        "reimplementation": "00112370",
+        "score": 0.675333,
+        "ambiguous": false
+      }
+    ],
+    "candidate_search": {
+      "examined_pairs": 1,
+      "total_possible_pairs": 1,
+      "inventory_possible_pairs": 1,
+      "policy": "재구현 함수가 256개를 넘으면 명령 수 인접 128개와 동일 이름 최대128개 후보; 나머지는 미탐색",
+      "omitted_pairs": 0
+    },
+    "targets": {
+      "reference": {
+        "input": "original.so",
+        "input_sha256": "e111004a8f84dfc03b9cac29380af8ed837b872a9902a5c6bb7fff5b40b41dd8",
+        "format": "ELF",
+        "architecture": "x86-64",
+        "scope": {
+          "total": 17,
+          "observed": 13,
+          "selected": 1,
+          "excluded": 12,
+          "comparable": 1
+        },
+        "inventory": {
+          "inventory_returned": 13,
+          "inventory_total": 17,
+          "inventory_complete": false,
+          "inventory_conflict": false,
+          "artifact_status": "success"
+        },
+        "extractor": {
+          "name": "Ghidra Headless",
+          "version": "12.1.4",
+          "backend": "direct",
+          "versions": {},
+          "provenance": null
+        },
+        "selected_observations": [
+          {
+            "id": "00101100",
+            "name": "parcel_quote",
+            "cfg_nodes": 6,
+            "cfg_edges": 6,
+            "resolved_calls": 0,
+            "mnemonics": [
+              "cmp",
+              "ja",
+              "cmp",
+              "jbe",
+              "test",
+              "jz",
+              "mov",
+              "shl",
+              "sub",
+              "add",
+              "mov",
+              "xor",
+              "ret",
+              "mov",
+              "ret",
+              "mov",
+              "ret"
+            ]
+          }
+        ]
+      },
+      "candidate": {
+        "input": "defect.so",
+        "input_sha256": "c04c2ab0bdc16095e0314fa1367a085c0c00ae6d119bb78735d501dd50d68351",
+        "format": "ELF",
+        "architecture": "x86-64",
+        "scope": {
+          "total": 588,
+          "observed": 538,
+          "selected": 1,
+          "excluded": 537,
+          "comparable": 1
+        },
+        "inventory": {
+          "inventory_returned": 538,
+          "inventory_total": 588,
+          "inventory_complete": false,
+          "inventory_conflict": false,
+          "artifact_status": "partial"
+        },
+        "extractor": {
+          "name": "Ghidra Headless",
+          "version": "12.1.4",
+          "backend": "direct",
+          "versions": {},
+          "provenance": null
+        },
+        "selected_observations": [
+          {
+            "id": "00112370",
+            "name": "parcel_quote",
+            "cfg_nodes": 4,
+            "cfg_edges": 5,
+            "resolved_calls": 0,
+            "mnemonics": [
+              "mov",
+              "cmp",
+              "ja",
+              "cmp",
+              "setnc",
+              "test",
+              "setnz",
+              "mov",
+              "test",
+              "jz",
+              "mov",
+              "lea",
+              "xor",
+              "cmp",
+              "setz",
+              "movzx",
+              "sub",
+              "mov",
+              "xor",
+              "ret"
+            ]
+          }
+        ]
+      }
+    },
+    "raw_product_result_sha256": "e081fa85fafb1512d8051c0dfa4f658e4afa68fae5832db42271fb4227d1ee77"
+  },
+  "managed_different_cil": {
+    "status": "succeeded",
+    "metric": "관리 메서드 식별 일치율",
+    "score_percent": 100.0,
+    "representation": "dotnet-metadata-cil",
+    "denominator": 2,
+    "algorithm": {
+      "id": "recheck-managed-member-identity-1",
+      "profile": "default",
+      "profile_reason": "기존 기본 가중치 유지",
+      "formula": "고유하게 대응된 선언 형식·이름·해석 시그니처 수 / 양쪽에서 더 많은 식별 가능 메서드 수",
+      "score_kind": "managed_identity_coverage",
+      "weights": null
+    },
+    "matches": [
+      {
+        "original": "0x06000001",
+        "reimplementation": "0x06000001",
+        "score": 1.0,
+        "ambiguous": false,
+        "cil_observation": "different"
+      },
+      {
+        "original": "0x06000002",
+        "reimplementation": "0x06000002",
+        "score": 1.0,
+        "ambiguous": false,
+        "cil_observation": "equal_bytes_and_headers"
+      }
+    ],
+    "candidate_search": {
+      "policy": "exact declaring type, method name and decoded signature digest",
+      "examined_identity_keys": 2
+    },
+    "targets": {
+      "reference": {
+        "input": "Fee.dll",
+        "input_sha256": "13b38f83aa1201f973028ad0349fdabd5b37a81748a3f221ad9e22d33dd1a756",
+        "format": "PE",
+        "architecture": "x86",
+        "scope": {
+          "total": 2,
+          "observed": 2,
+          "selected": 2,
+          "excluded": 0,
+          "comparable": 2
+        },
+        "inventory": {
+          "inventory_returned": 2,
+          "inventory_total": 2,
+          "inventory_complete": true,
+          "inventory_conflict": false,
+          "artifact_status": "success"
+        },
+        "extractor": {
+          "name": "REA MCP / Managed metadata",
+          "version": "6.9.0",
+          "backend": "rea",
+          "versions": {
+            "rea": "6.9.0",
+            "ghidra": "12.1.4",
+            "java": "21.0.9+10",
+            "node": "24.22.1",
+            "worker_contract": "rea-static-1.0"
+          },
+          "provenance": {
+            "binary_sha256": "13b38f83aa1201f973028ad0349fdabd5b37a81748a3f221ad9e22d33dd1a756",
+            "image_id": "sha256:053d8fceb1c9d65dd89a2a1cc229cc6855ed59a45d1836b715ae7d4ea0f24fb3",
+            "worker_contract": "rea-static-1.0"
+          }
+        },
+        "selected_observations": [
+          {
+            "id": "0x06000001",
+            "name": "Porting.Fee.Total",
+            "cil_sha256": "0c94b6c50cbe76b2827cbdf6cef45cec2b5a3c95c497191d5465a96fecb0102a",
+            "cil_status": "present",
+            "signature_sha256": "5346e8a2fc184cdb143883499d1134f781d12a6789d53f0a1df6ed535638d82b"
+          },
+          {
+            "id": "0x06000002",
+            "name": "Porting.Fee..ctor",
+            "cil_sha256": "dcf1f26d79b0aad8470b459f76da3d76d63b983ef0ecbf0a978052f2ee0bf41c",
+            "cil_status": "present",
+            "signature_sha256": "0c9373898d2dd1c85902837a9e979cb88484e2548a008ad2b2176cc7119d09df"
+          }
+        ],
+        "rea_managed_members_evidence_sha256": "137af2301b950d7695a21bf68954d7311e4a3e2c9f2434ec5eb2ab6ea2c36845"
+      },
+      "candidate": {
+        "input": "FeePort.dll",
+        "input_sha256": "2975e3b61609bbd937b097a2c05f67bb73d795be246fe24d5d4faa8d2b4f3ee2",
+        "format": "PE",
+        "architecture": "x86",
+        "scope": {
+          "total": 2,
+          "observed": 2,
+          "selected": 2,
+          "excluded": 0,
+          "comparable": 2
+        },
+        "inventory": {
+          "inventory_returned": 2,
+          "inventory_total": 2,
+          "inventory_complete": true,
+          "inventory_conflict": false,
+          "artifact_status": "success"
+        },
+        "extractor": {
+          "name": "REA MCP / Managed metadata",
+          "version": "6.9.0",
+          "backend": "rea",
+          "versions": {
+            "rea": "6.9.0",
+            "ghidra": "12.1.4",
+            "java": "21.0.9+10",
+            "node": "24.22.1",
+            "worker_contract": "rea-static-1.0"
+          },
+          "provenance": {
+            "binary_sha256": "2975e3b61609bbd937b097a2c05f67bb73d795be246fe24d5d4faa8d2b4f3ee2",
+            "image_id": "sha256:053d8fceb1c9d65dd89a2a1cc229cc6855ed59a45d1836b715ae7d4ea0f24fb3",
+            "worker_contract": "rea-static-1.0"
+          }
+        },
+        "selected_observations": [
+          {
+            "id": "0x06000001",
+            "name": "Porting.Fee.Total",
+            "cil_sha256": "a2b422546038a81341d4c04e4b0852ae914c626c6ec771056f628b1e4db5397e",
+            "cil_status": "present",
+            "signature_sha256": "5346e8a2fc184cdb143883499d1134f781d12a6789d53f0a1df6ed535638d82b"
+          },
+          {
+            "id": "0x06000002",
+            "name": "Porting.Fee..ctor",
+            "cil_sha256": "dcf1f26d79b0aad8470b459f76da3d76d63b983ef0ecbf0a978052f2ee0bf41c",
+            "cil_status": "present",
+            "signature_sha256": "0c9373898d2dd1c85902837a9e979cb88484e2548a008ad2b2176cc7119d09df"
+          }
+        ],
+        "rea_managed_members_evidence_sha256": "f2294ed91f5e5168fe1f54acff56c9982c1b3b497488b0bc03303d312118541b"
+      }
+    },
+    "raw_product_result_sha256": "5df5d3537c47a56696db1f7aa677a97c5adcdb1fcf0fbfacd9b65b5da0a35c63"
+  },
+  "limits": [
+    "Static stage only. Dynamic scenario scores and UI verification are recorded separately.",
+    "Native results cover one selected function and disclose partial inventories.",
+    "Managed identity coverage and CIL observations are separate quantities."
+  ],
+  "cross_built_native_static": {
+    "sources": {
+      "original.c": "90d6f60bdc9bb60c9823597fd5cfd29132320927a9539d8478d81f030b7af1a8",
+      "candidate.c": "55d67846b2fc9684b9d57e60e31eb379c0c12e07a420d46584ce2ae45b4df562"
+    },
+    "build_image": "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+    "clang": "14.0.6",
+    "pe_elf_linker": "LLD 14.0.6",
+    "macho_linker": "LLD 21.1.3",
+    "rea": "6.9.0",
+    "ghidra": "12.1.4",
+    "image": "sha256:053d8fceb1c9d65dd89a2a1cc229cc6855ed59a45d1836b715ae7d4ea0f24fb3",
+    "cases": {
+      "windows-x64": {
+        "status": "partial",
+        "score_percent": 100.0,
+        "denominator": 1,
+        "runtime_execution": "unmeasured_in_this_probe",
+        "targets": {
+          "reference": {
+            "scope": {
+              "total": 1,
+              "observed": 1,
+              "selected": 1,
+              "excluded": 0,
+              "comparable": 1
+            },
+            "path": "original-x64.dll",
+            "sha256": "dca267c8e431cfd388983c46772155ee141e620cf81f50e451c3be967cc6a606",
+            "format": "PE",
+            "architecture": "x86-64",
+            "inventory": {
+              "inventory_returned": 1,
+              "inventory_total": 1,
+              "inventory_complete": false,
+              "inventory_conflict": false,
+              "artifact_status": "partial"
+            },
+            "native_coverage": {
+              "inventory_observed": 1,
+              "inventory_returned": 1,
+              "inventory_complete": true,
+              "native_functions": 1,
+              "external_functions": 0,
+              "dossiers_requested": 1,
+              "dossiers_succeeded": 1,
+              "decompiled": 1,
+              "cfg_complete": 1,
+              "dossier_limit": 100
+            },
+            "fn": {
+              "name": "parcel_fee",
+              "id": "0x180001000",
+              "mnemonics": [
+                "xor",
+                "test",
+                "lea",
+                "cmovs",
+                "ret"
+              ],
+              "blocks": 1,
+              "edges": 0,
+              "resolved_calls": 0
+            },
+            "raw_function_evidence_sha256": "494a4f18ede293ece0b2df116bfde305df3ebf63dcd7ff6c50945c219116ce2b"
+          },
+          "candidate": {
+            "scope": {
+              "total": 1,
+              "observed": 1,
+              "selected": 1,
+              "excluded": 0,
+              "comparable": 1
+            },
+            "path": "candidate-x64.dll",
+            "sha256": "ecd3e3176007b6d62f45f777acc74c585eeebb7daffec459e94894c1ea7a2774",
+            "format": "PE",
+            "architecture": "x86-64",
+            "inventory": {
+              "inventory_returned": 1,
+              "inventory_total": 1,
+              "inventory_complete": false,
+              "inventory_conflict": false,
+              "artifact_status": "partial"
+            },
+            "native_coverage": {
+              "inventory_observed": 1,
+              "inventory_returned": 1,
+              "inventory_complete": true,
+              "native_functions": 1,
+              "external_functions": 0,
+              "dossiers_requested": 1,
+              "dossiers_succeeded": 1,
+              "decompiled": 1,
+              "cfg_complete": 1,
+              "dossier_limit": 100
+            },
+            "fn": {
+              "name": "parcel_fee",
+              "id": "0x180001000",
+              "mnemonics": [
+                "xor",
+                "test",
+                "lea",
+                "cmovs",
+                "ret"
+              ],
+              "blocks": 1,
+              "edges": 0,
+              "resolved_calls": 0
+            },
+            "raw_function_evidence_sha256": "204e131e50eebc045a81a6b5165c5cbe14eea7a4ef05e588d3b003b379814a66"
+          }
+        },
+        "reason": "REA inventory relationship coverage is unknown",
+        "raw_product_result_sha256": "0453ff8944138c229c6d8a72e5729b933207b17461d657b0d7105a80f15f8c45"
+      },
+      "windows-arm64": {
+        "status": "partial",
+        "score_percent": 100.0,
+        "denominator": 1,
+        "runtime_execution": "unmeasured_in_this_probe",
+        "targets": {
+          "reference": {
+            "scope": {
+              "total": 1,
+              "observed": 1,
+              "selected": 1,
+              "excluded": 0,
+              "comparable": 1
+            },
+            "path": "original-arm64.dll",
+            "sha256": "f66a867e6fd4dc43c6c3b56142f4fb5461d6343c4238f8827ee0dee939c62171",
+            "format": "PE",
+            "architecture": "arm64",
+            "inventory": {
+              "inventory_returned": 1,
+              "inventory_total": 1,
+              "inventory_complete": false,
+              "inventory_conflict": false,
+              "artifact_status": "partial"
+            },
+            "native_coverage": {
+              "inventory_observed": 1,
+              "inventory_returned": 1,
+              "inventory_complete": true,
+              "native_functions": 1,
+              "external_functions": 0,
+              "dossiers_requested": 1,
+              "dossiers_succeeded": 1,
+              "decompiled": 1,
+              "cfg_complete": 1,
+              "dossier_limit": 100
+            },
+            "fn": {
+              "name": "parcel_fee",
+              "id": "0x180001000",
+              "mnemonics": [
+                "add",
+                "cmp",
+                "add",
+                "csel",
+                "ret"
+              ],
+              "blocks": 1,
+              "edges": 0,
+              "resolved_calls": 0
+            },
+            "raw_function_evidence_sha256": "53df1b49c8aaf7d9db314cbbc84ab4a12b71d3b4ffa7415c0d4d21a02d477e17"
+          },
+          "candidate": {
+            "scope": {
+              "total": 1,
+              "observed": 1,
+              "selected": 1,
+              "excluded": 0,
+              "comparable": 1
+            },
+            "path": "candidate-arm64.dll",
+            "sha256": "3c3e217cf23273894fba72985facdb59aa20187db077ff78ad2dc31225aec51e",
+            "format": "PE",
+            "architecture": "arm64",
+            "inventory": {
+              "inventory_returned": 1,
+              "inventory_total": 1,
+              "inventory_complete": false,
+              "inventory_conflict": false,
+              "artifact_status": "partial"
+            },
+            "native_coverage": {
+              "inventory_observed": 1,
+              "inventory_returned": 1,
+              "inventory_complete": true,
+              "native_functions": 1,
+              "external_functions": 0,
+              "dossiers_requested": 1,
+              "dossiers_succeeded": 1,
+              "decompiled": 1,
+              "cfg_complete": 1,
+              "dossier_limit": 100
+            },
+            "fn": {
+              "name": "parcel_fee",
+              "id": "0x180001000",
+              "mnemonics": [
+                "add",
+                "cmp",
+                "add",
+                "csel",
+                "ret"
+              ],
+              "blocks": 1,
+              "edges": 0,
+              "resolved_calls": 0
+            },
+            "raw_function_evidence_sha256": "62967492fa8a323f5d79bae939f342768c2682d5e4773c828376a0742a2162c2"
+          }
+        },
+        "reason": "REA inventory relationship coverage is unknown",
+        "raw_product_result_sha256": "20a3a57221c5aa2f34d2ece6c8076c05c350d46663be05af645aa7c3b72ba02f"
+      },
+      "macos-x64": {
+        "status": "partial",
+        "score_percent": 100.0,
+        "denominator": 1,
+        "runtime_execution": "unmeasured_in_this_probe",
+        "targets": {
+          "reference": {
+            "scope": {
+              "total": 1,
+              "observed": 1,
+              "selected": 1,
+              "excluded": 0,
+              "comparable": 1
+            },
+            "path": "original-x64.dylib",
+            "sha256": "d761da6c6e7f5fa6c8e288402dfe9d48c16f4aeeab2ed0d278f06d4a73927363",
+            "format": "Mach-O",
+            "architecture": "x86-64",
+            "inventory": {
+              "inventory_returned": 1,
+              "inventory_total": 1,
+              "inventory_complete": false,
+              "inventory_conflict": false,
+              "artifact_status": "partial"
+            },
+            "native_coverage": {
+              "inventory_observed": 1,
+              "inventory_returned": 1,
+              "inventory_complete": true,
+              "native_functions": 1,
+              "external_functions": 0,
+              "dossiers_requested": 1,
+              "dossiers_succeeded": 1,
+              "decompiled": 1,
+              "cfg_complete": 1,
+              "dossier_limit": 100
+            },
+            "fn": {
+              "name": "_parcel_fee",
+              "id": "0x240",
+              "mnemonics": [
+                "push",
+                "mov",
+                "xor",
+                "test",
+                "lea",
+                "cmovs",
+                "pop",
+                "ret"
+              ],
+              "blocks": 1,
+              "edges": 0,
+              "resolved_calls": 0
+            },
+            "raw_function_evidence_sha256": "dd8b43c948019064718fa10385131cfa7c74f68cba8384d8bc41db3abce4c8dc"
+          },
+          "candidate": {
+            "scope": {
+              "total": 1,
+              "observed": 1,
+              "selected": 1,
+              "excluded": 0,
+              "comparable": 1
+            },
+            "path": "candidate-x64.dylib",
+            "sha256": "1007738053f21acdb01cc60047d831e994a427a9a3e19fcf98a9f55149d822b1",
+            "format": "Mach-O",
+            "architecture": "x86-64",
+            "inventory": {
+              "inventory_returned": 1,
+              "inventory_total": 1,
+              "inventory_complete": false,
+              "inventory_conflict": false,
+              "artifact_status": "partial"
+            },
+            "native_coverage": {
+              "inventory_observed": 1,
+              "inventory_returned": 1,
+              "inventory_complete": true,
+              "native_functions": 1,
+              "external_functions": 0,
+              "dossiers_requested": 1,
+              "dossiers_succeeded": 1,
+              "decompiled": 1,
+              "cfg_complete": 1,
+              "dossier_limit": 100
+            },
+            "fn": {
+              "name": "_parcel_fee",
+              "id": "0x250",
+              "mnemonics": [
+                "push",
+                "mov",
+                "xor",
+                "test",
+                "lea",
+                "cmovs",
+                "pop",
+                "ret"
+              ],
+              "blocks": 1,
+              "edges": 0,
+              "resolved_calls": 0
+            },
+            "raw_function_evidence_sha256": "850f76fac4b8b073aff312e0185a181ffccba4a1bc70cbe0a96ef03520c0d46f"
+          }
+        },
+        "reason": "REA inventory relationship coverage is unknown",
+        "raw_product_result_sha256": "392fa32d660e38c4b0968ed2e12e1cf5921f3f42a1a7b9b0987e4577ba0bf4d9"
+      },
+      "macos-arm64": {
+        "status": "partial",
+        "score_percent": 100.0,
+        "denominator": 1,
+        "runtime_execution": "unmeasured_in_this_probe",
+        "targets": {
+          "reference": {
+            "scope": {
+              "total": 1,
+              "observed": 1,
+              "selected": 1,
+              "excluded": 0,
+              "comparable": 1
+            },
+            "path": "original-arm64.dylib",
+            "sha256": "1d21fc80eb88004ba82cbe23a5ef365c57bfefb31e075f67a1150f0de70323b6",
+            "format": "Mach-O",
+            "architecture": "arm64",
+            "inventory": {
+              "inventory_returned": 1,
+              "inventory_total": 1,
+              "inventory_complete": false,
+              "inventory_conflict": false,
+              "artifact_status": "partial"
+            },
+            "native_coverage": {
+              "inventory_observed": 1,
+              "inventory_returned": 1,
+              "inventory_complete": true,
+              "native_functions": 1,
+              "external_functions": 0,
+              "dossiers_requested": 1,
+              "dossiers_succeeded": 1,
+              "decompiled": 1,
+              "cfg_complete": 1,
+              "dossier_limit": 100
+            },
+            "fn": {
+              "name": "_parcel_fee",
+              "id": "0x258",
+              "mnemonics": [
+                "add",
+                "add",
+                "cmp",
+                "csel",
+                "ret"
+              ],
+              "blocks": 1,
+              "edges": 0,
+              "resolved_calls": 0
+            },
+            "raw_function_evidence_sha256": "7941e4a3bf5b663ab584068019ccc3e035c376bdf1818ca144bd0ad797f29524"
+          },
+          "candidate": {
+            "scope": {
+              "total": 1,
+              "observed": 1,
+              "selected": 1,
+              "excluded": 0,
+              "comparable": 1
+            },
+            "path": "candidate-arm64.dylib",
+            "sha256": "5bad6b79dbf2b23a34ca7312261016e244ac7f09c7f22c87fa94a3de0afe0ac9",
+            "format": "Mach-O",
+            "architecture": "arm64",
+            "inventory": {
+              "inventory_returned": 1,
+              "inventory_total": 1,
+              "inventory_complete": false,
+              "inventory_conflict": false,
+              "artifact_status": "partial"
+            },
+            "native_coverage": {
+              "inventory_observed": 1,
+              "inventory_returned": 1,
+              "inventory_complete": true,
+              "native_functions": 1,
+              "external_functions": 0,
+              "dossiers_requested": 1,
+              "dossiers_succeeded": 1,
+              "decompiled": 1,
+              "cfg_complete": 1,
+              "dossier_limit": 100
+            },
+            "fn": {
+              "name": "_parcel_fee",
+              "id": "0x258",
+              "mnemonics": [
+                "add",
+                "add",
+                "cmp",
+                "csel",
+                "ret"
+              ],
+              "blocks": 1,
+              "edges": 0,
+              "resolved_calls": 0
+            },
+            "raw_function_evidence_sha256": "e930461d60aa37e256600ed3a847a26e4e37b98644bb61161e31593d73c2734a"
+          }
+        },
+        "reason": "REA inventory relationship coverage is unknown",
+        "raw_product_result_sha256": "2795277da46a44cc72fd56f9504d8e953c481b1539985406d2506281fccda4c0"
+      },
+      "linux-arm64": {
+        "status": "partial",
+        "score_percent": 100.0,
+        "denominator": 1,
+        "runtime_execution": "unmeasured_in_this_probe",
+        "targets": {
+          "reference": {
+            "scope": {
+              "total": 1,
+              "observed": 1,
+              "selected": 1,
+              "excluded": 0,
+              "comparable": 1
+            },
+            "path": "original-arm64.so",
+            "sha256": "23bd8f66458b416b07997e8f39671e1436493e42357dc7690cdac399a4314fe6",
+            "format": "ELF",
+            "architecture": "arm64",
+            "inventory": {
+              "inventory_returned": 1,
+              "inventory_total": 1,
+              "inventory_complete": false,
+              "inventory_conflict": false,
+              "artifact_status": "partial"
+            },
+            "native_coverage": {
+              "inventory_observed": 1,
+              "inventory_returned": 1,
+              "inventory_complete": true,
+              "native_functions": 1,
+              "external_functions": 0,
+              "dossiers_requested": 1,
+              "dossiers_succeeded": 1,
+              "decompiled": 1,
+              "cfg_complete": 1,
+              "dossier_limit": 100
+            },
+            "fn": {
+              "name": "parcel_fee",
+              "id": "0x11023c",
+              "mnemonics": [
+                "add",
+                "cmp",
+                "add",
+                "csel",
+                "ret"
+              ],
+              "blocks": 1,
+              "edges": 0,
+              "resolved_calls": 0
+            },
+            "raw_function_evidence_sha256": "270f54c0ca0507cdda0318bdb323d2164f6db15a9253ce8cfa3ac3df56c81871"
+          },
+          "candidate": {
+            "scope": {
+              "total": 1,
+              "observed": 1,
+              "selected": 1,
+              "excluded": 0,
+              "comparable": 1
+            },
+            "path": "candidate-arm64.so",
+            "sha256": "80fde0658b2f7659ae95b715bf7359db2b24d13799a541bb7b01f22613796d01",
+            "format": "ELF",
+            "architecture": "arm64",
+            "inventory": {
+              "inventory_returned": 1,
+              "inventory_total": 1,
+              "inventory_complete": false,
+              "inventory_conflict": false,
+              "artifact_status": "partial"
+            },
+            "native_coverage": {
+              "inventory_observed": 1,
+              "inventory_returned": 1,
+              "inventory_complete": true,
+              "native_functions": 1,
+              "external_functions": 0,
+              "dossiers_requested": 1,
+              "dossiers_succeeded": 1,
+              "decompiled": 1,
+              "cfg_complete": 1,
+              "dossier_limit": 100
+            },
+            "fn": {
+              "name": "parcel_fee",
+              "id": "0x11023c",
+              "mnemonics": [
+                "add",
+                "cmp",
+                "add",
+                "csel",
+                "ret"
+              ],
+              "blocks": 1,
+              "edges": 0,
+              "resolved_calls": 0
+            },
+            "raw_function_evidence_sha256": "88f73833ff6134815a327bd6a6e4a10dbbed5875d279699fe0f358c83c0b0ee7"
+          }
+        },
+        "reason": "REA inventory relationship coverage is unknown",
+        "raw_product_result_sha256": "a833ebd8fbe550727454f54cc83d2f98189ab48e0989133368fbb71710aada73"
+      }
+    }
+  }
+}

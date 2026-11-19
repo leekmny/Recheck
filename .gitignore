@@ -47,6 +47,8 @@ build/
 !/docs/DISTRIBUTION_AND_RECOVERY.md
 !/docs/BINARY_DISTRIBUTION.md
 !/docs/FIRST_RUN.md
+!/docs/PORTING_RELEASE.md
+!/docs/PORTING_VALIDATION_UPDATE.md
 
 # Existing presentation artifacts are kept locally.
 /Recheck_Light*.pptx

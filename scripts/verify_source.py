@@ -12,7 +12,6 @@ import subprocess
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from recheck.models import atomic_json
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -21,6 +20,7 @@ def snapshot(root):
     paths = [root / name for name in (
         'launch.py', 'pyproject.toml', 'Recheck.spec', 'requirements-lock.txt',
         'Setup-Recheck.ps1', 'Run-Recheck.cmd')]
+    paths += [root / 'samples' / 'porting' / 'console' / name for name in ('fee.c', 'fee.rs', 'fixtures.py')]
     for directory in ('recheck', 'ai_providers', 'resources', 'scripts'):
         paths += [p for p in (root / directory).rglob('*') if p.is_file()
                   and '__pycache__' not in p.parts and p.suffix not in ('.pyc', '.log')]
@@ -42,6 +42,8 @@ def verification_inputs(root):
 
 
 def verify(root, output, runner=subprocess.run):
+    from recheck.models import atomic_json
+
     root, output = Path(root).resolve(), Path(output).resolve()
     output.mkdir(parents=True, exist_ok=False)
     before = snapshot(root)

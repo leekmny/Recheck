@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Postal estimate</title>
+<label for="mass">Mass</label>
+<input id="mass">
+<button id="estimate">Estimate</button>
+<p role="status" id="price"></p>
+<a href="quote.txt" download>Download rate card</a>
+<script>
+const rates = Array.from({length: 101}, (_, index) => 100 + 15 * index);
+function estimate() {
+  const input = document.getElementById('mass').value;
+  const integer = Number(input);
+  const proper = input.length && [...input].every(digit => digit >= '0' && digit <= '9');
+  const result = proper && integer in rates ? rates[integer] : 'invalid';
+  const defect = new URLSearchParams(location.search).has('defect');
+  document.getElementById('price').textContent = defect && integer === 10 ? 249 : result;
+}
+document.getElementById('estimate').addEventListener('click', estimate);
+</script>
+</html>

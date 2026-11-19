@@ -1,0 +1,1245 @@
+{
+  "schema_version": "recheck-porting-driver-evidence-1",
+  "date_utc": "2026-11-19",
+  "environments": {
+    "linux_x64_docker": {
+      "os": "linux",
+      "arch": "x64",
+      "id": "e9248491934bf628fab630154b794744aeb424d80883c2200e9f4ead10677ac7",
+      "isolation": "docker",
+      "os_version": "#1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026",
+      "python": "3.12.16",
+      "image_id": "sha256:e9248491934bf628fab630154b794744aeb424d80883c2200e9f4ead10677ac7",
+      "docker_version": "29.9.3",
+      "host_arch": "amd64",
+      "emulated": false,
+      "image_arch": "amd64"
+    },
+    "windows_x64_repository_fixtures": {
+      "os": "windows",
+      "arch": "x64",
+      "id": "repository-test-fixtures",
+      "isolation": "trusted-fixtures"
+    },
+    "linux_x64_xvfb_docker": {
+      "os": "linux",
+      "arch": "x64",
+      "id": "4f8f504a7ef9ff2e760da3598cd8df825fb27779a71b4fca12ddcb9075986ab8",
+      "isolation": "docker",
+      "os_version": "#1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026",
+      "python": "3.11.2",
+      "image_id": "sha256:4f8f504a7ef9ff2e760da3598cd8df825fb27779a71b4fca12ddcb9075986ab8",
+      "docker_version": "29.9.3",
+      "host_arch": "amd64",
+      "emulated": false,
+      "image_arch": "amd64",
+      "display": "private Xvfb 1280x720x24",
+      "session_bus": "private dbus-run-session",
+      "network": "none",
+      "at_spi": "2.46.0-5",
+      "xvfb": "21.1.7-3+deb12u13",
+      "pyside6_essentials": "6.12.0",
+      "qt_environment": {
+        "QT_LINUX_ACCESSIBILITY_ALWAYS_ON": "1",
+        "QT_XCB_GL_INTEGRATION": "none"
+      },
+      "driver_sha256": "a520a03dc75016d67ec36fd607671d75e39ea38722545a28b87bfa78f9dff83e",
+      "worker_code_sha256": "ea6b7fdfff2c3aca6068c8b3f27dcfc246a286ae978c0dc7f4bc287acae57f2e",
+      "recipe_file_hashes": {
+        "Dockerfile": "7004d688c1c1e1777fa853879528f2bd8fb3138611d4d54fcba7b45a523a1b11",
+        "Dockerfile.dockerignore": "85104f1805950e7883ed07e049edf6e1bf15aa89ce740205c564829e50f93df3",
+        "worker-python.sh": "041fd213289ce9cf2563bd798150988c9c82e37e81553c744bfdd57cad9a540a"
+      }
+    }
+  },
+  "windows_fixture_tool_versions_confirmed": {
+    "python": "3.14.8",
+    "playwright": "1.65.2",
+    "chromium": "159.0.8154.6",
+    "pywinauto": "0.6.9",
+    "pyside6_essentials": "6.12.0"
+  },
+  "runs": {
+    "http": {
+      "target_bundles": {
+        "reference": {
+          "sha256": "aebef259e790f875044ccb9fda2c7d717024cab803021f8411797e1fcfb5ec4d",
+          "file_hashes": {
+            "original.py": "488861466ddfdd01d59917a8230c1139523979cea68d230b883eda9e4c8636ce"
+          }
+        },
+        "candidate": {
+          "sha256": "4fd99c18388320a71b1d08f80b4a9dbc35324ffcb306dacc2f9dcc7423bcb6bc",
+          "file_hashes": {
+            "port.mjs": "7edf25b853f340ee7e16d60bf8fa2104b973d97ebd2a0d1d85255035cea507ff"
+          }
+        }
+      },
+      "defect": {
+        "run_id": "run_5625673ee1574336a4afee1dc3ef848e",
+        "environment": "linux_x64_docker",
+        "manifest_sha256": "e7e295d8ba795b5632505316b0cc3d0eebedf1add71aefb11c8501815ef0947e",
+        "raw_result_sha256": "84c458bc17137718a3e6fac32e8dc4bd012df9d7424a7c0cbfe60110123e9844",
+        "behavior": {
+          "registered": 1,
+          "attempted": 1,
+          "attempts": 1,
+          "steps": 14,
+          "process_executions": 2,
+          "matched": 0,
+          "mismatched": 1,
+          "denominator": 1,
+          "match_rate": 0.0,
+          "execution_statuses": {
+            "completed": 2
+          },
+          "acceptance": "failed"
+        },
+        "entry_sha256": {
+          "reference": "488861466ddfdd01d59917a8230c1139523979cea68d230b883eda9e4c8636ce",
+          "candidate": "7edf25b853f340ee7e16d60bf8fa2104b973d97ebd2a0d1d85255035cea507ff"
+        },
+        "reported_tool": {
+          "reference": "Python 3.12.16",
+          "candidate": "v24.22.3"
+        },
+        "observed_checkpoint": {
+          "scenario": "quoted_prices",
+          "step": "upper_bound",
+          "reference": {
+            "status": 200,
+            "observed_headers": {
+              "content-type": [
+                "application/json"
+              ]
+            },
+            "body": {
+              "amount": 1600
+            },
+            "body_b64": "eyJhbW91bnQiOjE2MDB9"
+          },
+          "candidate": {
+            "status": 200,
+            "observed_headers": {
+              "content-type": [
+                "application/json"
+              ]
+            },
+            "body": {
+              "amount": 1599
+            },
+            "body_b64": "eyJhbW91bnQiOjE1OTl9"
+          }
+        },
+        "scenarios": [
+          {
+            "id": "quoted_prices",
+            "outcome": "mismatched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "failed"
+            },
+            "differences": [
+              "step:upper_bound"
+            ]
+          }
+        ]
+      },
+      "normal": {
+        "run_id": "run_dfcd06360af849469a1bf8034726f07e",
+        "environment": "linux_x64_docker",
+        "manifest_sha256": "7613dce21833aae57d208d3bd72843ceeec373acf461084e7fda38c80a787266",
+        "raw_result_sha256": "c0f246a51d13f8ccf4a0351df2e595e50dcc6fbde14550df84fa2155fc92c488",
+        "behavior": {
+          "registered": 1,
+          "attempted": 1,
+          "attempts": 1,
+          "steps": 14,
+          "process_executions": 2,
+          "matched": 1,
+          "mismatched": 0,
+          "denominator": 1,
+          "match_rate": 1.0,
+          "execution_statuses": {
+            "completed": 2
+          },
+          "acceptance": "passed"
+        },
+        "entry_sha256": {
+          "reference": "488861466ddfdd01d59917a8230c1139523979cea68d230b883eda9e4c8636ce",
+          "candidate": "7edf25b853f340ee7e16d60bf8fa2104b973d97ebd2a0d1d85255035cea507ff"
+        },
+        "reported_tool": {
+          "reference": "Python 3.12.16",
+          "candidate": "v24.22.3"
+        },
+        "observed_checkpoint": {
+          "scenario": "quoted_prices",
+          "step": "upper_bound",
+          "reference": {
+            "status": 200,
+            "observed_headers": {
+              "content-type": [
+                "application/json"
+              ]
+            },
+            "body": {
+              "amount": 1600
+            },
+            "body_b64": "eyJhbW91bnQiOjE2MDB9"
+          },
+          "candidate": {
+            "status": 200,
+            "observed_headers": {
+              "content-type": [
+                "application/json"
+              ]
+            },
+            "body": {
+              "amount": 1600
+            },
+            "body_b64": "eyJhbW91bnQiOjE2MDB9"
+          }
+        },
+        "scenarios": [
+          {
+            "id": "quoted_prices",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          }
+        ]
+      }
+    },
+    "library": {
+      "target_bundles": {
+        "reference": {
+          "sha256": "02484aff250174a3b8c1a6c70cb8c0c1559350acaf1d39508176e5c2d8ef42e0",
+          "file_hashes": {
+            "original.c": "962167c200d33d04963e669613bb75c2371a447d9badf6e5b8fd0fc03026e5ad"
+          }
+        },
+        "candidate": {
+          "sha256": "2c4b77f1089096b4f4aadf4fa33dd1d5ad6ab4e60f759153d94af8a4e7a19520",
+          "file_hashes": {
+            "port.rs": "e13b795c06b5663a774deb6a15aa965e494422c45a1420cfbcde45fbb622e930"
+          }
+        }
+      },
+      "normal": {
+        "run_id": "run_6b1bb978df4e4bdfb8064113fedf360a",
+        "environment": "linux_x64_docker",
+        "manifest_sha256": "e158d9ffdb5a24c2af5d726dccb05087218f29f55c181bfb4edfe1784100ab5b",
+        "raw_result_sha256": "50dd7369257b3326064ddc5ac27f6bd432a93b6760bc87757f69455b37f3def8",
+        "behavior": {
+          "registered": 4,
+          "attempted": 4,
+          "attempts": 4,
+          "steps": 8,
+          "process_executions": 16,
+          "matched": 4,
+          "mismatched": 0,
+          "denominator": 4,
+          "match_rate": 1.0,
+          "execution_statuses": {
+            "completed": 8
+          },
+          "acceptance": "passed"
+        },
+        "entry_sha256": {
+          "reference": "e111004a8f84dfc03b9cac29380af8ed837b872a9902a5c6bb7fff5b40b41dd8",
+          "candidate": "6f6cf8415a81f0b60a9f8c733b8208c4750a1f14e2907326c14e77b47101a05b"
+        },
+        "reported_tool": {
+          "reference": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0",
+          "candidate": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+        },
+        "observed_checkpoint": {
+          "scenario": "valid_quote",
+          "step": "call",
+          "reference": {
+            "return": 0,
+            "buffers": {
+              "1": "+gA="
+            },
+            "errno": 0,
+            "last_error": null
+          },
+          "candidate": {
+            "return": 0,
+            "buffers": {
+              "1": "+gA="
+            },
+            "errno": 0,
+            "last_error": null
+          }
+        },
+        "scenarios": [
+          {
+            "id": "valid_quote",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          },
+          {
+            "id": "upper_bound",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          },
+          {
+            "id": "negative_rejected",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          },
+          {
+            "id": "short_buffer",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          }
+        ],
+        "build_arguments": {
+          "reference": [
+            "-std=c11",
+            "-fPIC",
+            "-shared",
+            "-O2",
+            "original.c",
+            "-o",
+            "original.so"
+          ],
+          "candidate": [
+            "--edition=2021",
+            "--crate-type",
+            "cdylib",
+            "-O",
+            "port.rs",
+            "-o",
+            "port.so"
+          ]
+        }
+      },
+      "defect": {
+        "run_id": "run_bec69bf1020d48968314e21a256d3d21",
+        "environment": "linux_x64_docker",
+        "manifest_sha256": "81380c9d8ce8483d3aed781d21efdaad39b27be2b22a993435035620ccb71262",
+        "raw_result_sha256": "6572d9df0491b29cc0e19930e863cfe6ddd113a7eba66c8529a217e21a0cd1c1",
+        "behavior": {
+          "registered": 4,
+          "attempted": 4,
+          "attempts": 4,
+          "steps": 8,
+          "process_executions": 16,
+          "matched": 3,
+          "mismatched": 1,
+          "denominator": 4,
+          "match_rate": 0.75,
+          "execution_statuses": {
+            "completed": 8
+          },
+          "acceptance": "failed"
+        },
+        "entry_sha256": {
+          "reference": "e111004a8f84dfc03b9cac29380af8ed837b872a9902a5c6bb7fff5b40b41dd8",
+          "candidate": "ba5912fcecc3c686d7cadc88bff8c00e55acb5f584a505e59e438ec0b235a12e"
+        },
+        "reported_tool": {
+          "reference": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0",
+          "candidate": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+        },
+        "observed_checkpoint": {
+          "scenario": "valid_quote",
+          "step": "call",
+          "reference": {
+            "return": 0,
+            "buffers": {
+              "1": "+gA="
+            },
+            "errno": 0,
+            "last_error": null
+          },
+          "candidate": {
+            "return": 0,
+            "buffers": {
+              "1": "+QA="
+            },
+            "errno": 0,
+            "last_error": null
+          }
+        },
+        "scenarios": [
+          {
+            "id": "valid_quote",
+            "outcome": "mismatched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "failed"
+            },
+            "differences": [
+              "step:call"
+            ]
+          },
+          {
+            "id": "upper_bound",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          },
+          {
+            "id": "negative_rejected",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          },
+          {
+            "id": "short_buffer",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          }
+        ],
+        "build_arguments": {
+          "reference": [
+            "-std=c11",
+            "-fPIC",
+            "-shared",
+            "-O2",
+            "original.c",
+            "-o",
+            "original.so"
+          ],
+          "candidate": [
+            "--edition=2021",
+            "--crate-type",
+            "cdylib",
+            "-O",
+            "port.rs",
+            "-o",
+            "port.so",
+            "--cfg",
+            "defect"
+          ]
+        }
+      }
+    },
+    "state": {
+      "target_bundles": {
+        "reference": {
+          "sha256": "3fecd18387a9da6159d753eb6a7271a8a09bf47b26db2fb7927b6c5a04284c8d",
+          "file_hashes": {
+            "obsolete.txt": "224c173b4fbc698d174a11701192a926562fbfccd8b13cefe5993177944c116f",
+            "original.py": "4bd0af5f532c3f1a4df32de23da23a1339f2bcc31e8c16cb2167dcb91c9da0a5",
+            "status.txt": "7aa7a5359173d05b63cfd682e3c38487f3cb4f7f1d60659fe59fab1505977d4c"
+          }
+        },
+        "candidate": {
+          "sha256": "ff2cabbb24df3b85e28ff1ff7676a2ca2523d2e9fe0baeff738b8a0c031ba921",
+          "file_hashes": {
+            "obsolete.txt": "224c173b4fbc698d174a11701192a926562fbfccd8b13cefe5993177944c116f",
+            "port.mjs": "f3a2fe6e5e63c95b1c65b19700b7d28ae6fdd52cc01752b9f899d08fac9c4fea",
+            "status.txt": "7aa7a5359173d05b63cfd682e3c38487f3cb4f7f1d60659fe59fab1505977d4c"
+          }
+        }
+      },
+      "normal": {
+        "run_id": "run_69f16f193a2b4292898e3ce074112f88",
+        "environment": "linux_x64_docker",
+        "manifest_sha256": "c1add25e8b969e8c123ae4420d045533d3dc1da330cc263f7c6669c616a93d02",
+        "raw_result_sha256": "68e3720bcb457f5bb25b44cfbf0ea1594b014cb54178de8b77ee62595436dc79",
+        "behavior": {
+          "registered": 1,
+          "attempted": 1,
+          "attempts": 1,
+          "steps": 8,
+          "process_executions": 2,
+          "matched": 1,
+          "mismatched": 0,
+          "denominator": 1,
+          "match_rate": 1.0,
+          "execution_statuses": {
+            "completed": 2
+          },
+          "acceptance": "passed"
+        },
+        "entry_sha256": {
+          "reference": "4bd0af5f532c3f1a4df32de23da23a1339f2bcc31e8c16cb2167dcb91c9da0a5",
+          "candidate": "f3a2fe6e5e63c95b1c65b19700b7d28ae6fdd52cc01752b9f899d08fac9c4fea"
+        },
+        "reported_tool": {
+          "reference": "Python 3.12.16",
+          "candidate": "v24.22.3"
+        },
+        "observed_checkpoint": {
+          "scenario": "state_after_quote",
+          "step": "after_db",
+          "reference": {
+            "columns": [
+              "id",
+              "amount"
+            ],
+            "exists": true,
+            "rows": [
+              [
+                1,
+                250
+              ]
+            ],
+            "table": "quote"
+          },
+          "candidate": {
+            "columns": [
+              "id",
+              "amount"
+            ],
+            "exists": true,
+            "rows": [
+              [
+                1,
+                250
+              ]
+            ],
+            "table": "quote"
+          }
+        },
+        "scenarios": [
+          {
+            "id": "state_after_quote",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          }
+        ]
+      },
+      "defect": {
+        "run_id": "run_b55ad995e58d498ea483e793875b7b61",
+        "environment": "linux_x64_docker",
+        "manifest_sha256": "c2161777fcb9fcec76ba1eb2aff20c1642f9c667cd9ea758f86c53144c143e08",
+        "raw_result_sha256": "ff179620b16b9254a45df246a49aad2a96e226062e5edbcf13812ee6f26471e4",
+        "behavior": {
+          "registered": 1,
+          "attempted": 1,
+          "attempts": 1,
+          "steps": 8,
+          "process_executions": 2,
+          "matched": 0,
+          "mismatched": 1,
+          "denominator": 1,
+          "match_rate": 0.0,
+          "execution_statuses": {
+            "completed": 2
+          },
+          "acceptance": "failed"
+        },
+        "entry_sha256": {
+          "reference": "4bd0af5f532c3f1a4df32de23da23a1339f2bcc31e8c16cb2167dcb91c9da0a5",
+          "candidate": "f3a2fe6e5e63c95b1c65b19700b7d28ae6fdd52cc01752b9f899d08fac9c4fea"
+        },
+        "reported_tool": {
+          "reference": "Python 3.12.16",
+          "candidate": "v24.22.3"
+        },
+        "observed_checkpoint": {
+          "scenario": "state_after_quote",
+          "step": "after_db",
+          "reference": {
+            "columns": [
+              "id",
+              "amount"
+            ],
+            "exists": true,
+            "rows": [
+              [
+                1,
+                250
+              ]
+            ],
+            "table": "quote"
+          },
+          "candidate": {
+            "columns": [
+              "id",
+              "amount"
+            ],
+            "exists": true,
+            "rows": [
+              [
+                1,
+                249
+              ]
+            ],
+            "table": "quote"
+          }
+        },
+        "scenarios": [
+          {
+            "id": "state_after_quote",
+            "outcome": "mismatched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "failed"
+            },
+            "differences": [
+              "step:after_db"
+            ]
+          }
+        ]
+      }
+    },
+    "web": {
+      "target_bundles": {
+        "reference": {
+          "sha256": "64890ad8143445922f338b57b9fd195dd912bd2b1b7d81641692c2f95f1aac3e",
+          "file_hashes": {
+            "original.html": "cd6e5927060c00d30ad1f724df2658eaa4b914045dddfadbe263ea1570cc02d9",
+            "quote.txt": "2a7939307f228c4b286c5b070ea4c02833c9b7bd5afb7be8c062cd5d8228ecbd",
+            "serve.py": "493feb0d4361bd2c4e508d68d8c94e6b1e50f5563ba4df013502f2d804dc7df6"
+          }
+        },
+        "candidate": {
+          "sha256": "83065b3794e9de72936511ad7f4c1ac8040c0f51376909cf9915d13a0b3c83f3",
+          "file_hashes": {
+            "port.html": "9bcea30b5676fc80185589dd13a54fe82bacbf4fd55fc429df123dc022a5d855",
+            "quote.txt": "2a7939307f228c4b286c5b070ea4c02833c9b7bd5afb7be8c062cd5d8228ecbd",
+            "serve.py": "493feb0d4361bd2c4e508d68d8c94e6b1e50f5563ba4df013502f2d804dc7df6"
+          }
+        }
+      },
+      "defect": {
+        "run_id": "run_6758649727a04cb6aea807bb0d0d08ec",
+        "environment": "windows_x64_repository_fixtures",
+        "manifest_sha256": "b1e733f87e4683fef07eba036f36a499ff0310177b633932ffad1b91df067bb2",
+        "raw_result_sha256": "bc912d50d9c85674533b5a86cd816a1370a362dcd1497b39f48abf3090d3d854",
+        "behavior": {
+          "registered": 1,
+          "attempted": 1,
+          "attempts": 1,
+          "steps": 16,
+          "process_executions": 2,
+          "matched": 0,
+          "mismatched": 1,
+          "denominator": 1,
+          "match_rate": 0.0,
+          "execution_statuses": {
+            "completed": 2
+          },
+          "acceptance": "failed"
+        },
+        "entry_sha256": {
+          "reference": "493feb0d4361bd2c4e508d68d8c94e6b1e50f5563ba4df013502f2d804dc7df6",
+          "candidate": "493feb0d4361bd2c4e508d68d8c94e6b1e50f5563ba4df013502f2d804dc7df6"
+        },
+        "reported_tool": {
+          "reference": "Python 3.14.8",
+          "candidate": "Python 3.14.8"
+        },
+        "observed_checkpoint": {
+          "scenario": "parcel_quote",
+          "step": "price",
+          "reference": {
+            "price": "250",
+            "download_sha256": "2a7939307f228c4b286c5b070ea4c02833c9b7bd5afb7be8c062cd5d8228ecbd",
+            "visual_png": {
+              "sha256": "9b631743142da2849fe6ced2e475899158deb5774b500d9c6adf27ca6a4680cf",
+              "width": 1280,
+              "height": 720
+            }
+          },
+          "candidate": {
+            "price": "249",
+            "download_sha256": "2a7939307f228c4b286c5b070ea4c02833c9b7bd5afb7be8c062cd5d8228ecbd",
+            "visual_png": {
+              "sha256": "070735a7ac4bb103de7bcc11710ef0ea5996d41d73038d31d490dbf2a214697d",
+              "width": 1280,
+              "height": 720
+            }
+          }
+        },
+        "scenarios": [
+          {
+            "id": "parcel_quote",
+            "outcome": "mismatched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "failed"
+            },
+            "differences": [
+              "step:price"
+            ]
+          }
+        ],
+        "visual_png_bytes_equal": false,
+        "visual_report_chromium_check": false
+      },
+      "normal": {
+        "run_id": "run_bf98e9e3ac6a4f1e85e425d165db502c",
+        "environment": "windows_x64_repository_fixtures",
+        "manifest_sha256": "559d8d98e8b643e69f751d5a5bd280d4eea05ee02232c36c347c510827ff52e0",
+        "raw_result_sha256": "2006eb84741be5fc69a3a61087116962cb88ad8f0ba6dbdfb1cd815bc3580f37",
+        "behavior": {
+          "registered": 1,
+          "attempted": 1,
+          "attempts": 1,
+          "steps": 16,
+          "process_executions": 2,
+          "matched": 1,
+          "mismatched": 0,
+          "denominator": 1,
+          "match_rate": 1.0,
+          "execution_statuses": {
+            "completed": 2
+          },
+          "acceptance": "passed"
+        },
+        "entry_sha256": {
+          "reference": "493feb0d4361bd2c4e508d68d8c94e6b1e50f5563ba4df013502f2d804dc7df6",
+          "candidate": "493feb0d4361bd2c4e508d68d8c94e6b1e50f5563ba4df013502f2d804dc7df6"
+        },
+        "reported_tool": {
+          "reference": "Python 3.14.8",
+          "candidate": "Python 3.14.8"
+        },
+        "observed_checkpoint": {
+          "scenario": "parcel_quote",
+          "step": "price",
+          "reference": {
+            "price": "250",
+            "download_sha256": "2a7939307f228c4b286c5b070ea4c02833c9b7bd5afb7be8c062cd5d8228ecbd",
+            "visual_png": {
+              "sha256": "9b631743142da2849fe6ced2e475899158deb5774b500d9c6adf27ca6a4680cf",
+              "width": 1280,
+              "height": 720
+            }
+          },
+          "candidate": {
+            "price": "250",
+            "download_sha256": "2a7939307f228c4b286c5b070ea4c02833c9b7bd5afb7be8c062cd5d8228ecbd",
+            "visual_png": {
+              "sha256": "d33db0bde2ae25768335ef269f3ad11f9d003e03ebb72268f2418c175c6e452e",
+              "width": 1280,
+              "height": 720
+            }
+          }
+        },
+        "scenarios": [
+          {
+            "id": "parcel_quote",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          }
+        ],
+        "visual_png_bytes_equal": false,
+        "visual_report_chromium_check": true
+      }
+    },
+    "desktop": {
+      "target_bundles": {
+        "reference": {
+          "sha256": "3d90d69d1d0907a461f51e8ed80e3c3c3e9477e98b4085be43f7699c20bf32f3",
+          "file_hashes": {
+            "original.py": "275818c9813b82a3cc16de72a9956538b3a0671e9feea41ff30d281c507e7854"
+          }
+        },
+        "candidate": {
+          "sha256": "943c3ba6a194620b73707fd5d89b3aea01e9b5d3747d9a15ea7190d5a37cd007",
+          "file_hashes": {
+            "port.py": "80ccbb1dd2b4a4a771d6cd7d912e09edebab2cfb9ff6e68717a84bc0b7d5b857"
+          }
+        }
+      },
+      "normal": {
+        "run_id": "run_e6a06c9a6f0240eba01725bc9ba9f674",
+        "environment": "windows_x64_repository_fixtures",
+        "manifest_sha256": "20e1f174f4483b650ff83bdf870b18cea9b4a2ab9bbddf53352546711c38250f",
+        "raw_result_sha256": "818e95b8e7ed9c2fc54219c55aab9f9facac2a3db195cf1e81dfbb31e63f53d5",
+        "behavior": {
+          "registered": 1,
+          "attempted": 1,
+          "attempts": 1,
+          "steps": 10,
+          "process_executions": 2,
+          "matched": 1,
+          "mismatched": 0,
+          "denominator": 1,
+          "match_rate": 1.0,
+          "execution_statuses": {
+            "completed": 2
+          },
+          "acceptance": "passed"
+        },
+        "entry_sha256": {
+          "reference": "275818c9813b82a3cc16de72a9956538b3a0671e9feea41ff30d281c507e7854",
+          "candidate": "80ccbb1dd2b4a4a771d6cd7d912e09edebab2cfb9ff6e68717a84bc0b7d5b857"
+        },
+        "reported_tool": {
+          "reference": "Python 3.14.8",
+          "candidate": "Python 3.14.8"
+        },
+        "observed_checkpoint": {
+          "scenario": "parcel_quote",
+          "step": "price",
+          "reference": {
+            "price": "250"
+          },
+          "candidate": {
+            "price": "250"
+          }
+        },
+        "scenarios": [
+          {
+            "id": "parcel_quote",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          }
+        ]
+      },
+      "defect": {
+        "run_id": "run_f3d81a21353e44c3b94f208f1c63ba77",
+        "environment": "windows_x64_repository_fixtures",
+        "manifest_sha256": "64f7a01f29ac11b1c6e90d403115feccb50df39e5d969a453aaf095af76f82fc",
+        "raw_result_sha256": "003deeb6ee94c05b0b2a4f8ebba78d739496672e1ba436dea45fd082c7031de4",
+        "behavior": {
+          "registered": 1,
+          "attempted": 1,
+          "attempts": 1,
+          "steps": 10,
+          "process_executions": 2,
+          "matched": 0,
+          "mismatched": 1,
+          "denominator": 1,
+          "match_rate": 0.0,
+          "execution_statuses": {
+            "completed": 2
+          },
+          "acceptance": "failed"
+        },
+        "entry_sha256": {
+          "reference": "275818c9813b82a3cc16de72a9956538b3a0671e9feea41ff30d281c507e7854",
+          "candidate": "80ccbb1dd2b4a4a771d6cd7d912e09edebab2cfb9ff6e68717a84bc0b7d5b857"
+        },
+        "reported_tool": {
+          "reference": "Python 3.14.8",
+          "candidate": "Python 3.14.8"
+        },
+        "observed_checkpoint": {
+          "scenario": "parcel_quote",
+          "step": "price",
+          "reference": {
+            "price": "250"
+          },
+          "candidate": {
+            "price": "249"
+          }
+        },
+        "scenarios": [
+          {
+            "id": "parcel_quote",
+            "outcome": "mismatched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "failed"
+            },
+            "differences": [
+              "step:price"
+            ]
+          }
+        ]
+      }
+    },
+    "desktop_linux": {
+      "fixture": "desktop",
+      "target_bundles": {
+        "reference": {
+          "sha256": "3d90d69d1d0907a461f51e8ed80e3c3c3e9477e98b4085be43f7699c20bf32f3",
+          "file_hashes": {
+            "original.py": "275818c9813b82a3cc16de72a9956538b3a0671e9feea41ff30d281c507e7854"
+          }
+        },
+        "candidate": {
+          "sha256": "943c3ba6a194620b73707fd5d89b3aea01e9b5d3747d9a15ea7190d5a37cd007",
+          "file_hashes": {
+            "port.py": "80ccbb1dd2b4a4a771d6cd7d912e09edebab2cfb9ff6e68717a84bc0b7d5b857"
+          }
+        }
+      },
+      "normal": {
+        "run_id": "run_34a2cf3dccab44978255ed3d8f45bb29",
+        "environment": "linux_x64_xvfb_docker",
+        "manifest_sha256": "a8b45b588a295fdd5dfc4064c0911f4f670a0c5b9f385ea7194a61623bf88ffd",
+        "raw_result_sha256": "ebb608ae983b456f1f8840aa75a8f0f46cddcafdab7e13d43d460d086a03b39b",
+        "behavior": {
+          "registered": 1,
+          "attempted": 1,
+          "attempts": 1,
+          "steps": 10,
+          "process_executions": 2,
+          "matched": 1,
+          "mismatched": 0,
+          "denominator": 1,
+          "match_rate": 1.0,
+          "execution_statuses": {
+            "completed": 2
+          },
+          "acceptance": "passed"
+        },
+        "entry_sha256": {
+          "reference": "275818c9813b82a3cc16de72a9956538b3a0671e9feea41ff30d281c507e7854",
+          "candidate": "80ccbb1dd2b4a4a771d6cd7d912e09edebab2cfb9ff6e68717a84bc0b7d5b857"
+        },
+        "reported_tool": {
+          "reference": "Python 3.11.2",
+          "candidate": "Python 3.11.2"
+        },
+        "observed_checkpoint": {
+          "scenario": "parcel_quote",
+          "step": "price",
+          "reference": {
+            "price": "250"
+          },
+          "candidate": {
+            "price": "250"
+          }
+        },
+        "scenarios": [
+          {
+            "id": "parcel_quote",
+            "outcome": "matched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "passed"
+            },
+            "differences": []
+          }
+        ],
+        "cli_exit_code": 0
+      },
+      "defect": {
+        "run_id": "run_1810311b3eb8452ea4a4e42e2d84784c",
+        "environment": "linux_x64_xvfb_docker",
+        "manifest_sha256": "fa49cfb4c9bf922e7490f1da07512e2ec831d6834d4c933a925a93fe34896c76",
+        "raw_result_sha256": "512905c7404b437c203746593914de2512525092761baeb066d224ea515c4863",
+        "behavior": {
+          "registered": 1,
+          "attempted": 1,
+          "attempts": 1,
+          "steps": 10,
+          "process_executions": 2,
+          "matched": 0,
+          "mismatched": 1,
+          "denominator": 1,
+          "match_rate": 0.0,
+          "execution_statuses": {
+            "completed": 2
+          },
+          "acceptance": "failed"
+        },
+        "entry_sha256": {
+          "reference": "275818c9813b82a3cc16de72a9956538b3a0671e9feea41ff30d281c507e7854",
+          "candidate": "80ccbb1dd2b4a4a771d6cd7d912e09edebab2cfb9ff6e68717a84bc0b7d5b857"
+        },
+        "reported_tool": {
+          "reference": "Python 3.11.2",
+          "candidate": "Python 3.11.2"
+        },
+        "observed_checkpoint": {
+          "scenario": "parcel_quote",
+          "step": "price",
+          "reference": {
+            "price": "250"
+          },
+          "candidate": {
+            "price": "249"
+          }
+        },
+        "scenarios": [
+          {
+            "id": "parcel_quote",
+            "outcome": "mismatched",
+            "expected": {
+              "reference": "passed",
+              "candidate": "failed"
+            },
+            "differences": [
+              "step:price"
+            ]
+          }
+        ],
+        "cli_exit_code": 0
+      }
+    }
+  },
+  "windows-uia-hang": {
+    "mixed_before_scope_change": {
+      "run_id": "run_f74d26e1e8b6491d95a538e6ccfa84a1",
+      "windows_session_id": 1,
+      "execution_isolation": "local repository trusted fixture worker, not SSH/VM",
+      "wall_elapsed_s": 10.377,
+      "case_outcome": "unmeasured",
+      "case_acceptance": "inconclusive",
+      "behavior_denominator": 0,
+      "sides": {
+        "reference": {
+          "status": "timed_out",
+          "reason": "ObservationTimeout",
+          "step_id": "display",
+          "error": "Desktop wait timed out",
+          "started": true,
+          "duration": 9.895,
+          "process_executions": 1,
+          "observations": {
+            "ready": {
+              "ready": true
+            },
+            "fill": {
+              "completed": true
+            },
+            "before": "10",
+            "quote": {
+              "completed": true
+            }
+          },
+          "cleanup_errors": []
+        },
+        "candidate": {
+          "status": "timed_out",
+          "reason": "ObservationTimeout",
+          "step_id": "display",
+          "error": "Desktop wait timed out",
+          "started": true,
+          "duration": 8.8378,
+          "process_executions": 1,
+          "observations": {
+            "ready": {
+              "ready": true
+            },
+            "fill": {
+              "completed": true
+            },
+            "before": "10",
+            "quote": {
+              "completed": true
+            }
+          },
+          "cleanup_errors": []
+        }
+      },
+      "fixture_block_elapsed_s": 4.3609,
+      "worker_job_objects_opened": 4,
+      "worker_job_handles_closed_and_invalid": 4,
+      "owned_worker_temp_directories_remaining": 0,
+      "reference_wm_null_error": 1460,
+      "independent_peer_responded": true,
+      "independent_peer_output": 250,
+      "owned_processes_seen": 6,
+      "live_owned_process_count_after_return": 0
+    },
+    "healthy_control": {
+      "run_id": "run_b4d05f8d81934f81a77fa0cd14afcd9e",
+      "wall_elapsed_s": 5.855,
+      "behavior_denominator": 1,
+      "outcome": "matched",
+      "sides": {
+        "reference": {
+          "status": "completed",
+          "step_id": null,
+          "error": null,
+          "observations": {
+            "ready": {
+              "ready": true
+            },
+            "fill": {
+              "completed": true
+            },
+            "before": "10",
+            "quote": {
+              "completed": true
+            },
+            "display": {
+              "completed": true
+            },
+            "price": "250"
+          },
+          "cleanup_errors": []
+        },
+        "candidate": {
+          "status": "completed",
+          "step_id": null,
+          "error": null,
+          "observations": {
+            "ready": {
+              "ready": true
+            },
+            "fill": {
+              "completed": true
+            },
+            "before": "10",
+            "quote": {
+              "completed": true
+            },
+            "display": {
+              "completed": true
+            },
+            "price": "250"
+          },
+          "cleanup_errors": []
+        }
+      }
+    },
+    "mixed_after_scope_change": {
+      "run_id": "run_abee198cbbde4d87af56b586c0dc8ad3",
+      "windows_session_id": 1,
+      "execution_isolation": "local repository trusted fixture worker, not SSH/VM",
+      "wall_elapsed_s": 8.0777,
+      "case_outcome": "unmeasured",
+      "case_acceptance": "inconclusive",
+      "behavior_denominator": 0,
+      "sides": {
+        "reference": {
+          "status": "timed_out",
+          "reason": "ObservationTimeout",
+          "step_id": "display",
+          "error": "Desktop wait timed out",
+          "started": true,
+          "duration": 7.474,
+          "process_executions": 1,
+          "observations": {
+            "ready": {
+              "ready": true
+            },
+            "fill": {
+              "completed": true
+            },
+            "before": "10",
+            "quote": {
+              "completed": true
+            }
+          },
+          "cleanup_errors": []
+        },
+        "candidate": {
+          "status": "completed",
+          "reason": "driver_shutdown",
+          "step_id": null,
+          "error": null,
+          "started": true,
+          "duration": 4.3772,
+          "process_executions": 1,
+          "observations": {
+            "ready": {
+              "ready": true
+            },
+            "fill": {
+              "completed": true
+            },
+            "before": "10",
+            "quote": {
+              "completed": true
+            },
+            "display": {
+              "completed": true
+            },
+            "price": "250"
+          },
+          "cleanup_errors": []
+        }
+      },
+      "fixture_block_elapsed_s": 2.0624,
+      "worker_job_objects_opened": 4,
+      "worker_job_handles_closed_and_invalid": 4,
+      "owned_worker_temp_directories_remaining": 0,
+      "worker_code_sha256": "9214f18c41ba9205ef8d7b0f86fa241d4fbfca9270c81a46c7ee7b6de59a2ebe",
+      "reference_wm_null_error": 1460,
+      "independent_peer_responded": true,
+      "owned_processes_seen": 6,
+      "live_owned_process_count_after_return": 0
+    },
+    "healthy_after_scope_change": {
+      "run_id": "run_4977b0ba99c0444a832ddadc5fbd465c",
+      "wall_elapsed_s": 4.5514,
+      "behavior_denominator": 1,
+      "outcome": "matched",
+      "sides": {
+        "reference": {
+          "status": "completed",
+          "step_id": null,
+          "error": null,
+          "observations": {
+            "ready": {
+              "ready": true
+            },
+            "fill": {
+              "completed": true
+            },
+            "before": "10",
+            "quote": {
+              "completed": true
+            },
+            "display": {
+              "completed": true
+            },
+            "price": "250"
+          },
+          "cleanup_errors": []
+        },
+        "candidate": {
+          "status": "completed",
+          "step_id": null,
+          "error": null,
+          "observations": {
+            "ready": {
+              "ready": true
+            },
+            "fill": {
+              "completed": true
+            },
+            "before": "10",
+            "quote": {
+              "completed": true
+            },
+            "display": {
+              "completed": true
+            },
+            "price": "250"
+          },
+          "cleanup_errors": []
+        }
+      }
+    }
+  }
+}

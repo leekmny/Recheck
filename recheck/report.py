@@ -74,6 +74,11 @@ def analysis_scope_summary(run):
 
 
 def render_report(run, destination):
+    if run.get('mode') == 'porting':
+        from .porting_report import render_porting_report
+
+        return render_porting_report(run, destination)
+
     def mapping(value):
         # Historical tool responses may record JSON null or a non-object value.
         # Normalize only the read view; detailed JSON below retains the evidence.

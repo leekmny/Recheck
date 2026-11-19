@@ -25,6 +25,8 @@ TAG='v0.1.5'
 API_VERSION='2026-03-10'
 ROOT=Path(__file__).resolve().parents[1]
 CHUNK=1024*1024
+ASSET_TYPES={'.zip':'application/zip','.exe':'application/octet-stream',
+             '.json':'application/json','.txt':'text/plain'}
 
 class SafeError(Exception): pass
 
@@ -208,13 +210,15 @@ class GitHub:
         result=self.request('POST',self.endpoint('/releases'),{'tag_name':self.tag,'target_commitish':sha,'name':title,'body':body,'draft':True,'prerelease':True,'generate_release_notes':False})
         return safe_release(result)
     def _local_zip(self,path,expected_sha256,expected_size):
+        return self._local_asset(path,expected_sha256,expected_size,{'.zip'})
+    def _local_asset(self,path,expected_sha256,expected_size,suffixes):
         if not re.fullmatch('[0-9a-f]{64}',str(expected_sha256)) or type(expected_size) is not int or expected_size<=0:
             raise SafeError('Reviewed local ZIP SHA256 and positive size are required')
         path=Path(path)
         if path.is_symlink():raise SafeError('Release ZIP must not be a symbolic link')
         try:path=path.resolve(strict=True)
         except OSError:raise SafeError('Reviewed local ZIP is missing') from None
-        if path.suffix.lower()!='.zip' or not path.is_file():raise SafeError('A reviewed regular local ZIP is required')
+        if path.suffix.lower() not in suffixes or not path.is_file():raise SafeError('A reviewed regular local release asset is required')
         initial=path.stat()
         digest=hashlib.sha256()
         with path.open('rb') as stream:
@@ -222,25 +226,40 @@ class GitHub:
         if initial.st_size!=expected_size or digest.hexdigest()!=expected_sha256:
             raise SafeError('Reviewed local ZIP hash or size does not match')
         return path,initial
-    def _selected_release(self,release_id,sha):
+    def _selected_release(self,release_id,sha,prerelease=True,*,pinned_tag=False):
         if type(release_id) is not int or release_id<=0:raise SafeError('A positive release ID is required')
         self.assert_head(sha)
         release=self.request('GET',self.endpoint(f'/releases/{release_id}'))
         if (release.get('id')!=release_id or release.get('tag_name')!=self.tag
-            or release.get('target_commitish')!=sha or not release.get('draft') or not release.get('prerelease')):
-            raise SafeError('Operation requires the exact selected draft prerelease and target SHA')
+            or (not pinned_tag and release.get('target_commitish')!=sha) or release.get('draft') is not True
+            or release.get('prerelease') is not prerelease):
+            raise SafeError('Operation requires the exact selected draft release, channel and target SHA')
         return release
+    def assert_lightweight_tag(self,sha):
+        tag=self.request('GET',self.endpoint('/git/ref/tags/'+urllib.parse.quote(self.tag,safe='')))
+        target=tag.get('object',{})
+        if tag.get('ref')!='refs/tags/'+self.tag or target.get('type')!='commit' or target.get('sha')!=checked_sha(sha):
+            raise SafeError('Release tag does not point to the exact verified commit')
     def upload_asset(self,release_id,path,*,sha,expected_sha256,expected_size,connection_factory=http.client.HTTPSConnection,progress=True):
+        return self._upload_asset(release_id,path,sha=sha,expected_sha256=expected_sha256,
+            expected_size=expected_size,connection_factory=connection_factory,progress=progress,
+            prerelease=True,suffixes={'.zip'})
+    def upload_verified_asset(self,release_id,path,*,sha,expected_sha256,expected_size,prerelease):
+        self.assert_lightweight_tag(sha)
+        return self._upload_asset(release_id,path,sha=sha,expected_sha256=expected_sha256,
+            expected_size=expected_size,connection_factory=http.client.HTTPSConnection,progress=True,
+            prerelease=prerelease,suffixes=ASSET_TYPES,pinned_tag=True)
+    def _upload_asset(self,release_id,path,*,sha,expected_sha256,expected_size,connection_factory,progress,prerelease,suffixes,pinned_tag=False):
         if not self.execute:raise SafeError('Writes are disabled; explicit --execute authorization is required')
-        path,initial=self._local_zip(path,expected_sha256,expected_size)
-        release=self._selected_release(release_id,sha)
+        path,initial=self._local_asset(path,expected_sha256,expected_size,suffixes)
+        release=self._selected_release(release_id,sha,prerelease,pinned_tag=pinned_tag)
         if any(asset.get('name')==path.name for asset in release.get('assets',[])):raise SafeError('An asset with this filename already exists; it was not replaced')
         url=urllib.parse.urlsplit(release['upload_url'].split('{',1)[0])
         if (url.scheme!='https' or url.netloc!='uploads.github.com'
             or url.path!=self.endpoint(f'/releases/{release_id}/assets')):raise SafeError('Unexpected release upload destination')
         self.assert_repository()
         target=url.path+'?'+urllib.parse.urlencode({'name':path.name})
-        headers=self.headers(); headers['Content-Type']='application/zip'; headers['Content-Length']=str(initial.st_size)
+        headers=self.headers(); headers['Content-Type']=ASSET_TYPES[path.suffix.lower()]; headers['Content-Length']=str(initial.st_size)
         connection=connection_factory('uploads.github.com',timeout=120)
         digest=hashlib.sha256(); sent=0; reported=0
         try:
@@ -263,6 +282,42 @@ class GitHub:
         if asset.get('name')!=path.name or asset.get('size')!=sent or asset.get('state')!='uploaded':raise SafeError('Uploaded asset name/size/state did not verify')
         if asset.get('digest')!='sha256:'+sha:raise SafeError('Uploaded asset digest differs or is missing from the server response')
         return {**{key:asset.get(key) for key in ('id','name','size','state','digest','browser_download_url')},'local_sha256':sha}
+    def verify_asset_bytes(self,asset_id,*,expected_sha256,expected_size,connection_factory=http.client.HTTPSConnection):
+        if type(asset_id) is not int or asset_id<=0 or type(expected_size) is not int or expected_size<=0:
+            raise SafeError('A positive release asset ID and size are required')
+        host='api.github.com'
+        path=self.endpoint(f'/releases/assets/{asset_id}')
+        headers={**self.headers(),'Accept':'application/octet-stream'}
+        for attempt in range(2):
+            connection=connection_factory(host,timeout=120)
+            try:
+                connection.request('GET',path,headers=headers)
+                response=connection.getresponse()
+                if response.status==302 and attempt==0:
+                    redirect=urllib.parse.urlsplit(response.getheader('Location') or '')
+                    if (redirect.scheme!='https' or redirect.netloc not in
+                        ('release-assets.githubusercontent.com','objects.githubusercontent.com')
+                        or not redirect.path.startswith('/') or redirect.fragment):
+                        raise SafeError('Unexpected release asset download destination')
+                    host=redirect.netloc
+                    path=urllib.parse.urlunsplit(('', '', redirect.path, redirect.query, ''))
+                    headers={'Accept':'application/octet-stream','User-Agent':'Recheck-release-QA'}
+                    continue
+                if response.status!=200:
+                    raise SafeError(f'Asset download returned HTTP {response.status}')
+                actual=hashlib.sha256()
+                size=0
+                for chunk in iter(lambda:response.read(CHUNK),b''):
+                    size+=len(chunk)
+                    if size>expected_size:raise SafeError('Downloaded asset is larger than the verified size')
+                    actual.update(chunk)
+                if size!=expected_size or actual.hexdigest()!=expected_sha256:
+                    raise SafeError('Downloaded release asset bytes did not match the verified SHA-256 and size')
+                return
+            except (OSError,http.client.HTTPException):
+                raise SafeError('Release asset download failed') from None
+            finally:
+                connection.close()
     def publish_release(self,release_id,*,sha,asset_id,path,expected_sha256,expected_size):
         if not self.execute:raise SafeError('Writes are disabled; explicit --execute authorization is required')
         path,_=self._local_zip(path,expected_sha256,expected_size)

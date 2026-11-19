@@ -157,7 +157,7 @@ jobs:
           if ($env:BUILD_ARTIFACT_ID -cnotmatch '^[1-9][0-9]*$') {
             throw 'Missing immutable Windows build artifact ID.'
           }
-          $gcc = Get-Command gcc.exe -CommandType Application -ErrorAction Stop
+          $gcc = Get-Command gcc.exe -CommandType Application -ErrorAction Stop | Select-Object -First 1
           $target = & $gcc.Source -dumpmachine
           if ($LASTEXITCODE -ne 0 -or $target -cne 'x86_64-w64-mingw32') {
             throw 'The hosted runner must provide x64 MinGW GCC.'

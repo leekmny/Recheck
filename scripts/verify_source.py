@@ -20,6 +20,7 @@ def snapshot(root):
     paths = [root / name for name in (
         'launch.py', 'pyproject.toml', 'Recheck.spec', 'requirements-lock.txt',
         'Setup-Recheck.ps1', 'Run-Recheck.cmd')]
+    paths += [root / 'samples' / 'porting' / 'console' / name for name in ('fee.c', 'fee.rs', 'fixtures.py')]
     for directory in ('recheck', 'ai_providers', 'resources', 'scripts'):
         paths += [p for p in (root / directory).rglob('*') if p.is_file()
                   and '__pycache__' not in p.parts and p.suffix not in ('.pyc', '.log')]

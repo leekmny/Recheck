@@ -14,6 +14,7 @@ from recheck.engine import Engine
 from recheck.models import Settings
 from recheck.porting import run_porting
 from recheck.porting_manifest import digest
+from recheck.porting_release_fixtures import result_check
 from recheck.porting_transport import TrustedFixtures, load_workers
 from recheck.porting_worker import worker_code_sha256, worker_platform
 from samples.porting.console.fixtures import ROOT, manifest, write
@@ -22,25 +23,6 @@ from samples.porting.console.fixtures import ROOT, manifest, write
 def checked(condition, message):
     if not condition:
         raise RuntimeError(message)
-
-
-def result_check(result, variant):
-    rows = result['scenarios']
-    stats = result['behavior']
-    checked(stats['denominator'] == len(rows), f'{variant}: unmeasured rows in {result["run_id"]}')
-    expected = 3 if variant == 'defect' else 0
-    if len(rows) <= 4:
-        expected = 1 if variant == 'defect' else 0
-    checked(stats['mismatched'] == expected, f'{variant}: unexpected number of differences')
-    checked(stats['acceptance'] == ('failed' if expected else 'passed'),
-            f'{variant}: incorrect acceptance')
-    for row in rows:
-        for attempt in row['attempts']:
-            left, right = attempt['observations'].values()
-            checked(left['started'] and right['started'] and left['entry_sha256'] != right['entry_sha256'],
-                    'Targets must both start and have distinct entry bytes.')
-    return {'status': 'success', 'run_id': result['run_id'], 'behavior': stats,
-            'manifest_sha256': result['manifest_sha256']}
 
 
 class Verifier:
@@ -138,6 +120,9 @@ class Verifier:
 
 
     async def native(self):
+        if self.args.hosted_native:
+            self.hosted_native()
+            return
         workers = load_workers(self.args.worker) if self.args.worker else {}
         worker = workers.get('default')
         if not worker and not self.args.trusted_native:
@@ -175,6 +160,24 @@ class Verifier:
                 self.report(result)
         self.checks['native'] = {'status': 'success' if worker else 'trusted_fixture_success',
                                  'platform': platform_name, 'variants': variants}
+
+    def hosted_native(self):
+        output = self.out / 'frozen-native'
+        allowed = {'PATH', 'PATHEXT', 'SYSTEMROOT', 'WINDIR', 'TEMP', 'TMP', 'USERPROFILE',
+                   'LOCALAPPDATA', 'APPDATA', 'PROGRAMDATA', 'CARGO_HOME', 'RUSTUP_HOME'}
+        child = subprocess.run(
+            [str(self.executable), '--verify-porting-fixtures', str(output)],
+            cwd=self.executable.parent, timeout=900, check=False,
+            env={name: value for name, value in os.environ.items() if name in allowed},
+        )
+        record_path = output / 'fixture-proof.json'
+        record = json.loads(record_path.read_text(encoding='utf-8')) if record_path.is_file() else {}
+        checked(child.returncode == 0 and record.get('status') == 'success',
+                f"Frozen fixture execution failed: {record.get('error', child.returncode)}")
+        checked(record.get('source_sha') == git_head()
+                and record.get('executable_sha256') == digest(self.executable.read_bytes()),
+                'Frozen fixture execution identities differ from the checked-out source or executable')
+        self.checks['native'] = record
 
     async def run(self):
         _, normal = await self.fixture('normal')
@@ -215,6 +218,10 @@ class Verifier:
         self.checks['runtimes']['status'] = 'success'
 
 
+def git_head():
+    return subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True)
@@ -222,14 +229,20 @@ def main(argv=None):
     parser.add_argument('--require-native', action='store_true')
     parser.add_argument('--native-platform')
     parser.add_argument('--trusted-native', action='store_true')
+    parser.add_argument('--hosted-native', action='store_true')
     parser.add_argument('--runtime-matrix', action='store_true')
     parser.add_argument('--gui', action='store_true')
     parser.add_argument('--frozen')
     args = parser.parse_args(argv)
+    if args.hosted_native and (args.worker or args.trusted_native or args.runtime_matrix
+                               or not args.frozen or not args.require_native
+                               or args.native_platform != 'windows/x64'):
+        parser.error('--hosted-native requires --frozen, --require-native, and --native-platform windows/x64 '
+                     'and cannot run with another worker or runtime matrix')
     if args.worker:
         args.worker = args.worker.resolve(strict=True)
     verifier = Verifier(args)
-    source = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+    source = git_head()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True).strip())
     proof = {'schema_version': 'recheck-porting-verification-1', 'source_sha': source,
              'working_tree_dirty': dirty, 'checks': verifier.checks, 'status': 'failed'}

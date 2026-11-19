@@ -1,1 +1,9 @@
-{"version":"0.2.0","changes":["console-porting","result-reporting","scenario-rerun"]}
+{
+  "version": "0.2.0",
+  "verification": "github-hosted-windows-fixtures",
+  "changes": [
+    "console-porting",
+    "result-reporting",
+    "scenario-rerun"
+  ]
+}

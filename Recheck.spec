@@ -25,6 +25,8 @@ datas = [
     (str(root / 'requirements-lock.txt'), '.'),
     (str(identity_path), '.'),
 ]
+datas += [(str(root / 'samples' / 'porting' / 'console' / name), 'resources/porting/native-fixtures')
+          for name in ('fee.c', 'fee.rs')]
 for package in ('jsonschema', 'jsonschema_specifications', 'referencing', 'cryptography'):
     datas += collect_data_files(package)
 for distribution in (

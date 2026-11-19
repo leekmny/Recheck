@@ -9,6 +9,7 @@ PR에서 `recheck/__init__.py`, `pyproject.toml`, `resources/version_info.txt`�
 ```json
 {
   "version": "0.1.8",
+  "verification": "github-hosted-windows-fixtures",
   "changes": [
     "console-porting",
     "result-reporting",
@@ -21,7 +22,7 @@ PR에서 `recheck/__init__.py`, `pyproject.toml`, `resources/version_info.txt`�
 
 | ID | 검증 범위 | 증거 경로 |
 | --- | --- | --- |
-| `console-porting` | Windows x64 격리 작업자의 정상·결함 콘솔 포팅 예제 비교 | `source.normal`, `source.defect`, `isolated_worker.native` |
+| `console-porting` | Windows x64에서 저장소의 정상·결함 콘솔 포팅 예제 비교 | `source.normal`, `source.defect`, `isolated_worker.native` |
 | `result-reporting` | 소스와 Windows x64 배포본에서 CLI 결과 조회와 JSON·HTML 보고서 확인 | `source.cli`, `source.json`, `source.html`, `frozen.cli`, `frozen.json`, `frozen.html` |
 | `scenario-rerun` | 소스에서 결함 시나리오를 수정본으로 재검사하고 이전 결과 보존 | `source.rerun` |
 
@@ -29,18 +30,28 @@ PR에서 `recheck/__init__.py`, `pyproject.toml`, `resources/version_info.txt`�
 
 보호된 `main`에 요청 파일이 있고 해당 버전 태그가 없으면 그 push의 정확한 커밋을 검증합니다. 미발행 요청의 검증이 실패하면 수정 사항을 `main`에 병합한 뒤 같은 버전으로 다시 검증합니다. 요청이 없는 커밋은 제품 검사만 실행합니다.
 
+## Windows 검증 방식과 사전 실행
+
+`verification`에 `github-hosted-windows-fixtures`를 지정하면 빌드 작업과 별도의 GitHub 호스팅 `windows-2025` x64 VM에서 저장소에 포함된 C·Rust 정상·결함·대체 예제를 실제로 컴파일하고 실행합니다. x64 MinGW GCC와 Rust 1.96.0의 Windows GNU 대상을 사용합니다. VM에는 SSH 비밀이나 릴리스 쓰기 권한을 부여하지 않습니다. 검증 기록의 `isolated_worker_mode`에 설정한 방식이 표시됩니다. [GitHub 호스팅 Windows 2025 실행기](https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md)
+
+같은 저장소에서 `main`으로 여는 PR은 이 방식의 릴리스 후보를 게시 없이 검증합니다. PR의 병합 미리보기 커밋과 대상 브랜치 커밋을 사용하며, 보호된 `main`에 병합되면 실제 push 커밋으로 빌드와 검증을 다시 실행합니다. PR의 검증 결과는 게시에 사용할 수 없습니다. 실패한 호스팅 실행을 다시 시도할 때는 **Re-run all jobs**로 빌드와 검증을 같은 실행 시도에서 다시 수행합니다. [GitHub Actions의 pull_request 이벤트](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request)
+
+`verification`을 생략하거나 `ssh`로 지정하면 전용 Windows x64 SSH 작업자를 사용합니다. 전용 작업자에 필요한 환경과 자격 증명은 아래 운영 설정을 따릅니다.
+
 ## 필수 검증
 
 1. Windows x64 호스팅 실행기에서 잠긴 의존성으로 Ruff, 전체 pytest, 기존 Node 정규화 검사를 실행합니다. 검사 전후 소스 식별자를 비교하고 정확한 Git 커밋을 패키지에 포함합니다.
 2. 신뢰된 정상·결함 예제를 소스에서 비교하고 CLI, JSON·HTML 보고서, GUI를 확인합니다.
 3. Python 3.14.8 x64와 기존 PyInstaller 경로로 공개용 앱 패키지를 빌드합니다. frozen CLI가 비교 실행 기록과 보고서를 읽는지 확인하고, Windows에서 실제로 `Recheck.exe` GUI를 실행해 기록과 스크린샷을 확인합니다.
-4. 실행 전 staging과 최종 인벤토리를 비교합니다. 전체 ZIP 인벤토리와 ZIP에 포함된 EXE의 바이트, 필수 파일, 라이선스·재배포 고지·대응 소스 인벤토리를 대조합니다. ZIP의 SHA-256을 푸는 단계에서 기록하고, EXE 해시를 확인한 뒤 실제 Windows x64 격리 작업자에서 정상·결함 포팅을 실행합니다. 게시 단계는 격리 실행 근거가 업로드할 ZIP과 EXE 모두의 SHA-256에 맞는지 대조합니다.
-5. 게시 전에 ZIP 내부의 소스 파일 해시 목록을 해당 커밋의 새 체크아웃과 대조합니다. 대상 커밋은 보호된 `main`의 현재 head여야 합니다. `Unit tests`, `Security analysis`, `Porting product checks` push 워크플로 및 필수 하위 작업의 성공, 이번 Actions 실행의 Windows 패키지 검사와 격리 작업자 성공이 모두 필요합니다. `Porting product checks`의 `porting-product`와 `porting-linux-x64`는 각각 성공해야 합니다.
+4. 실행 전 staging과 최종 인벤토리를 비교합니다. 전체 ZIP 인벤토리와 Windows EXE, 필수 파일, 라이선스·재배포 고지·대응 소스 인벤토리를 대조합니다. Windows 검증 작업은 같은 실행에서 빌드한 자산을 변경 불가능한 아티팩트 ID로 내려받고, ZIP과 풀어낸 EXE의 SHA-256을 확인한 뒤 예제와 패키지 CLI를 실행합니다.
+5. 게시 전 ZIP 및 EXE의 SHA-256과 ZIP 내부의 소스 해시 목록을 검증 기록과 해당 커밋의 새 체크아웃에 대조합니다. 호스팅 방식에서는 같은 Actions 실행 및 실행 시도의 호스팅 검증 작업 성공과 빌드·검증 아티팩트 ID도 확인합니다. 대상 커밋은 보호된 `main`의 현재 head여야 하며, 같은 커밋의 `Unit tests`, `Security analysis`, `Porting product checks` push 워크플로와 필수 하위 작업이 모두 성공해야 합니다. `Porting product checks`의 `porting-product`와 `porting-linux-x64`는 각각 성공해야 합니다.
 6. 정확한 커밋에 새 태그를 만들고 draft Release에 자산을 올립니다. 각 자산의 이름, 크기, 서버 SHA-256, 다운로드한 실제 바이트의 SHA-256을 대조합니다. 태그와 필수 CI를 다시 확인한 후 게시하며, 게시된 태그와 자산을 다시 조회해 결과를 작업 요약에 남깁니다.
 
 ## 저장소 운영 설정
 
-보호된 `main`에 PR 검토와 필수 검사를 적용합니다. `tests`, `CodeQL (python)`, `CodeQL (javascript-typescript)`, `dependencies`, `porting-product`, `porting-linux-x64`를 필수 검사로 지정합니다. 배포 단계는 정확한 push 커밋의 CI에 연결되며 `contents: write`와 `actions: read`가 있는 게시 작업에서만 GitHub Actions 토큰을 사용합니다.
+보호된 `main`에 PR 검토와 필수 검사를 적용합니다. `tests`, `CodeQL (python)`, `CodeQL (javascript-typescript)`, `dependencies`, `porting-product`, `porting-linux-x64`를 필수 검사로 지정합니다. 빌드와 Windows 검증 작업에는 저장소 읽기 권한을 부여합니다. 보호된 `main`의 push에서 실행하는 게시 작업만 `contents: write`와 `actions: read` 권한을 사용합니다.
+
+### 전용 SSH 작업자를 선택한 경우
 
 격리된 Windows x64 게스트에 SSH 작업자를 구성합니다. 게스트의 전용 계정은 고정 `recheck-porting-worker` 명령만 실행하며, 호스트 공유 경로나 다른 자격 증명에 접근할 수 없는 환경이어야 합니다. 게스트에서 `RECHECK_WORKER_ISOLATION=dedicated-vm`과 구성의 `worker_id`와 동일한 `RECHECK_WORKER_ID`를 설정합니다. 검증 예제에는 x64 GCC·MinGW와 Rust `x86_64-pc-windows-gnu` 대상이 필요합니다. 후보와 같은 worker 소스 배포본을 사용하며, 관문에서 모듈 해시와 네이티브 아키텍처를 확인합니다. 저장소의 `porting-release-worker` 환경에서 배포 브랜치를 보호된 `main`으로 제한합니다. [GitHub 배포 환경 설정](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments)
 

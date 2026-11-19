@@ -144,7 +144,7 @@ Linux x64 Docker에서 빌드한 Java 두 구현을 동일 시나리오에서 �
 
 ### 릴리스 상태
 
-보호된 main의 정확한 SHA와 필수 CI, Windows x64 배포 파일 해시, 동일 EXE의 실제 SSH worker 실행을 관문으로 구성했다. 모든 필수 근거가 있으면 새 태그와 draft를 만든 뒤 업로드한 자산을 내려받아 대조하고 공개한다. 현재 보호된 main의 기존 공개는 v0.1.7이다. 이번 작업의 새 태그·배포 자산·Release URL은 아직 없다. 격리 Windows x64 worker의 접속과 frozen EXE 비교 및 hosted Actions는 실제 게시 전에 확인해야 한다. [자동 릴리스 운영 안내](PORTING_RELEASE.md)
+0.2.0 게시 절차는 보호된 `main`의 정확한 커밋과 필수 CI를 확인한다. 빌드와 분리된 Windows x64 실행기에서 배포 ZIP을 풀고, 동일한 EXE로 저장소 자체 예제를 비교한다. ZIP과 EXE의 해시 및 검증 결과를 대조한 뒤 같은 커밋에 태그를 만들고 임시 Release에 올린 자산을 내려받아 검증한다. 버전별 게시 결과와 다운로드는 릴리스 목록에서 확인할 수 있다. [릴리스 목록](https://github.com/leekmny/Recheck/releases) · [자동 릴리스 운영 안내](PORTING_RELEASE.md)
 
 Windows 릴리스 관문은 `porting-product`와 `porting-linux-x64` 작업의 성공을 각각 확인한다. Linux ARM64 네이티브 검증 작업은 `ubuntu-24.04-arm`의 실행기·Docker 서버·이미지 아키텍처와 비에뮬레이션 결과를 확인해 별도 근거를 남기도록 구성했다. 호스팅 실행은 미검증이다. [GitHub 호스팅 실행기](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
 

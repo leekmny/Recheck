@@ -31,6 +31,14 @@ def test_candidate_channel_is_derived_from_repository_version_policy(release_gat
     assert (stable.tag, stable.prerelease) == ('v1.0.0', False)
 
 
+def test_candidate_explicitly_selects_hosted_fixture_verification(release_gate):
+    hosted = 'github-hosted-windows-fixtures'
+    assert release_gate.parse_candidate(candidate(VERSION)).verification == 'ssh'
+    assert release_gate.parse_candidate(candidate(VERSION) | {'verification': hosted}).verification == hosted
+    with pytest.raises(SafeError, match='verification'):
+        release_gate.parse_candidate(candidate(VERSION) | {'verification': 'trusted-fixtures'})
+
+
 @pytest.mark.parametrize('version', ['v0.1.8', '0.01.8', '0.1.8-draft', '0.1.8+1', '0.1', '0.1.65536'])
 def test_candidate_rejects_noncanonical_or_unrepresentable_versions(release_gate, version):
     with pytest.raises(SafeError, match='version'):
@@ -273,6 +281,105 @@ def isolated_proof(bundle):
     proof['executable_sha256'] = hashlib.sha256((bundle / 'Recheck.exe').read_bytes()).hexdigest()
     proof['archive_sha256'] = hashlib.sha256((bundle / 'Recheck-Windows-x64.zip').read_bytes()).hexdigest()
     return proof
+
+
+def hosted_proof(bundle):
+    proof = isolated_proof(bundle)
+    hosted = 'github-hosted-windows-fixtures'
+    proof.update(working_tree_dirty=False,
+                 github={'event': 'push', 'run_id': 123, 'run_attempt': 2, 'build_artifact_id': 5})
+    proof['checks']['native'].update(
+        mode=hosted, command='frozen-fixtures', native_arch='x64', emulated=False,
+        source_sha=SHA, executable_sha256=proof['executable_sha256'],
+        fixture_sha256={'fee.c': '1' * 64, 'fee.rs': '2' * 64},
+        variants={
+            name: {'status': 'success', 'denominator': 11, 'mismatched': len(ids), 'mismatch_ids': ids,
+                   'acceptance': 'failed' if ids else 'passed', 'target_starts': 22,
+                   'manifest_sha256': '3' * 64}
+            for name, ids in [('normal', []), ('defect', ['above', 'higher', 'maximum']), ('alternate', [])]
+        },
+    )
+    return proof
+
+
+@pytest.mark.parametrize('damage', [None, 'source-path', 'fixture-hash', 'emulated', 'shallow', 'wrong-ids',
+                                     'dirty', 'wrong-mode'])
+def test_hosted_release_requires_frozen_fixture_evidence(release_gate, draft_bundle, monkeypatch, damage):
+    selected = release_gate.parse_candidate(candidate(VERSION) | {'verification': 'github-hosted-windows-fixtures'})
+    proof = hosted_proof(draft_bundle)
+    monkeypatch.setattr(release_gate, 'hosted_fixture_hashes', lambda: {'fee.c': '1' * 64, 'fee.rs': '2' * 64})
+    native = proof['checks']['native']
+    if damage == 'source-path':
+        native['command'] = 'source-fixtures'
+    elif damage == 'fixture-hash':
+        native['fixture_sha256']['fee.c'] = '0' * 64
+    elif damage == 'emulated':
+        native['emulated'] = True
+    elif damage == 'shallow':
+        native['variants']['defect']['target_starts'] = 20
+    elif damage == 'wrong-ids':
+        native['variants']['defect']['mismatch_ids'] = ['zero', 'above', 'maximum']
+    elif damage == 'dirty':
+        proof['working_tree_dirty'] = True
+    elif damage == 'wrong-mode':
+        native.pop('mode')
+    if damage:
+        with pytest.raises(SafeError, match='Hosted'):
+            release_gate.finalize_bundle(draft_bundle, selected, SHA, proof)
+    else:
+        final = release_gate.finalize_bundle(draft_bundle, selected, SHA, proof)
+        assert final['isolated_worker_mode'] == selected.verification
+        assert final['hosted_fixture_verification']['variants']['defect']['mismatched'] == 3
+
+
+def test_hosted_evidence_cannot_satisfy_an_ssh_request(release_gate, draft_bundle):
+    selected = release_gate.parse_candidate(candidate(VERSION))
+    with pytest.raises(SafeError, match='SSH'):
+        release_gate.finalize_bundle(draft_bundle, selected, SHA, hosted_proof(draft_bundle))
+
+
+@pytest.mark.parametrize('damage', [None, 'rehearsal', 'wrong-attempt', 'wrong-job', 'wrong-artifact'])
+def test_hosted_provenance_requires_the_exact_push_job_and_artifacts(release_gate, draft_bundle, damage):
+    proof = hosted_proof(draft_bundle)
+    context = {'event': 'push', 'run_id': 123, 'run_attempt': 2}
+    run = {'id': 123, 'event': 'push', 'head_sha': SHA, 'head_branch': 'main',
+           'run_attempt': 2, 'path': '.github/workflows/porting-release.yml'}
+    job = {'name': 'Verify repository fixtures on hosted Windows x64', 'run_id': 123,
+           'head_sha': SHA, 'status': 'completed', 'conclusion': 'success',
+           'runner_group_name': 'GitHub Actions', 'labels': ['windows-2025']}
+    artifacts = {
+        artifact_id: {'id': artifact_id, 'name': name, 'expired': False, 'digest': 'sha256:' + 'e' * 64,
+                      'workflow_run': {'id': 123, 'head_branch': 'main', 'head_sha': SHA,
+                                       'repository_id': 20, 'head_repository_id': 20}}
+        for artifact_id, name in [(5, 'recheck-windows-x64-2'), (7, 'recheck-isolated-verification-2')]
+    }
+    if damage == 'rehearsal':
+        proof['github']['event'] = 'pull_request'
+    elif damage == 'wrong-attempt':
+        run['run_attempt'] = 1
+    elif damage == 'wrong-job':
+        job['labels'] = ['self-hosted', 'windows-2025']
+    elif damage == 'wrong-artifact':
+        artifacts[7]['workflow_run']['head_repository_id'] = 99
+
+    class Api:
+        def endpoint(self, path):
+            return path
+
+        def request(self, method, path):
+            assert method == 'GET'
+            if path == '/actions/runs/123/attempts/2':
+                return run
+            if path == '/actions/runs/123/attempts/2/jobs?per_page=100':
+                return {'total_count': 1, 'jobs': [job]}
+            return artifacts[int(path.removeprefix('/actions/artifacts/'))]
+
+    if damage:
+        with pytest.raises(SafeError, match='Hosted'):
+            release_gate.require_hosted_actions(Api(), proof, SHA, context, 20, (5, 7))
+    else:
+        record = release_gate.require_hosted_actions(Api(), proof, SHA, context, 20, (5, 7))
+        assert record['build_artifact_id'] == 5 and record['native_artifact_id'] == 7
 
 
 @pytest.mark.parametrize('damage', [

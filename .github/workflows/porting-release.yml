@@ -162,14 +162,18 @@ jobs:
           if ($LASTEXITCODE -ne 0 -or $target -cne 'x86_64-w64-mingw32') {
             throw 'The hosted runner must provide x64 MinGW GCC.'
           }
+          & $gcc.Source --version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (!$env:RUSTUP_HOME) { $env:RUSTUP_HOME = Join-Path $env:USERPROFILE '.rustup' }
           if (!$env:CARGO_HOME) { $env:CARGO_HOME = Join-Path $env:USERPROFILE '.cargo' }
           "RUSTUP_HOME=$env:RUSTUP_HOME" >> $env:GITHUB_ENV
           "CARGO_HOME=$env:CARGO_HOME" >> $env:GITHUB_ENV
           $toolchain = '1.96.0-x86_64-pc-windows-msvc'
-          rustup toolchain install $toolchain --profile minimal --target x86_64-pc-windows-gnu
+          rustup toolchain install $toolchain --profile minimal
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           rustup default $toolchain
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          rustc --version --verbose
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m pip install -r requirements-lock.txt
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
@@ -202,6 +206,14 @@ jobs:
           name: recheck-isolated-verification-${{ github.run_attempt }}
           path: verification/porting-release/isolated-proof.json
           if-no-files-found: error
+          retention-days: 14
+      - name: Preserve hosted fixture failure summary
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: recheck-hosted-fixture-failure-${{ github.run_attempt }}
+          path: verification/porting-release/isolated/frozen-native/fixture-proof.json
+          if-no-files-found: ignore
           retention-days: 14
 
   isolated-worker:

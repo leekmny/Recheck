@@ -12,7 +12,8 @@ CASES = [('zero', '0', '0'), ('below', '2', '200'), ('edge', '3', '300'),
          ('unicode', '한글 공백', None), ('missing', None, None)]
 
 
-def manifest(system, arch, reference='c', candidate='rust', variant='normal'):
+def manifest(system, arch, reference='c', candidate='rust', variant='normal', *,
+             windows_rust_target='x86_64-pc-windows-gnu'):
     def target(language, side):
         data = {'os': system, 'arch': arch}
         if language in ('python', 'node'):
@@ -41,7 +42,9 @@ def manifest(system, arch, reference='c', candidate='rust', variant='normal'):
         else:
             args = ['-C', 'debuginfo=1', '--crate-name', 'fee', path, '-o', entry]
             if system == 'windows' and arch == 'x64':
-                args += ['--target', 'x86_64-pc-windows-gnu', '-C', 'link-self-contained=yes']
+                args += ['--target', windows_rust_target]
+                if windows_rust_target == 'x86_64-pc-windows-gnu':
+                    args += ['-C', 'link-self-contained=yes']
             if variant != 'normal':
                 args += ['--cfg', variant]
         return dict(data, language=language, runtime='native', entry=entry, files=[path],

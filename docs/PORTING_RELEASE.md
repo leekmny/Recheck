@@ -32,7 +32,7 @@ PR에서 `recheck/__init__.py`, `pyproject.toml`, `resources/version_info.txt`�
 
 ## Windows 검증 방식과 사전 실행
 
-`verification`에 `github-hosted-windows-fixtures`를 지정하면 빌드 작업과 별도의 GitHub 호스팅 `windows-2025` x64 VM에서 저장소에 포함된 C·Rust 정상·결함·대체 예제를 실제로 컴파일하고 실행합니다. x64 MinGW GCC와 Rust 1.96.0의 Windows GNU 대상을 사용합니다. VM에는 SSH 비밀이나 릴리스 쓰기 권한을 부여하지 않습니다. 검증 기록의 `isolated_worker_mode`에 설정한 방식이 표시됩니다. [GitHub 호스팅 Windows 2025 실행기](https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md)
+`verification`에 `github-hosted-windows-fixtures`를 지정하면 빌드 작업과 별도의 GitHub 호스팅 `windows-2025` x64 VM에서 저장소에 포함된 C·Rust 정상·결함·대체 예제를 실제로 컴파일하고 실행합니다. C에는 x64 MinGW GCC를, Rust에는 Rust 1.96.0의 Windows x64 MSVC 대상을 사용합니다. VM에는 SSH 비밀이나 릴리스 쓰기 권한을 부여하지 않습니다. 검증 기록의 `isolated_worker_mode`에 설정한 방식이 표시됩니다. [GitHub 호스팅 Windows 2025 실행기](https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md)
 
 같은 저장소에서 `main`으로 여는 PR은 이 방식의 릴리스 후보를 게시 없이 검증합니다. PR의 병합 미리보기 커밋과 대상 브랜치 커밋을 사용하며, 보호된 `main`에 병합되면 실제 push 커밋으로 빌드와 검증을 다시 실행합니다. PR의 검증 결과는 게시에 사용할 수 없습니다. 실패한 호스팅 실행을 다시 시도할 때는 **Re-run all jobs**로 빌드와 검증을 같은 실행 시도에서 다시 수행합니다. [GitHub Actions의 pull_request 이벤트](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request)
 

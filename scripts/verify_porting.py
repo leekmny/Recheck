@@ -163,7 +163,7 @@ class Verifier:
 
     def hosted_native(self):
         output = self.out / 'frozen-native'
-        allowed = {'PATH', 'PATHEXT', 'SYSTEMROOT', 'WINDIR', 'TEMP', 'TMP', 'USERPROFILE',
+        allowed = {'PATH', 'PATHEXT', 'SYSTEMROOT', 'SYSTEMDRIVE', 'WINDIR', 'TEMP', 'TMP', 'USERPROFILE',
                    'LOCALAPPDATA', 'APPDATA', 'PROGRAMDATA', 'CARGO_HOME', 'RUSTUP_HOME'}
         child = subprocess.run(
             [str(self.executable), '--verify-porting-fixtures', str(output)],

@@ -319,7 +319,7 @@ async def _execute(request, root, target, observation, cancel, capture=None):
     home.mkdir(mode=0o700)
     directory = root if target.get('cwd', '.') == '.' else root / relative(target['cwd'])
     directory.mkdir(parents=True, exist_ok=True)
-    inherited = {key: os.environ[key] for key in ('PATH', 'SYSTEMROOT', 'WINDIR', 'LANG',
+    inherited = {key: os.environ[key] for key in ('PATH', 'SYSTEMROOT', 'SYSTEMDRIVE', 'WINDIR', 'LANG',
                  'DISPLAY', 'WAYLAND_DISPLAY', 'XAUTHORITY', 'XDG_RUNTIME_DIR', 'RUSTUP_HOME',
                  'CARGO_HOME', 'DBUS_SESSION_BUS_ADDRESS') if key in os.environ}
     env = dict(inherited, HOME=str(home), USERPROFILE=str(home), TMP=str(home), TEMP=str(home),

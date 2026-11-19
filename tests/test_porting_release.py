@@ -1,3 +1,4 @@
+import base64
 import hashlib
 import json
 import subprocess
@@ -37,6 +38,48 @@ def test_candidate_explicitly_selects_hosted_fixture_verification(release_gate):
     assert release_gate.parse_candidate(candidate(VERSION) | {'verification': hosted}).verification == hosted
     with pytest.raises(SafeError, match='verification'):
         release_gate.parse_candidate(candidate(VERSION) | {'verification': 'trusted-fixtures'})
+
+
+def test_hosted_manifest_changes_only_the_windows_rust_linker_target():
+    from recheck import porting_release_fixtures as hosted
+    from samples.porting.console.fixtures import manifest
+
+    original = manifest('windows', 'x64', variant='defect')
+    selected = hosted.hosted_manifest('defect')
+    assert selected['scenarios'] == original['scenarios']
+    assert selected['targets']['reference'] == original['targets']['reference']
+    assert original['targets']['candidate']['build']['args'][-6:] == [
+        '--target', 'x86_64-pc-windows-gnu', '-C', 'link-self-contained=yes', '--cfg', 'defect',
+    ]
+    assert selected['targets']['candidate']['build']['args'][-4:] == [
+        '--target', 'x86_64-pc-windows-msvc', '--cfg', 'defect',
+    ]
+    assert selected['targets']['candidate']['files'] == ['fee.rs']
+
+
+def test_failed_hosted_fixture_reports_known_outputs_and_redacts_other_data():
+    from recheck import porting_release_fixtures as hosted
+
+    def observation(stdout, stderr, exit_code, status='completed'):
+        return {'stdout_b64': base64.b64encode(stdout).decode(), 'stderr_b64': base64.b64encode(stderr).decode(),
+                'status': status, 'exit_code': exit_code, 'argv': [r'C:\Users\Private\example.exe'],
+                'build': {'status': 'completed', 'exit_code': 0, 'error': 'PRIVATE_ENV_TOKEN'}}
+
+    row = {'id': 'above', 'outcome': 'mismatched', 'attempts': [
+        {'observations': {'reference': observation(b'375\r\n', b'', 0),
+                          'candidate': observation(b'PRIVATE_ENV_TOKEN', b'invalid\n', 2)},
+         'comparison': {'expected': {'reference': {'status': 'passed'}, 'candidate': {'status': 'failed'}}}},
+    ]}
+    with pytest.raises(RuntimeError, match='normal') as failure:
+        hosted.validate_fixture_result({'scenarios': [row]}, 'normal', {}, [])
+    message = str(failure.value)
+    assert 'PRIVATE_ENV_TOKEN' not in message and 'Private' not in message
+    detail = json.loads(message.partition('details=')[2])[0]
+    assert detail['id'] == 'above' and detail['outcome'] == 'mismatched'
+    assert detail['reference'] == {'status': 'completed', 'exit_code': 0, 'build_exit_code': 0,
+                                   'expected': 'passed', 'stdout': '375\r\n', 'stderr': ''}
+    assert detail['candidate'] == {'status': 'completed', 'exit_code': 2, 'build_exit_code': 0,
+                                   'expected': 'failed', 'stdout': '<redacted>', 'stderr': 'invalid\n'}
 
 
 @pytest.mark.parametrize('version', ['v0.1.8', '0.01.8', '0.1.8-draft', '0.1.8+1', '0.1', '0.1.65536'])

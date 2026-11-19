@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 import ctypes
 import hashlib
 import json
@@ -23,11 +24,20 @@ FIXTURE_MISMATCHES = {'normal': [], 'defect': ['above', 'higher', 'maximum'], 'a
 FIXTURE_FILES = ('fee.c', 'fee.rs')
 FIXTURE_DIR = 'samples/porting/console'
 PLATFORM = 'windows/x64'
+FIXTURE_IDS = tuple(case[0] for case in CASES)
+FIXTURE_STDOUT = {b'', b'400', b'1000', b'7600', *(case[2].encode('ascii') for case in CASES if case[2] is not None)}
+FIXTURE_STDERR = {b'', b'invalid'}
+OBSERVATION_STATUSES = {'completed', 'blocked', 'cancelled', 'timed_out', 'output_truncated', 'observation_error',
+                        'environment_error', 'unsupported', 'oom'}
+
+
+class FixtureVerificationError(RuntimeError):
+    """A validation failure whose message is safe for release diagnostics."""
 
 
 def require(condition, message):
     if not condition:
-        raise RuntimeError(message)
+        raise FixtureVerificationError(message)
 
 
 def result_check(result, variant):
@@ -46,6 +56,74 @@ def result_check(result, variant):
             'manifest_sha256': result['manifest_sha256']}
 
 
+def hosted_manifest(variant):
+    return manifest('windows', 'x64', variant=variant, windows_rust_target='x86_64-pc-windows-msvc')
+
+
+def _known_output(encoded, expected):
+    if not isinstance(encoded, str) or len(encoded) > 24:
+        return '<redacted>'
+    try:
+        value = base64.b64decode(encoded, validate=True)
+    except ValueError:
+        return '<redacted>'
+    return value.decode('ascii') if value.removesuffix(b'\n').removesuffix(b'\r') in expected else '<redacted>'
+
+
+def _observation_detail(observation, expectation):
+    status = observation.get('status')
+    exit_code = observation.get('exit_code')
+    build_exit = observation.get('build', {}).get('exit_code')
+    expected = expectation.get('status')
+    return {'status': status if status in OBSERVATION_STATUSES else 'unavailable',
+            'exit_code': exit_code if type(exit_code) is int else None,
+            'build_exit_code': build_exit if type(build_exit) is int else None,
+            'expected': expected if expected in ('passed', 'failed', 'inconclusive') else 'unavailable',
+            'stdout': _known_output(observation.get('stdout_b64'), FIXTURE_STDOUT),
+            'stderr': _known_output(observation.get('stderr_b64'), FIXTURE_STDERR)}
+
+
+def _fixture_row_valid(row, should_mismatch, fixture_hashes):
+    if row['outcome'] != ('mismatched' if should_mismatch else 'matched') or len(row['attempts']) != 1:
+        return False
+    attempt = row['attempts'][0]
+    expected = attempt['comparison']['expected']
+    for side, source, expectation in (('reference', 'fee.c', 'passed'),
+                                      ('candidate', 'fee.rs', 'failed' if should_mismatch else 'passed')):
+        observation = attempt['observations'][side]
+        if (expected[side]['status'] != expectation
+                or row['target_inputs'][side]['file_hashes'] != {source: fixture_hashes[source]}
+                or observation['status'] != 'completed' or observation['started'] is not True
+                or observation['process_executions'] != 2 or observation['build']['exit_code'] != 0):
+            return False
+    return True
+
+
+def validate_fixture_result(result, variant, fixture_hashes, expected_mismatches):
+    rows = result['scenarios']
+    failures = []
+    for row in rows:
+        scenario_id = row['id']
+        if scenario_id not in FIXTURE_IDS or _fixture_row_valid(row, scenario_id in expected_mismatches, fixture_hashes):
+            continue
+        attempt = (row['attempts'] or [{}])[0]
+        outcome = row['outcome']
+        detail = {'id': scenario_id, 'outcome': outcome if outcome in
+                  ('matched', 'mismatched', 'unmeasured', 'unexecuted') else 'unavailable'}
+        for side in ('reference', 'candidate'):
+            detail[side] = _observation_detail(attempt.get('observations', {}).get(side, {}),
+                                               attempt.get('comparison', {}).get('expected', {}).get(side, {}))
+        failures.append(detail)
+    require(not failures, f'{variant}: fixed fixture checks failed; details={json.dumps(failures)}')
+    require(tuple(row['id'] for row in rows) == FIXTURE_IDS,
+            f'{variant}: result lacks the complete fixed fixture scenario set in order')
+    checked = result_check(result, variant)
+    return {'status': 'success', 'manifest_sha256': checked['manifest_sha256'],
+            'denominator': checked['behavior']['denominator'], 'mismatched': checked['behavior']['mismatched'],
+            'mismatch_ids': expected_mismatches, 'acceptance': checked['behavior']['acceptance'],
+            'target_starts': len(rows) * 2}
+
+
 async def compare_fixtures(output):
     resources = resources_root()
     fixture_inputs = output / 'fixtures'
@@ -62,30 +140,10 @@ async def compare_fixtures(output):
     store = Store(output / 'history')
     variants = {}
     for name, expected_mismatches in FIXTURE_MISMATCHES.items():
-        path = write(fixture_inputs, name, manifest('windows', 'x64', variant=name))
+        path = write(fixture_inputs, name, hosted_manifest(name))
         result = await run_porting(store, path, settings=Settings(), allow_build=True,
                                    fixture_workers={'default': TrustedFixtures()})
-        checked = result_check(result, name)
-        observations = [obs for row in result['scenarios'] for attempt in row['attempts']
-                        for obs in attempt['observations'].values()]
-        require(checked['behavior']['denominator'] == len(CASES)
-                and len(observations) == len(CASES) * 2 and all(
-                    obs['status'] == 'completed' and obs['started'] is True
-                    and obs['process_executions'] == 2 and obs['build']['exit_code'] == 0
-                    for obs in observations), f'{name}: all PE builds and process starts are required')
-        mismatches = [row['id'] for row in result['scenarios'] if row['outcome'] == 'mismatched']
-        require(mismatches == expected_mismatches, f'{name}: unexpected mismatch scenario IDs')
-        for row in result['scenarios']:
-            expected = row['attempts'][0]['comparison']['expected']
-            candidate_status = 'failed' if row['id'] in expected_mismatches else 'passed'
-            require(expected['reference']['status'] == 'passed' and expected['candidate']['status'] == candidate_status
-                    and row['target_inputs']['reference']['file_hashes'] == {'fee.c': fixture_hashes['fee.c']}
-                    and row['target_inputs']['candidate']['file_hashes'] == {'fee.rs': fixture_hashes['fee.rs']},
-                    f"{name}/{row['id']}: incorrect expectation or fixture identity")
-        variants[name] = {'status': 'success', 'manifest_sha256': checked['manifest_sha256'],
-                          'denominator': checked['behavior']['denominator'],
-                          'mismatched': checked['behavior']['mismatched'], 'mismatch_ids': mismatches,
-                          'acceptance': checked['behavior']['acceptance'], 'target_starts': len(observations)}
+        variants[name] = validate_fixture_result(result, name, fixture_hashes, expected_mismatches)
     return {'source_sha': identity.get('source_git_commit'), 'fixture_sha256': fixture_hashes,
             'variants': variants}
 
@@ -111,7 +169,9 @@ def verify_frozen_fixtures(output):
             executable_hash = hashlib.file_digest(stream, 'sha256').hexdigest()
         proof = {'status': 'success', 'platform': PLATFORM, 'mode': HOSTED, 'command': 'frozen-fixtures',
                  'executable_sha256': executable_hash, **architecture, **asyncio.run(compare_fixtures(output))}
-    except (OSError, ValueError, RuntimeError) as error:
+    except FixtureVerificationError as error:
         proof['error'] = str(error)
+    except (OSError, ValueError, RuntimeError, KeyError, TypeError) as error:
+        proof['error'] = f'Frozen fixture verification could not complete ({type(error).__name__})'
     (output / 'fixture-proof.json').write_text(json.dumps(proof, ensure_ascii=False, indent=2), encoding='utf-8')
     return 0 if proof['status'] == 'success' else 2

@@ -1,5 +1,7 @@
 # Recheck
 
+**한국어** | [English](README.en.md)
+
 **0.2.1 소스 · Windows x64 미리보기 배포**
 
 ## 프로젝트 목적

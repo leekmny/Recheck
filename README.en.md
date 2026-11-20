@@ -113,7 +113,7 @@ The public Windows ZIP includes the runnable app, notices, and corresponding sou
 powershell -ExecutionPolicy Bypass -File scripts\build.ps1
 ```
 
-To build a public app package, run `scripts/verify_source.py --output <새 검사 폴더>` followed by `scripts/package_verified.py --output <새 패키지 폴더> --app-only`, using new output folders for verification and packaging. `RECHECK_SOURCE_IDENTITY.json` is updated only after the full pytest suite and Node normalization checks pass and the source is identical before and after verification. PyInstaller builds in a new staging folder and leaves the current runnable folder in place. Check the resulting EXE and ZIP separately.
+To build a public app package, run `scripts/verify_source.py --output <new verification directory>` followed by `scripts/package_verified.py --output <new package directory> --app-only`, using new output folders for verification and packaging. `RECHECK_SOURCE_IDENTITY.json` is updated only after the full pytest suite and Node normalization checks pass and the source is identical before and after verification. PyInstaller builds in a new staging folder and leaves the current runnable folder in place. Check the resulting EXE and ZIP separately.
 
 The official output is `dist/Recheck`. After checking the actual EXE, use `release_distribution.py` to replace both the official output and the external user folder. The release procedure preserves the entire previous folder, checks all file hashes including the ZIP, and uses a journal to recover from interruptions. Store the ZIP outside the runnable folder. See the [distribution and recovery guide](docs/DISTRIBUTION_AND_RECOVERY.md) for detailed commands and limitations. Cloning, committing, or pushing by itself does not update the EXE.
 

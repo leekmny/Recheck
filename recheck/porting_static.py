@@ -73,6 +73,11 @@ def _plan_files(target, config):
     return files
 
 
+def structure_input_names(target):
+    config = mapping(target.get('static', {}), {'path', 'files', 'include', 'exclude'})
+    return _plan_files(target, config)
+
+
 def _function_id(function):
     return function.get('id', function.get('entry', function.get('address')))
 
@@ -200,9 +205,10 @@ async def _extract_file(path, filename, target, work, settings, timeout, cancel,
     if runtime in {'native', 'dotnet'}:
         return await _binary(path, target, work, settings, timeout, cancel, retained)
     suffixes = {'.py'} if runtime == 'python' else {'.class', '.jar'} if runtime == 'java' else JS_SUFFIXES[runtime]
-    maximum = MAX_JAR_BYTES if runtime == 'java' and path.suffix.lower() == '.jar' else MAX_SOURCE_BYTES
+    suffix = Path(filename).suffix.lower()
+    maximum = MAX_JAR_BYTES if runtime == 'java' and suffix == '.jar' else MAX_SOURCE_BYTES
     data, identity = await asyncio.to_thread(read_file, path, maximum)
-    if path.suffix.lower() not in suffixes:
+    if suffix not in suffixes:
         return identity | dict(status='unsupported', reason=f"static.path에 다음 형식의 분석 파일을 지정하세요 ({', '.join(sorted(suffixes))}).")
     try:
         if runtime == 'python':
@@ -256,7 +262,7 @@ async def _verify_local_entry(path, binding):
     return identity
 
 
-async def _extract(root, target, workspace, settings, timeout, cancel, retained, execution_entries, captured_entry):
+async def _extract(root, target, workspace, settings, timeout, cancel, retained, execution_entries, captured_entry, resolve_input):
     runtime = target['runtime']
     evidence = dict(runtime=runtime, representation=REPRESENTATIONS[runtime],
                     status='failed', reason=None, extractor=None, files=[], functions=[],
@@ -266,7 +272,7 @@ async def _extract(root, target, workspace, settings, timeout, cancel, retained,
     try:
         config = mapping(target.get('static', {}), {'path', 'files', 'include', 'exclude'})
         selection = _selection(config)
-        files = _plan_files(target, config)
+        files = structure_input_names(target)
         deadline = time.monotonic() + timeout
         workspace.mkdir(parents=True, exist_ok=True)
         for index, filename in enumerate(files):
@@ -292,7 +298,8 @@ async def _extract(root, target, workspace, settings, timeout, cancel, retained,
                         path.write_bytes(captured_entry)
                         binding['source'] = 'worker_capture'
                     else:
-                        path = safe_source(root, relative(filename))
+                        name = relative(filename)
+                        path = resolve_input(name) if resolve_input else safe_source(root, name)
                     if binding:
                         binding.setdefault('source', 'local_file')
                         item.update(await _verify_local_entry(path, binding))
@@ -563,7 +570,8 @@ def _parse_options(manifest):
 
 
 async def compare_structure(manifest: dict, root: Path, *, workspace=None, settings=None,
-                            cancel=None, execution_entries=None, captured_entries=None) -> dict:
+                            cancel=None, execution_entries=None, captured_entries=None,
+                            resolve_input=None) -> dict:
     """Extract both targets, preserve evidence and return a JSON-compatible stage result."""
     result = dict(status='failed', reason=None, similarity=None, representation=None,
                   metric_name='구조 특징 기반 유사도', algorithm=None, targets={}, comparison=None)
@@ -578,10 +586,10 @@ async def compare_structure(manifest: dict, root: Path, *, workspace=None, setti
         if workspace is None:
             with TemporaryDirectory(prefix='recheck-porting-static-') as temporary:
                 targets = await _extract_targets(manifest, root, Path(temporary), settings,
-                                                 timeout, cancel, False, execution_entries, captured_entries)
+                                                 timeout, cancel, False, execution_entries, captured_entries, resolve_input)
         else:
             targets = await _extract_targets(manifest, root, Path(workspace).resolve(), settings,
-                                             timeout, cancel, True, execution_entries, captured_entries)
+                                             timeout, cancel, True, execution_entries, captured_entries, resolve_input)
         result['targets'] = dict(zip(SIDES, targets))
         _compare(result, options)
     except (OSError, ValueError, KeyError, TypeError, RuntimeError) as exc:
@@ -590,11 +598,11 @@ async def compare_structure(manifest: dict, root: Path, *, workspace=None, setti
 
 
 async def _extract_targets(manifest, root, workspace, settings, timeout, cancel, retained,
-                           execution_entries, captured_entries):
+                           execution_entries, captured_entries, resolve_input):
     entries = execution_entries or {}
     captured = captured_entries or {}
     return await asyncio.gather(*(
         _extract(root, manifest['targets'][side], workspace / side, settings, timeout,
-                 cancel, retained, entries.get(side), captured.get(side))
+                 cancel, retained, entries.get(side), captured.get(side), resolve_input)
         for side in SIDES
     ))

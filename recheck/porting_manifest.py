@@ -266,14 +266,17 @@ def bundle_identity(files):
     return {'sha256': digest(canonical(hashes)), 'file_hashes': hashes}
 
 
-def pack_target(root: Path, target, fixtures):
+def execution_files(target, fixtures):
     # A generated entry is never read from a prior build by default.
-    names = dict.fromkeys([*target.get('files', []), *fixtures,
-                           *([] if 'build' in target else [target['entry']])])
+    return dict.fromkeys([*target.get('files', []), *fixtures,
+                          *([] if 'build' in target else [target['entry']])])
+
+
+def pack_target(root: Path, target, fixtures, *, resolve_input=None):
     files = {}
     size = 0
-    for name in names:
-        path = safe_source(root, relative(name))
+    for name in execution_files(target, fixtures):
+        path = resolve_input(name) if resolve_input else safe_source(root, relative(name))
         with path.open('rb') as stream:
             files[name] = stream.read(MAX_BUNDLE - size + 1)
         size += len(files[name])

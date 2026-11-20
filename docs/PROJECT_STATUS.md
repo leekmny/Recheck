@@ -18,7 +18,7 @@ Recheck의 목표는 프로그램과 배포물을 비교하고 차이와 확인 
 
 공개 원격은 [leekmny/Recheck](https://github.com/leekmny/Recheck)이며, 검토한 소스 스냅샷에서 새 Git 이력으로 시작합니다. 과거 작성자 정보와 연결된 개발 커밋·PR·Actions·태그는 별도 비공개 보관본에 유지합니다. [공개 이력 구성](PUBLIC_HISTORY.md)과 [공개 정책](PUBLICATION_SCOPE.md)을 따릅니다.
 
-이 문서의 소스 버전은 **0.2.0 후보**입니다. 실행 ZIP과 버전별 게시 결과는 [릴리스 목록](https://github.com/leekmny/Recheck/releases)에서 확인하고, [0.1.6 기록](https://github.com/leekmny/Recheck/releases/tag/v0.1.6)은 이전 배포의 근거로 참고하세요. 소스 검사와 각 배포본의 실행 검증은 별개입니다. ZIP에는 Recheck.exe와 실행용 Python·Qt를 포함하며 필요한 도구의 설치와 분석 환경 구성을 앱에서 돕습니다. 초기 개발 단계의 버전 이름 변경은 [대응표](PUBLIC_HISTORY.md#공개-버전-이름-정리)에 남기고, 각 버전의 배포물은 새로 빌드·검증합니다. 과거 비공개 실행 파일과 역사적 식별자는 보관본에 유지합니다. 커밋·push만으로 사용자 EXE가 갱신되지는 않습니다.
+이 문서의 소스 버전은 **0.2.1**입니다. 실행 ZIP과 버전별 게시 결과는 [릴리스 목록](https://github.com/leekmny/Recheck/releases)에서 확인하고, [0.1.6 기록](https://github.com/leekmny/Recheck/releases/tag/v0.1.6)은 이전 배포의 근거로 참고하세요. 소스 검사와 각 배포본의 실행 검증은 별개입니다. ZIP에는 Recheck.exe와 실행용 Python·Qt를 포함하며 필요한 도구의 설치와 분석 환경 구성을 앱에서 돕습니다. 초기 개발 단계의 버전 이름 변경은 [대응표](PUBLIC_HISTORY.md#공개-버전-이름-정리)에 남기고, 각 버전의 배포물은 새로 빌드·검증합니다. 과거 비공개 실행 파일과 역사적 식별자는 보관본에 유지합니다. 커밋·push만으로 사용자 EXE가 갱신되지는 않습니다.
 
 도구 설치·관리는 PATH 밖의 기존 설치를 확인하며, Git/Python은 소스 개발용 선택 도구로 구분합니다. 설치가 필요한 도구는 고정 공식 WinGet 패키지 또는 공식 다운로드를 안내합니다. Docker 소스 빌드는 명시적 준비 버튼에서만 실행하고 소스 해시·플랫폼·불변 이미지 ID를 확인하여 로컬 영수증으로 저장합니다. 공개 ZIP에는 과거 비공개 Docker TAR·인증·모델을 포함하지 않습니다. [처음 실행](FIRST_RUN.md)을 참고하세요.
 

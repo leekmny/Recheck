@@ -3205,7 +3205,9 @@ class MainWindow(QMainWindow):
             return
         try:
             self.history.clear()
-            runs = [(run, False) for run in self.engine.store.list_runs()]
+            store = self.engine.store
+            list_history = getattr(store, 'list_run_summaries', store.list_runs)
+            runs = [(run, False) for run in list_history()]
             if hasattr(self.engine.store, "list_workflows"):
                 runs += [(workflow, True) for workflow in self.engine.store.list_workflows()]
             runs.sort(

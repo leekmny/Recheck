@@ -1,9 +1,7 @@
 {
-  "version": "0.2.0",
+  "version": "0.2.1",
   "verification": "github-hosted-windows-fixtures",
   "changes": [
-    "console-porting",
-    "result-reporting",
-    "scenario-rerun"
+    "porting-reliability"
   ]
 }

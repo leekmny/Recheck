@@ -1,6 +1,6 @@
 # Recheck
 
-**0.2.0 소스 · Windows x64 미리보기 배포**
+**0.2.1 소스 · Windows x64 미리보기 배포**
 
 ## 프로젝트 목적
 
@@ -14,7 +14,7 @@ Recheck는 사용자가 준비한 프로그램과 배포물을 비교하고, 확
 
 분석 AI 안내는 추천 ChatGPT → Gemini 무료(API) → 공통 AI 계정 연결 순서입니다. 로그인·키 발급은 외부 브라우저가 기본이며, 체크박스로 내장 표시도 선택할 수 있습니다. [Google 제한과 기본값 결정의 근거](https://github.com/leekmny/Recheck/blob/main/docs/decisions/0006-external-browser-default.md)를 참고하세요.
 
-**[Windows 실행 ZIP·릴리스 목록](https://github.com/leekmny/Recheck/releases)** · [이전 0.1.6 배포 기록](https://github.com/leekmny/Recheck/releases/tag/v0.1.6)
+**[0.2.1 Windows x64 미리보기](https://github.com/leekmny/Recheck/releases/tag/v0.2.1)** · [전체 릴리스](https://github.com/leekmny/Recheck/releases) · [이전 0.1.6 배포 기록](https://github.com/leekmny/Recheck/releases/tag/v0.1.6)
 
 0.1.7에서는 관측하지 못한 함수의 구조 점수를 제외하고, 실행 결과의 비교 가능 건수·제외 사유·원시 출력 차이를 명시합니다. 이전 기록의 출력 정책을 확인할 수 없으면 원시 관찰 수와 판정 가능 수를 분리합니다.
 
@@ -32,7 +32,9 @@ PySide6 GUI와 Python CLI는 같은 비교 엔진을 사용합니다. Ghidra·RE
 
 ## 포팅 시나리오 검증
 
-0.2.0의 **프로그램 비교 → 포팅 시나리오 비교**에서 런타임·API·GUI·라이브러리 대상의 명세와 격리 환경을 선택할 수 있습니다. 같은 시나리오로 언어가 다른 구현과 같은 프로그램의 두 버전을 비교할 수 있습니다. 관찰된 동작 일치율, 양쪽 기대 결과, 구조 특징을 따로 확인합니다. [준비·재현·실측 범위](docs/PORTING_VALIDATION_UPDATE.md)
+**프로그램 비교 → 포팅 시나리오 비교**에서 런타임·API·GUI·라이브러리 대상의 명세와 격리 환경을 선택할 수 있습니다. 같은 시나리오로 언어가 다른 구현과 같은 프로그램의 두 버전을 비교할 수 있습니다. 관찰된 동작 일치율, 양쪽 기대 결과, 구조 특징을 따로 확인합니다. [준비·재현·실측 범위](docs/PORTING_VALIDATION_UPDATE.md)
+
+0.2.1은 비교 시작 때 준비한 입력 사본을 시나리오와 구조 분석에 함께 사용합니다. 관찰 결과는 SQLite에 단계별로 기록되므로 중단 후 저장된 관찰을 다시 열 수 있습니다. 이전 결과도 계속 조회할 수 있습니다.
 
 ## 현재 기능과 범위
 

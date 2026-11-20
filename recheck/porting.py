@@ -3,13 +3,17 @@ from __future__ import annotations
 
 import asyncio
 import os
+import sqlite3
 import threading
+from contextlib import suppress
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import psutil
 
+from .porting_history import initial_rows
 from .porting_manifest import (
-    BUILT_ENTRY_RUNTIMES, SIDES, applied_scenario, canonical, digest, load_manifest, pack_target,
+    BUILT_ENTRY_RUNTIMES, SIDES, applied_scenario, canonical, digest, load_manifest,
 )
 from .porting_policy import compare_attempt, summarize
 from .porting_transport import WorkerError, load_workers
@@ -45,20 +49,16 @@ def _missing(status, reason, **more):
                 exit_code=None, stdout_b64='', stderr_b64='', observations={}, **more)
 
 
-def _finalize(row, planned):
-    attempts = row['attempts']
-    matches = [attempt['comparison']['match'] for attempt in attempts]
-    accepted = [attempt['comparison']['acceptance'] for attempt in attempts]
-    if len(attempts) != planned or None in matches:
-        row['outcome'] = 'unmeasured' if attempts else 'unexecuted'
-    elif all(matches):
-        row['outcome'] = 'matched'
-    else:
-        row['outcome'] = 'mismatched'
-    row['acceptance'] = ('failed' if 'failed' in accepted else
-                         'not_required' if not row['required'] else
-                         'inconclusive' if len(attempts) != planned or 'inconclusive' in accepted else
-                         'passed')
+async def _collect(*work):
+    tasks = [asyncio.create_task(item) for item in work]
+    try:
+        return await asyncio.gather(*tasks)
+    except BaseException:
+        for task in tasks:
+            if not task.done() and not task.cancelling():
+                task.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
+        raise
 
 
 def _select_rerun(store, previous_run, scenario_ids):
@@ -97,10 +97,7 @@ async def run_porting(store, manifest_path, worker_path=None, *, settings=None, 
         manifest['scenarios'] = _select_rerun(store, previous_run, scenario_ids)
         previous_rows = {row['id']: row for row in store.load_run(previous_run)['scenarios']}
     run_id = new_id('run')
-    rows = [dict(id=case['id'], kind=case.get('kind', 'console'),
-                 required=case.get('required', True), outcome='unexecuted',
-                 acceptance='inconclusive' if case.get('required', True) else 'not_required',
-                 attempts=[]) for case in manifest['scenarios']]
+    rows = initial_rows(manifest)
     argv = ['python', '-m', 'recheck']
     argv += ['porting-rerun', previous_run] if previous_run else ['porting-run']
     argv += [str(manifest_path)]
@@ -121,8 +118,37 @@ async def run_porting(store, manifest_path, worker_path=None, *, settings=None, 
                reproduction=dict(argv=argv, approved_build=allow_build,
                                  uncontrolled=manifest.get('uncontrolled', [])),
                behavior=summarize(rows), structure={'status': 'pending', 'similarity': None})
-    store.save(run)
-    workspace = store.run_dir(run_id)
+    store.save_porting_state(run)
+    try:
+        workspace = store.run_dir(run_id)
+        with TemporaryDirectory(prefix='recheck-porting-inputs-', ignore_cleanup_errors=True) as directory:
+            return await _compare_porting(
+                store, run, root, Path(directory), workspace, workers, settings, cancel,
+                on_event, allow_build, previous_rows,
+            )
+    except (Exception, asyncio.CancelledError):
+        # If storage is still unavailable, leave the last committed running
+        # state for the next process's startup recovery.
+        with suppress(sqlite3.Error):
+            store.interrupt_porting(run_id, '비교가 중단되었습니다. 마지막으로 저장된 관찰을 보존했습니다.')
+        raise
+
+
+async def _compare_porting(store, run, root, snapshot_root, workspace, workers, settings, cancel,
+                           on_event, allow_build, previous_rows):
+    from .porting_inputs import InputSnapshot
+
+    manifest, rows = run['manifest'], run['scenarios']
+    capture = asyncio.create_task(asyncio.to_thread(InputSnapshot, snapshot_root, root, manifest, cancel))
+    try:
+        snapshot = await asyncio.shield(capture)
+    except asyncio.CancelledError:
+        cancel.set()
+        with suppress(Exception):
+            await capture
+        raise
+    run['input_snapshot'] = dict(file_hashes=snapshot.hashes, errors=snapshot.errors)
+    store.save_porting_state(run)
     built_entries = {side for side in SIDES if _uses_built_entry(manifest['targets'][side])}
     capture_enabled = manifest.get('structure', {}).get('enabled', True) is True
     captured_entries = {}
@@ -167,61 +193,57 @@ async def run_porting(store, manifest_path, worker_path=None, *, settings=None, 
             bundles = {}
             for side in SIDES:
                 try:
-                    bundles[side] = pack_target(root, manifest['targets'][side], case.get('fixtures', []))
+                    bundles[side] = snapshot.pack(manifest['targets'][side], case.get('fixtures', []))
                 except (OSError, ValueError) as exc:
                     bundles[side] = exc
-            row['target_inputs'] = {side: ({key: value for key, value in bundle.items() if key != 'files'}
-                                           if isinstance(bundle, dict) else {'error': str(bundle)})
-                                    for side, bundle in bundles.items()}
-            row['applied'] = applied
-            row['distinct_input_bundles'] = (bundles[SIDES[0]]['sha256'] != bundles[SIDES[1]]['sha256']
-                                             if all(isinstance(b, dict) for b in bundles.values()) else None)
+            target_inputs = {
+                side: ({key: value for key, value in bundle.items() if key != 'files'}
+                       if isinstance(bundle, dict) else {'error': str(bundle)})
+                for side, bundle in bundles.items()
+            }
+            distinct = (bundles[SIDES[0]]['sha256'] != bundles[SIDES[1]]['sha256']
+                        if all(isinstance(bundle, dict) for bundle in bundles.values()) else None)
+            fields = dict(target_inputs=target_inputs, applied=applied, distinct_input_bundles=distinct)
             planned = case.get('repetitions', 1)
-            if previous_run and case.get('fixtures'):
+            if run['previous_run_id'] and case.get('fixtures'):
                 baseline = previous_rows[case['id']].get('target_inputs', {})
                 checks = {}
                 for side in SIDES:
                     original = baseline.get(side, {}).get('file_hashes', {})
-                    current = row['target_inputs'][side].get('file_hashes', {})
+                    current = target_inputs[side].get('file_hashes', {})
                     checks[side] = {path: {'previous': original.get(path), 'current': current.get(path)}
                                     for path in case['fixtures']}
                 equal = all(item['previous'] is not None and item['previous'] == item['current']
                             for result in checks.values() for item in result.values())
-                row['fixture_recheck'] = {'status': 'verified' if equal else 'blocked', 'hashes': checks}
+                fields['fixture_recheck'] = {'status': 'verified' if equal else 'blocked', 'hashes': checks}
                 if not equal:
                     values = [_missing('blocked', 'rerun_fixture_hash_unverified') for _ in SIDES]
-                    row['attempts'].append(dict(index=1, observations=dict(zip(SIDES, values)),
-                                               comparison=compare_attempt(*values, case)))
-                    _finalize(row, planned)
-                    store.save(run)
+                    store.checkpoint_porting(
+                        run, row, fields=fields, index=1, observations=dict(zip(SIDES, values)),
+                        comparison=compare_attempt(*values, case), planned=planned,
+                    )
                     continue
+            store.checkpoint_porting(run, row, fields=fields)
             for index in range(planned):
                 if cancel.is_set():
                     break
-                observation = {}
-                row['pending_attempt'] = dict(index=index + 1, observations=observation)
 
                 async def run_side(side):
                     result = await execute(side, case, bundles[side], applied[side])
-                    observation[side] = result
-                    store.save(run)
+                    store.checkpoint_porting(run, row, index=index + 1, observations={side: result})
                     return result
 
-                values = await asyncio.gather(*(run_side(side) for side in SIDES))
-                row.pop('pending_attempt')
-                # Stable order for readback, even when the second worker returns first.
-                observation = dict(zip(SIDES, values))
-                row['attempts'].append(dict(index=index + 1, observations=observation,
-                                           comparison=compare_attempt(*values, case)))
-                _finalize(row, planned)
+                values = await _collect(*(run_side(side) for side in SIDES))
+                store.checkpoint_porting(
+                    run, row, index=index + 1, comparison=compare_attempt(*values, case), planned=planned,
+                )
                 run['behavior'] = summarize(rows)
-                store.save(run)
                 if on_event:
                     on_event(dict(stage='dynamic', status=row['outcome'], scenario=case['id'],
                                   attempted=run['behavior']['attempted'], total=len(rows),
                                   message=f"{case['id']} · {index + 1}/{planned}"))
 
-    await asyncio.gather(*(consume() for _ in range(manifest.get('concurrency', 1))))
+    await _collect(*(consume() for _ in range(manifest.get('concurrency', 1))))
     behavior = run['behavior'] = summarize(rows)
     if cancel.is_set():
         dynamic = 'cancelled'
@@ -235,7 +257,7 @@ async def run_porting(store, manifest_path, worker_path=None, *, settings=None, 
         dynamic = 'failed'
     run['stages']['dynamic']['status'] = dynamic
     run['stages']['structure']['status'] = 'running'
-    store.save(run)
+    store.save_porting_state(run)
     if cancel.is_set():
         run['structure'] = dict(status='cancelled', similarity=None, reason='user_cancelled')
     else:
@@ -248,10 +270,11 @@ async def run_porting(store, manifest_path, worker_path=None, *, settings=None, 
                        for row in rows for attempt in row['attempts']]
                 for side in built_entries
             }
-            run['structure'] = await compare_structure(manifest, root, workspace=workspace / 'structure',
+            run['structure'] = await compare_structure(manifest, snapshot_root, workspace=workspace / 'structure',
                                                         settings=settings, cancel=cancel,
                                                         execution_entries=execution_entries,
-                                                        captured_entries=captured_entries)
+                                                        captured_entries=captured_entries,
+                                                        resolve_input=snapshot.resolve)
         except Exception as exc:
             run['structure'] = dict(status='failed', similarity=None, reason=f'{type(exc).__name__}: {exc}')
     structure = run['structure']['status']
@@ -260,5 +283,5 @@ async def run_porting(store, manifest_path, worker_path=None, *, settings=None, 
                      else dynamic)
     if cancel.is_set():
         run['status'] = 'cancelled'
-    store.save(run)
+    store.save_porting_state(run)
     return run

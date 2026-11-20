@@ -34,6 +34,12 @@ HOSTED_FIXTURE_MISMATCHES = {'normal': [], 'defect': ['above', 'higher', 'maximu
 SOURCE_CHECKS = ('normal', 'defect', 'cli', 'json', 'html', 'gui', 'rerun')
 ISOLATED_CHECKS = ('normal', 'defect', 'cli', 'json', 'html', 'rerun', 'native', 'frozen')
 RELEASE_CHANGES = {
+    'porting-reliability': (
+        '포팅 비교는 시작할 때 만든 입력 사본의 SHA-256을 기록하고 동작·구조 분석에 '
+        '같은 사본을 사용합니다. 관찰은 SQLite에 순차 저장되어 중단된 비교에서도 '
+        '완료된 관찰을 다시 열 수 있습니다.',
+        ('source.json', 'frozen.json'),
+    ),
     'console-porting': (
         'Windows x64 격리 작업자에서 정상·결함 콘솔 포팅 예제를 비교했습니다.',
         ('source.normal', 'source.defect', 'isolated_worker.native'),
@@ -416,6 +422,18 @@ def release_body(candidate, proof, run_url):
         f'- [{workflow}]({record["html_url"]}) 성공'
         for workflow, record in proof['ci'].items()
     ]
+    compatibility = []
+    if 'porting-reliability' in candidate.changes:
+        compatibility = [
+            '## 이력과 호환성',
+            '',
+            '이전 비교 이력을 계속 열 수 있습니다. 새 포팅 결과는 0.2.1 이상에서 조회하고 '
+            'JSON 또는 HTML로 내보낼 수 있습니다. 이전 버전이 필요하면 업데이트 전에 데이터를 백업하세요.',
+            '입력 파일은 비교 시작 시 하나씩 복사합니다. 복사가 끝날 때까지 원본을 저장하거나 빌드하는 작업을 기다려 주세요.',
+            '파일 변경 및 저장 실패의 회귀 검사는 아래 Unit tests에서 실행합니다. '
+            '배포본에서는 저장 결과를 CLI에서 다시 읽는 흐름을 확인했습니다.',
+            '',
+        ]
     return '\n'.join([
         'Recheck는 프로그램과 배포물을 비교하고 동작·구조·구성 차이의 근거를 남깁니다.',
         '포팅 검증은 버전 간 회귀 검사와 교체 후보 검증에 함께 쓰는 시나리오 비교의 한 사례입니다.',
@@ -424,6 +442,7 @@ def release_body(candidate, proof, run_url):
         '',
         *changes,
         '',
+        *compatibility,
         '## 검증 범위',
         '',
         'Windows x64 앱 ZIP과 실행 파일을 제공하며 ZIP 안에 필수 DLL과 리소스를 포함합니다.',

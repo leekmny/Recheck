@@ -212,3 +212,266 @@ def test_worker_stream_disconnect_ends_live_child(tmp_path):
         if proc.poll() is None:
             proc.kill()
             proc.wait(timeout=5)
+
+
+@pytest.mark.asyncio
+async def test_porting_keeps_one_input_snapshot_across_scenarios_and_structure(tmp_path):
+    from recheck.porting import run_porting
+    from recheck.porting_manifest import digest
+    from recheck.storage import Store
+
+    path, manifest = fixture_manifest(tmp_path)
+    sources = [tmp_path / side['entry'] for side in manifest['targets'].values()]
+    source = b'def original():\n    return 1\n'
+    for filename in sources:
+        filename.write_bytes(source)
+    fixture = tmp_path / 'input.txt'
+    fixture.write_bytes(b'original data')
+    manifest['concurrency'] = 1
+    manifest['scenarios'] = [dict(id=f'case-{i}', fixtures=['input.txt']) for i in range(2)]
+    path.write_text(json.dumps(manifest), encoding='utf-8')
+
+    class EditingWorker:
+        spec = {}
+
+        async def run(self, request, cancel):
+            entry = request['target']['entry']
+            sent = base64.b64decode(request['bundle']['files'][entry])
+            sent_fixture = base64.b64decode(request['bundle']['files']['input.txt'])
+            for filename in sources:
+                filename.write_bytes(b'def changed():\n    return 2\n')
+            fixture.write_bytes(b'changed data')
+            return process(sent + sent_fixture)
+
+    store = Store(tmp_path / 'history')
+    result = await run_porting(store, path, fixture_workers={'default': EditingWorker()})
+
+    for row in result['scenarios']:
+        for side, target in manifest['targets'].items():
+            assert row['target_inputs'][side]['file_hashes'][target['entry']] == digest(source)
+            assert row['target_inputs'][side]['file_hashes']['input.txt'] == digest(b'original data')
+            assert base64.b64decode(row['attempts'][0]['observations'][side]['stdout_b64']) == (
+                source + b'original data'
+            )
+    for target in result['structure']['targets'].values():
+        assert target['files'][0]['sha256'] == digest(source)
+        assert target['functions'][0]['name'] == 'original'
+    assert store.load_run(result['run_id']) == result
+
+
+async def test_final_commit_failure_never_exposes_successful_porting_result(tmp_path):
+    import sqlite3
+
+    from recheck.porting import run_porting
+    from recheck.storage import Store
+
+    path, manifest = fixture_manifest(tmp_path)
+    manifest['structure'] = {'enabled': False}
+    path.write_text(json.dumps(manifest), encoding='utf-8')
+    store = Store(tmp_path / 'history')
+    with store.connect() as db:
+        db.execute("""
+            CREATE TRIGGER reject_final_status BEFORE UPDATE OF status ON runs
+            WHEN NEW.status = 'success'
+            BEGIN SELECT RAISE(ABORT, 'forced final commit failure'); END;
+        """)
+
+    class FixtureWorker:
+        spec = {}
+
+        async def run(self, request, cancel):
+            return process(b'complete observation')
+
+    with pytest.raises(sqlite3.IntegrityError, match='forced final commit failure'):
+        await run_porting(store, path, fixture_workers={'default': FixtureWorker()})
+    reopened = Store(store.root)
+    history = reopened.list_runs()[0]
+    assert history['status'] == 'partial'
+    assert reopened.load_run(history['run_id']) == history
+    assert history['scenarios'][0]['attempts'][0]['observations']['reference'] == (
+        process(b'complete observation')
+    )
+
+
+async def test_checkpoint_failure_preserves_one_side_and_joins_other_scenarios(tmp_path, monkeypatch):
+    import asyncio
+    import sqlite3
+
+    import psutil
+
+    from recheck.porting import run_porting
+    from recheck.storage import Store
+
+    path, manifest = fixture_manifest(tmp_path)
+    manifest.update(concurrency=2, scenarios=[dict(id='basic'), dict(id='slow')],
+                    structure={'enabled': False})
+    path.write_text(json.dumps(manifest), encoding='utf-8')
+    store = Store(tmp_path / 'history')
+    with store.connect() as db:
+        db.execute("""
+            CREATE TRIGGER reject_candidate BEFORE INSERT ON porting_updates
+            WHEN instr(NEW.payload, 'reject_checkpoint') > 0
+            BEGIN SELECT RAISE(ABORT, 'forced checkpoint failure'); END;
+        """)
+        db.execute("""
+            CREATE TRIGGER reject_partial BEFORE UPDATE OF status ON runs
+            WHEN NEW.status = 'partial'
+            BEGIN SELECT RAISE(ABORT, 'storage temporarily unavailable'); END;
+        """)
+
+    reference_ready = asyncio.Event()
+    slow_ready = asyncio.Event()
+    finished = []
+
+    class FixtureWorker:
+        spec = {}
+
+        async def run(self, request, cancel):
+            side = request['side']
+            if request['scenario']['id'] == 'slow':
+                try:
+                    slow_ready.set()
+                    await asyncio.Future()
+                finally:
+                    finished.append(side)
+            if side == 'reference':
+                reference_ready.set()
+                return process(b'saved reference')
+            await reference_ready.wait()
+            await slow_ready.wait()
+            return process(b'unsaved candidate', reason='reject_checkpoint')
+
+    with pytest.raises(sqlite3.IntegrityError, match='forced checkpoint failure'):
+        await run_porting(store, path, fixture_workers={'default': FixtureWorker()})
+    assert sorted(finished) == ['candidate', 'reference']
+    reopened = Store(store.root)
+    run_id = reopened.list_run_summaries()[0]['run_id']
+    assert reopened.interrupted() == []  # The owner process has not exited yet.
+    with store.connect() as db:
+        db.execute('DROP TRIGGER reject_partial')
+
+    def exited(pid):
+        raise psutil.NoSuchProcess(pid)
+
+    monkeypatch.setattr('recheck.storage.psutil.Process', exited)
+    assert reopened.interrupted() == [run_id]
+    result = reopened.load_run(run_id)
+    assert reopened.list_runs() == [result]
+    assert reopened.list_run_summaries()[0]['status'] == result['status'] == 'partial'
+    assert result['stages']['dynamic']['status'] == 'failed'
+    assert result['scenarios'][0]['pending_attempt'] == {
+        'index': 1, 'observations': {'reference': process(b'saved reference')},
+    }
+    assert result['behavior']['denominator'] == 0
+    assert reopened.interrupted() == []
+
+
+async def test_new_porting_result_needs_no_legacy_json_and_diagnostics_omit_observations(tmp_path, monkeypatch):
+    import zipfile
+
+    from recheck.porting import run_porting
+    from recheck.storage import Store, new_id
+
+    path, manifest = fixture_manifest(tmp_path)
+    manifest.update(structure={'enabled': False})
+    manifest['scenarios'][0]['input']['stdin'] = 'private_input'
+    path.write_text(json.dumps(manifest), encoding='utf-8')
+    store = Store(tmp_path / 'history')
+    legacy = dict(mode='porting', run_id=new_id('run'), attempt_id=new_id('attempt'),
+                  schema_version='recheck-porting-result-1', status='partial', scenarios=[])
+    store.save(legacy)
+
+    def unavailable_projection(*args):
+        raise OSError('result.json cannot be written')
+
+    monkeypatch.setattr('recheck.storage.atomic_json', unavailable_projection)
+
+    class FixtureWorker:
+        spec = {}
+
+        async def run(self, request, cancel):
+            return dict(process(b'private_output'), observations={'sample': {'body_b64': 'private_data'}})
+
+    result = await run_porting(store, path, fixture_workers={'default': FixtureWorker()})
+    reopened = Store(store.root)
+    assert reopened.load_run(legacy['run_id']) == legacy
+    assert reopened.load_run(result['run_id']) == result
+    assert not (reopened.run_dir(result['run_id']) / 'result.json').exists()
+
+    diagnostic = reopened.diagnostic_zip(result['run_id'], {})
+    with zipfile.ZipFile(diagnostic) as archive:
+        content = archive.read('diagnostics.json')
+        assert all(secret not in content for secret in (b'private_input', b'private_data'))
+        assert json.loads(content)['run']['behavior']['matched'] == 1
+
+
+async def test_porting_uses_one_copy_for_case_aliases(tmp_path, monkeypatch):
+    from recheck import porting_inputs
+    from recheck.porting import run_porting
+    from recheck.porting_manifest import digest
+    from recheck.storage import Store
+
+    path, manifest = fixture_manifest(tmp_path)
+    source = tmp_path / 'ref.py'
+    if not (tmp_path / 'REF.PY').is_file():
+        pytest.skip('The filesystem distinguishes case in the test directory')
+    initial = b'def original():\n    return 1\n'
+    source.write_bytes(initial)
+    manifest['targets']['reference']['static'] = {'path': 'REF.PY'}
+    path.write_text(json.dumps(manifest), encoding='utf-8')
+    capture = porting_inputs._capture
+
+    def edit_after_capture(original, *args):
+        identity = capture(original, *args)
+        if original.name.casefold() == source.name:
+            source.write_bytes(b'def changed():\n    return 2\n')
+        return identity
+
+    monkeypatch.setattr(porting_inputs, '_capture', edit_after_capture)
+
+    class FixtureWorker:
+        spec = {}
+
+        async def run(self, request, cancel):
+            return process(b'normal fixture')
+
+    store = Store(tmp_path / 'history')
+    result = await run_porting(store, path, fixture_workers={'default': FixtureWorker()})
+    hashes = result['input_snapshot']['file_hashes']
+    assert hashes['ref.py'] == hashes['REF.PY'] == digest(initial)
+    assert result['structure']['targets']['reference']['files'][0]['sha256'] == digest(initial)
+
+
+async def test_oversized_dynamic_bundles_are_rejected_before_snapshot_copy(tmp_path, monkeypatch):
+    from recheck import porting_inputs
+    from recheck.porting import run_porting
+    from recheck.porting_manifest import MAX_BUNDLE
+    from recheck.storage import Store
+
+    path, manifest = fixture_manifest(tmp_path)
+    fixtures = ['first.dat', 'second.dat']
+    for name in fixtures:
+        with (tmp_path / name).open('wb') as stream:
+            stream.truncate(MAX_BUNDLE // 2)
+    manifest['scenarios'][0]['fixtures'] = fixtures
+    manifest['structure'] = {'enabled': False}
+    path.write_text(json.dumps(manifest), encoding='utf-8')
+
+    def unexpected_capture(*args):
+        raise AssertionError('Files referenced only by an oversized bundle were copied')
+
+    monkeypatch.setattr(porting_inputs, '_capture', unexpected_capture)
+
+    class FixtureWorker:
+        spec = {}
+
+        async def run(self, request, cancel):
+            raise AssertionError('An oversized bundle was submitted')
+
+    store = Store(tmp_path / 'history')
+    result = await run_porting(store, path, fixture_workers={'default': FixtureWorker()})
+    assert result['input_snapshot']['file_hashes'] == {}
+    assert result['behavior']['denominator'] == 0
+    observations = result['scenarios'][0]['attempts'][0]['observations']
+    assert {item['reason'] for item in observations.values()} == {'input_bundle_failed'}
+    assert all('16 MiB' in item['error'] for item in observations.values())

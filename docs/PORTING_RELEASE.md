@@ -25,6 +25,7 @@ PR에서 `recheck/__init__.py`, `pyproject.toml`, `resources/version_info.txt`�
 | `console-porting` | Windows x64에서 저장소의 정상·결함 콘솔 포팅 예제 비교 | `source.normal`, `source.defect`, `isolated_worker.native` |
 | `result-reporting` | 소스와 Windows x64 배포본에서 CLI 결과 조회와 JSON·HTML 보고서 확인 | `source.cli`, `source.json`, `source.html`, `frozen.cli`, `frozen.json`, `frozen.html` |
 | `scenario-rerun` | 소스에서 결함 시나리오를 수정본으로 재검사하고 이전 결과 보존 | `source.rerun` |
+| `porting-reliability` | 입력 사본과 포팅 실행 이력 개선. Unit tests에서 파일 변경과 저장 실패를 재현하며 소스와 배포본은 같은 포팅 결과를 읽음 | `source.json`, `frozen.json` |
 
 호환되는 오류 수정은 PATCH, 호환되는 기능 추가는 MINOR, 안정 공개 계약의 호환성 단절은 MAJOR를 올립니다. 기존 공개 정책에 따라 `v0.MINOR.PATCH`는 GitHub 사전 공개로 설정합니다. 최초 안정 공개는 해당 지원 계약을 검증하고 합의한 뒤 `v1.0.0`부터 진행합니다. 안정 공개는 같은 필수 검사를 통과해야 합니다. 태그는 `v` 다음에 버전을 붙입니다. 기존 태그보다 큰 숫자 버전만 발행합니다.
 
